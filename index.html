@@ -107,6 +107,7 @@
         <section class="py-8 text-center mt-4">
             <div class="container mx-auto max-w-6xl px-6">
                 <h2 class="text-3xl md:text-4xl font-bold mb-2 font-serif">فهرس سور القرآن الكريم</h2>
+                <p class="text-gray-500 text-sm mt-2">اختر سورة للقراءة والتدبر مع التفسير</p>
                 <div class="relative max-w-2xl mx-auto mt-6">
                     <input type="text" id="searchInput" placeholder="ابحث عن سورة..."
                         class="w-full py-3 pr-12 pl-4 rounded-xl border border-gray-200 focus:border-brand-gold focus:outline-none shadow-sm bg-white">
@@ -117,6 +118,53 @@
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- متابعة القراءة وتقدم القراءة -->
+        <section class="container mx-auto max-w-2xl px-6 mb-8">
+            <!-- كارت متابعة القراءة -->
+            <div
+                class="max-w-md mx-auto bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-3.5 mb-4 border border-amber-200 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1">
+                        <h3 class="text-xs text-gray-600 mb-1">متابعة القراءة</h3>
+                        <p class="font-serif text-base text-[#1B4332]">سورة الفاتحة - الآية ١</p>
+                    </div>
+                    <div class="bg-amber-100 p-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-600" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- كارت تقدم القراءة -->
+            <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-base font-medium text-[#1B4332]">تقدم القراءة</h3>
+                    <div class="flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-600" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        <span class="text-2xl font-bold text-gray-700">٠٪</span>
+                    </div>
+                </div>
+
+                <!-- شريط التقدم -->
+                <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+                    <div class="bg-emerald-600 h-2 rounded-full" style="width: 0%"></div>
+                </div>
+
+                <!-- معلومات التقدم -->
+                <div class="flex items-center justify-between text-xs text-gray-500">
+                    <span>تم قراءة ٢ آية</span>
+                    <span>من أصل ٦٢٣٦ آية</span>
                 </div>
             </div>
         </section>
