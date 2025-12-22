@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تشغيل السيرفر المحلي</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: right;
+            line-height: 1.8;
+        }
+
+        .command {
+            background: #2d3748;
+            color: #48bb78;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .button {
+            background: #667eea;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s;
+        }
+
+        .button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: #856404;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🚀 تشغيل موقع القرآن الكريم</h1>
+
+        <div class="warning">
+            ⚠️ <strong>مهم جداً:</strong> لازم تشغل سيرفر محلي عشان الموقع يشتغل صح
+        </div>
+
+        <div class="instructions">
+            <h3>الخطوات:</h3>
+            <ol>
+                <li>افتح Command Prompt (CMD)</li>
+                <li>اكتب الأمر التالي:</li>
+            </ol>
+        </div>
+
+        <div class="command">
+            cd "C:\Users\Win 10 Pro\Downloads\qran\kran"<br>
+            python -m http.server 8000
+        </div>
+
+        <div class="instructions">
+            <p><strong>أو لو عندك Node.js:</strong></p>
+        </div>
+
+        <div class="command">
+            cd "C:\Users\Win 10 Pro\Downloads\qran\kran"<br>
+            npx http-server -p 8000
+        </div>
+
+        <div class="instructions">
+            <p>بعد كده افتح المتصفح واكتب:</p>
+        </div>
+
+        <div class="command">
+            http://localhost:8000/index.html
+        </div>
+
+        <button class="button" onclick="window.open('http://localhost:8000/index.html', '_blank')">
+            افتح الموقع (بعد تشغيل السيرفر)
+        </button>
+
+        <div class="instructions" style="margin-top: 30px;">
+            <h3>ليه محتاجين سيرفر؟</h3>
+            <p>الموقع بيستخدم API خارجي، والمتصفحات بتمنع الطلبات دي من الملفات المحلية لأسباب أمنية (CORS Policy)</p>
+        </div>
+    </div>
+</body>
+
+</html>

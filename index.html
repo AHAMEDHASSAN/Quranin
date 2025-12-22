@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>القرآن الكريم - الفهرس</title>
+
+    <!-- Google Fonts: Cairo and Amiri -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable class-based dark mode
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            light: '#FFFBEB',
+                            DEFAULT: '#1B4332',
+                            dark: '#0f291e',
+                            gold: '#D4AF37',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        serif: ['Amiri', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: "Noto Naskh Arabic", sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-[#FDFBF7] text-[#1B4332] flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-[#1B4332] text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto max-w-6xl px-6 py-3 flex justify-between items-center dir-rtl">
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <div class="bg-[#2D5A46] p-2 rounded-xl border border-[#4A7C66]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold font-serif leading-none">القرآن الكريم</h1>
+                    <span class="text-[10px] text-gray-300 opacity-80">القراءة والتدبر</span>
+                </div>
+            </div>
+
+            <!-- Nav -->
+            <div class="flex items-center gap-6 text-sm">
+                <a href="#"
+                    class="bg-[#3A6B56] text-white px-4 py-1.5 rounded-full font-medium hidden md:block">الرئيسية</a>
+                <a href="search.html" class="flex items-center gap-2 text-gray-300 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span class="hidden md:inline">البحث</span>
+                </a>
+                <a href="favorites.html" class="flex items-center gap-2 text-gray-300 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    <span class="hidden md:inline">المفضلة</span>
+                </a>
+
+                <div class="h-5 w-px bg-white/20 mx-1"></div>
+
+                <!-- Settings Button -->
+                <button onclick="toggleSettings()"
+                    class="text-gray-300 hover:text-white hover:rotate-90 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="flex-grow flex flex-col w-full">
+        <!-- Hero -->
+        <section class="py-8 text-center mt-4">
+            <div class="container mx-auto max-w-6xl px-6">
+                <h2 class="text-3xl md:text-4xl font-bold mb-2 font-serif">فهرس سور القرآن الكريم</h2>
+                <div class="relative max-w-2xl mx-auto mt-6">
+                    <input type="text" id="searchInput" placeholder="ابحث عن سورة..."
+                        class="w-full py-3 pr-12 pl-4 rounded-xl border border-gray-200 focus:border-brand-gold focus:outline-none shadow-sm bg-white">
+                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grid -->
+        <main class="container mx-auto max-w-6xl px-6 pb-12">
+            <div id="surahGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"></div>
+            <div id="noResults" class="hidden text-center py-10 text-xl text-gray-500">لا توجد سورة بهذا الاسم</div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="pt-6 pb-6 border-t" style="background-color:#f1ede499;">
+        <div class="container mx-auto max-w-6xl px-6 py-12 md:py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                <!-- Intro -->
+                <div class="md:col-span-1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-book-open h-5 w-5 text-primary">
+                                <path d="M12 7v14"></path>
+                                <path
+                                    d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="font-amiri font-bold text-foreground text-xl">القرآن الكريم</h3>
+                    </div>
+                    <p class="text-sm text-muted-foreground leading-relaxed">موقع للقراءة والتدبر في كتاب الله الكريم مع
+                        تفاسير العلماء الأجلاء. صُمم بعناية لتوفير تجربة قراءة مريحة وسهلة.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-amiri font-bold text-foreground mb-4 text-lg flex items-center gap-2"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-star h-4 w-4 text-gold">
+                            <path
+                                d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+                            </path>
+                        </svg>روابط سريعة</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
+                                href="index.html"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition-colors"></span>فهرس
+                                السور</a></li>
+                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
+                                href="#"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition-colors"></span>سورة
+                                الفاتحة</a></li>
+                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
+                                href="#"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition-colors"></span>سورة
+                                يس</a></li>
+                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
+                                href="#"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition-colors"></span>سورة
+                                الملك</a></li>
+                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
+                                href="search.html"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition-colors"></span>البحث
+                                في القرآن</a></li>
+                    </ul>
+                </div>
+
+                <!-- Tafsir List -->
+                <div>
+                    <h3 class="font-amiri font-bold text-foreground mb-4 text-lg flex items-center gap-2"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-moon h-4 w-4 text-gold">
+                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                        </svg>التفاسير المتوفرة</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
+                                href="#"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-gold/50 group-hover:bg-gold transition-colors"></span>تفسير
+                                ابن كثير</a></li>
+                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
+                                href="#"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-gold/50 group-hover:bg-gold transition-colors"></span>تفسير
+                                السعدي</a></li>
+                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
+                                href="#"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-gold/50 group-hover:bg-gold transition-colors"></span>تفسير
+                                الطبري</a></li>
+                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
+                                href="#"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-gold/50 group-hover:bg-gold transition-colors"></span>تفسير
+                                القرطبي</a></li>
+                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
+                                href="#"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-gold/50 group-hover:bg-gold transition-colors"></span>التفسير
+                                الميسر</a></li>
+                    </ul>
+                </div>
+
+                <!-- Stats -->
+                <div>
+                    <h3 class="font-amiri font-bold text-foreground mb-4 text-lg">إحصائيات القرآن</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-card/80 rounded-lg p-3 text-center border border-border/50">
+                            <p class="font-arabic text-xl font-bold text-primary">١١٤</p>
+                            <p class="text-xs text-muted-foreground">سورة</p>
+                        </div>
+                        <div class="bg-card/80 rounded-lg p-3 text-center border border-border/50">
+                            <p class="font-arabic text-xl font-bold text-primary">٦٢٣٦</p>
+                            <p class="text-xs text-muted-foreground">آية</p>
+                        </div>
+                        <div class="bg-card/80 rounded-lg p-3 text-center border border-border/50">
+                            <p class="font-arabic text-xl font-bold text-primary">٣٠</p>
+                            <p class="text-xs text-muted-foreground">جزء</p>
+                        </div>
+                        <div class="bg-card/80 rounded-lg p-3 text-center border border-border/50">
+                            <p class="font-arabic text-xl font-bold text-primary">٦٠</p>
+                            <p class="text-xs text-muted-foreground">حزب</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-border/50 py-5" style="background-color:#f1ede499;">
+            <div class="container mx-auto max-w-6xl px-6">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
+                    <p class="font-arabic flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open h-3.5 w-3.5">
+                            <path d="M12 7v14"></path>
+                            <path
+                                d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z">
+                            </path>
+                        </svg>القرآن الكريم - القراءة والتدبر والتفسير</p>
+                    <p class="opacity-60">مصدر البيانات: AlQuran.cloud · Quran.com</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script src="settings.js"></script>
+</body>
+
+</html>
