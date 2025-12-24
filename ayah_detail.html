@@ -37,6 +37,14 @@
         }
     </script>
     <style>
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -233,19 +241,19 @@
         }
 
         .tafsir-tab.active {
-            background: linear-gradient(135deg, #1B4332, #2D5A46);
-            color: white;
-            border-color: #1B4332;
+            background: #1B4332 !important;
+            color: white !important;
+            border-color: #1B4332 !important;
             box-shadow: 0 4px 12px rgba(27, 67, 50, 0.25);
             transform: translateY(-1px);
         }
 
-        .tafsir-tab:hover:not(.active) {
-            background: #f8fafc;
-            color: #1B4332;
-            border-color: #cbd5e1;
+        .tafsir-tab:hover {
+            background: #1B4332 !important;
+            color: white !important;
+            border-color: #1B4332 !important;
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 12px rgba(27, 67, 50, 0.25);
         }
 
         .tafsir-content {
@@ -256,6 +264,202 @@
             padding: 1.5rem;
             border-radius: 12px;
             border: 1px solid #ebe8e1;
+        }
+
+        /* Final Refined Ayah Selector Styles - Step 113 */
+        .ayah-dropdown-modern {
+            padding: 1.5rem;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 12px 45px rgba(0, 0, 0, 0.12);
+            width: 380px;
+            max-width: 95vw;
+            border: 1px solid #BDC7C2;
+            box-sizing: border-box;
+            z-index: 100;
+            right: 0;
+            /* Align with right edge of button in RTL */
+            left: auto;
+        }
+
+        .ayah-lookup-title {
+            font-family: 'Cairo', sans-serif;
+            color: #8d8b80;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            opacity: 0.8;
+            width: 100%;
+        }
+
+        .manual-input-row {
+            display: flex;
+            align-items: stretch;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            direction: ltr;
+            /* Button Left, Input Right */
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .go-btn {
+            background: #2D6A4F;
+            color: #ffffff;
+            padding: 0 1.25rem;
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            height: 48px;
+            min-width: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .go-btn:hover {
+            background: #1B4332;
+        }
+
+        .number-input-modern {
+            flex: 1;
+            min-width: 0;
+            border: 2px solid #2D6A4F;
+            border-radius: 12px;
+            padding: 0 0.5rem;
+            text-align: center;
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1B4332;
+            background: #f9f7f2;
+            height: 48px;
+            box-sizing: border-box;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: #F1EDE4;
+            margin: 0.75rem -1.5rem 1.25rem -1.5rem;
+            width: calc(100% + 3rem);
+        }
+
+        .ayah-grid-modern {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.75rem;
+            max-height: 280px;
+            overflow-y: auto;
+            padding: 12px 14px 12px 20px;
+            /* More padding on the left for the scrollbar */
+            direction: rtl;
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
+            margin-top: 2px;
+        }
+
+        .ayah-grid-modern::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .ayah-grid-modern::-webkit-scrollbar-thumb {
+            background: #2D6A4F;
+            border-radius: 10px;
+        }
+
+        .ayah-grid-item {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #F8F7F2;
+            border-radius: 12px;
+            font-family: 'Amiri', serif;
+            font-size: 1.25rem;
+            color: #1B4332;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            box-sizing: border-box;
+        }
+
+        .ayah-grid-item:hover {
+            background: #F1EDE4;
+        }
+
+        .ayah-grid-item.active {
+            background: #2D6A4F;
+            color: #ffffff;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.35);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .main-card {
+                padding: 2rem 1rem !important;
+                margin: 1rem 0.5rem !important;
+            }
+
+            .tafsir-tab {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.85rem !important;
+            }
+
+            .ayah-dropdown-modern {
+                width: 95vw !important;
+                max-width: 380px !important;
+                position: absolute;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                top: calc(100% + 0.5rem);
+                padding: 1rem;
+            }
+
+            .number-input-modern {
+                font-size: 1.4rem;
+                height: 44px;
+            }
+
+            .go-btn {
+                height: 44px;
+                min-width: 80px;
+            }
+
+            .ayah-grid-modern {
+                gap: 0.5rem;
+                max-height: 45vh;
+            }
+        }
+
+        /* Ayah Header Button Style - Match Image 113 */
+        #ayahSelectorBtn {
+            border-radius: 14px;
+            border: 2px solid #2D6A4F;
+            /* Green border */
+            padding: 0.4rem 1.25rem;
+            height: 44px;
+            font-family: 'Cairo', sans-serif;
+            background: #FFFFFF;
+            color: #2D6A4F;
+            /* Green text */
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        #ayahSelectorBtn:hover {
+            background: #f0fdf4;
+            border-color: #1B4332;
         }
     </style>
 </head>
@@ -314,7 +518,7 @@
                 <div class="h-5 w-px bg-white/20 mx-1 hidden md:block"></div>
 
                 <!-- Settings Button -->
-                <button onclick="toggleSettings()"
+                <button onclick="closeSelectors(); toggleSettings();"
                     class="text-gray-300 hover:text-white hover:rotate-90 transition-all duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
@@ -352,7 +556,7 @@
             </nav>
 
             <!-- Row 2: Selectors -->
-            <div class="flex items-center justify-start gap-3 dir-rtl w-full">
+            <div class="flex items-center justify-start gap-3 w-full" dir="rtl">
 
                 <!-- Surah Selector -->
                 <div class="relative">
@@ -389,28 +593,31 @@
 
                 <!-- Ayah Selector -->
                 <div class="relative">
-                    <button id="ayahSelectorBtn"
-                        class="flex items-center gap-2 px-4 py-2 bg-white border border-[#e5e7eb] rounded-xl hover:border-[#1B4332] transition-all shadow-sm active:scale-95 text-[#1B4332] w-auto justify-between group h-10">
-                        <div class="flex items-center gap-2 w-auto">
-                            <span class="text-[10px] text-gray-500 font-normal">الآية</span>
-                            <span id="currentAyahNumber"
-                                class="font-bold font-serif text-lg whitespace-nowrap">...</span>
+                    <button id="ayahSelectorBtn" class="active:scale-95 shadow-sm" dir="rtl">
+                        <span class="font-serif text-lg opacity-70">#</span>
+                        <div class="flex items-center gap-1">
+                            <span class="text-sm opacity-60">الآية</span>
+                            <span id="currentAyahNumber" class="font-bold text-lg">...</span>
                         </div>
-                        <div class="flex items-center gap-1 text-[#4b5563] group-hover:text-[#1B4332] flex-shrink-0">
-                            <span
-                                class="text-sm leading-none font-serif text-[#1B4332]/70 group-hover:text-[#1B4332]">#</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform duration-300"
-                                id="ayahDropdownArrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-300"
+                            id="ayahDropdownArrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
                     </button>
 
                     <!-- Ayah Dropdown -->
-                    <div id="ayahDropdown"
-                        class="hidden absolute top-full right-0 mt-2 w-full min-w-[120px] bg-white border border-gray-100 rounded-xl shadow-xl z-50 overflow-hidden">
-                        <div id="ayahList" class="max-h-[300px] overflow-y-auto p-1 grid grid-cols-4 gap-1"></div>
+                    <div id="ayahDropdown" class="hidden absolute top-full left-0 mt-2 ayah-dropdown-modern z-50">
+                        <div class="ayah-lookup-title" id="ayahRangeTitle">انتقل إلى آية محددة (١ - ٢٨٦)</div>
+
+                        <div class="manual-input-row" style="direction: ltr;">
+                            <button class="go-btn" id="goAyahBtn">انتقال</button>
+                            <input type="number" id="ayahManualInput" class="number-input-modern" placeholder="١"
+                                min="1">
+                        </div>
+
+                        <div class="dropdown-divider"></div>
+
+                        <div id="ayahList" class="ayah-grid-modern"></div>
                     </div>
                 </div>
 
@@ -595,19 +802,19 @@
                 <div class="tafsir-tabs flex flex-wrap justify-center gap-3 mb-8">
                     <button
                         class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif active"
-                        onclick="loadTafsirContent('ar.muyassar', this)">الميسر</button>
+                        onclick="loadTafsirContent('ar.ibnkathir', this)">تفسير ابن كثير</button>
                     <button
                         class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
-                        onclick="loadTafsirContent('ar.jalalayn', this)">الجلالين</button>
+                        onclick="loadTafsirContent('ar.saadi', this)">تفسير السعدي</button>
                     <button
                         class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
-                        onclick="loadTafsirContent('ar.qurtubi', this)">القرطبي</button>
+                        onclick="loadTafsirContent('ar.tabari', this)">تفسير الطبري</button>
                     <button
                         class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
-                        onclick="loadTafsirContent('ar.baghawi', this)">البغوي</button>
+                        onclick="loadTafsirContent('ar.qurtubi', this)">تفسير القرطبي</button>
                     <button
                         class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
-                        onclick="loadTafsirContent('ar.waseet', this)">الوسيط</button>
+                        onclick="loadTafsirContent('ar.muyassar', this)">التفسير الميسر</button>
                 </div>
 
                 <!-- Decorative Divider -->
@@ -759,7 +966,9 @@
         const content = document.getElementById('content');
 
         // Default Tafsir
-        let currentTafsir = 'ar.muyassar';
+        let currentTafsir = 'ar.ibnkathir';
+        let ayahText = '';
+        let currentSurahName = '';
 
         async function init() {
             if (!surah || !ayah) {
@@ -794,7 +1003,11 @@
                     if (ayahNumInfo) {
                         ayahNumInfo.textContent = `الآية ${ayah.toLocaleString('ar-EG')} من ${totalAyahs.toLocaleString('ar-EG')}`;
                     }
-                    document.getElementById('ayahText').textContent = ayahData.text;
+
+                    ayahText = ayahData.text;
+                    currentSurahName = surahName;
+
+                    document.getElementById('ayahText').textContent = ayahText;
                     document.getElementById('ayahNumBadge').textContent = ayah.toLocaleString('ar-EG');
 
                     // Audio Setup (Using EveryAyah for reliability)
@@ -956,13 +1169,27 @@
         // Populate Surah List
         function populateSurahList(filter = '') {
             surahList.innerHTML = '';
+            const normalizedFilter = filter.trim();
+            const isNumeric = /^[0-9\u0660-\u0669]+$/.test(normalizedFilter);
+
+            // Helper to convert Arabic numerals to Western for comparison
+            const toWestern = (s) => s.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 1632);
+
             surahs.forEach((name, index) => {
                 const surahNum = index + 1;
-                const displayText = `${surahNum.toLocaleString('ar-EG')}. سورة ${name}`;
+                const surahNumAr = surahNum.toLocaleString('ar-EG');
 
-                if (filter && !name.includes(filter) && !displayText.includes(filter)) {
-                    return;
+                let matches = false;
+                if (!normalizedFilter) {
+                    matches = true;
+                } else if (isNumeric) {
+                    const filterNum = toWestern(normalizedFilter);
+                    matches = surahNum.toString() === filterNum || surahNumAr === normalizedFilter;
+                } else {
+                    matches = name.includes(normalizedFilter) || surahNumAr.includes(normalizedFilter);
                 }
+
+                if (!matches) return;
 
                 const item = document.createElement('div');
                 item.className = 'px-4 py-3 hover:bg-[#1B4332]/5 cursor-pointer transition-colors border-b border-gray-50 last:border-0 flex items-center gap-3';
@@ -970,11 +1197,14 @@
                     item.classList.add('bg-[#1B4332]/10');
                 }
 
+                const nameColor = normalizedFilter ? 'text-[#1B4332]' : 'text-gray-700';
+                const numberClass = normalizedFilter ? 'bg-[#1B4332]/20 text-[#1B4332]' : 'bg-[#1B4332]/5 text-[#1B4332]/60';
+
                 item.innerHTML = `
-                    <span class="flex-shrink-0 w-8 h-8 bg-[#1B4332]/10 text-[#1B4332] rounded-full flex items-center justify-center text-sm font-bold">
+                    <span class="flex-shrink-0 w-8 h-8 ${numberClass} rounded-full flex items-center justify-center text-sm font-bold">
                         ${surahNum.toLocaleString('ar-EG')}
                     </span>
-                    <span class="flex-1 text-right font-semibold text-gray-700">سورة ${name}</span>
+                    <span class="flex-1 text-right font-semibold ${nameColor}">سورة ${name}</span>
                 `;
 
                 item.onclick = () => {
@@ -1001,7 +1231,13 @@
 
             if (index === -1) {
                 // Add
-                favorites.push({ surah, ayah, date: new Date().toISOString() });
+                favorites.push({
+                    surah,
+                    ayah,
+                    surahName: currentSurahName,
+                    text: ayahText,
+                    date: new Date().toISOString()
+                });
             } else {
                 // Remove
                 favorites.splice(index, 1);
@@ -1082,31 +1318,43 @@
         // Populate Ayah List
         function populateAyahList(totalAyahs) {
             ayahList.innerHTML = '';
-            const ayahsPerRow = 10;
-            let currentRow = null;
+            document.getElementById('ayahRangeTitle').textContent = `انتقل إلى آية محددة (١ - ${totalAyahs.toLocaleString('ar-EG')})`;
+            const manualInput = document.getElementById('ayahManualInput');
+            manualInput.max = totalAyahs;
 
             for (let i = 1; i <= totalAyahs; i++) {
-                if ((i - 1) % ayahsPerRow === 0) {
-                    currentRow = document.createElement('div');
-                    currentRow.className = 'flex gap-2 mb-2';
-                    ayahList.appendChild(currentRow);
-                }
-
-                const ayahBtn = document.createElement('button');
-                ayahBtn.className = `flex-1 px-3 py-2 rounded-lg border transition-all font-bold ${i === ayah
-                    ? 'bg-[#1B4332] text-white border-[#1B4332]'
-                    : 'bg-white text-gray-700 border-gray-200 hover:border-[#1B4332] hover:bg-[#1B4332]/5'
-                    }`;
-                ayahBtn.textContent = i.toLocaleString('ar-EG');
-                ayahBtn.onclick = () => {
+                const item = document.createElement('div');
+                item.className = `ayah-grid-item ${i === ayah ? 'active' : ''}`;
+                item.textContent = i.toLocaleString('ar-EG');
+                item.onclick = () => {
                     if (i !== ayah) {
                         window.location.href = `ayah_detail.html?surah=${surah}&ayah=${i}`;
                     }
                 };
-
-                currentRow.appendChild(ayahBtn);
+                ayahList.appendChild(item);
             }
+
+            // Scroll functionality moved to onclick to avoid jumping on page load
         }
+
+        // Manual Input Go Button
+        document.getElementById('goAyahBtn').onclick = () => {
+            const input = document.getElementById('ayahManualInput');
+            const targetTotal = parseInt(input.max);
+            const val = parseInt(input.value);
+            if (val >= 1 && val <= targetTotal) {
+                window.location.href = `ayah_detail.html?surah=${surah}&ayah=${val}`;
+            } else {
+                alert(`يرجى إدخال رقم آية صحيح بين ١ و ${targetTotal}`);
+            }
+        };
+
+        // Handle Enter key on manual input
+        document.getElementById('ayahManualInput').onkeyup = (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('goAyahBtn').click();
+            }
+        };
 
         // Toggle Ayah Dropdown
         ayahSelectorBtn.onclick = (e) => {
@@ -1120,10 +1368,34 @@
 
                 ayahDropdown.classList.remove('hidden');
                 ayahDropdownArrow.style.transform = 'rotate(180deg)';
+
+                // Scroll active item into view when opened
+                setTimeout(() => {
+                    const activeItem = ayahList.querySelector('.ayah-grid-item.active');
+                    if (activeItem) {
+                        // Manual scroll calculation to avoid triggering page-level jumps
+                        const itemTop = activeItem.offsetTop;
+                        const containerHalfHeight = ayahList.clientHeight / 2;
+                        const itemHalfHeight = activeItem.clientHeight / 2;
+
+                        ayahList.scrollTo({
+                            top: itemTop - containerHalfHeight + itemHalfHeight,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 100);
             } else {
                 ayahDropdown.classList.add('hidden');
                 ayahDropdownArrow.style.transform = 'rotate(0deg)';
             }
+        };
+
+        // Global close function for other triggers
+        window.closeSelectors = function () {
+            surahDropdown.classList.add('hidden');
+            surahDropdownArrow.style.transform = 'rotate(0deg)';
+            ayahDropdown.classList.add('hidden');
+            ayahDropdownArrow.style.transform = 'rotate(0deg)';
         };
 
         // Close dropdowns when clicking outside

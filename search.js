@@ -141,10 +141,13 @@ function updateSurahMeta() {
 }
 
 function searchInAyahs(ayahs, query) {
-  const isNumber = /^\d+$/.test(query.trim());
-  const searchNumber = isNumber ? parseInt(query.trim()) : null;
+  const normalizedQuery = query.trim();
+  const toWestern = (s) => s.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 1632);
+  const westernQuery = toWestern(normalizedQuery);
+  const isNumber = /^[0-9\u0660-\u0669]+$/.test(normalizedQuery);
+  const searchNumber = isNumber ? parseInt(westernQuery) : null;
 
-  const nq = normalizeArabic(query);
+  const nq = normalizeArabic(normalizedQuery);
   const nqNoAl = stripAl(nq);
   const results = [];
   ayahs.forEach((a, idx) => {
@@ -194,7 +197,7 @@ function renderResults(matches) {
         <div class="flex items-center gap-2 md:gap-3">
           <div class="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-lg bg-primary/10 text-primary font-arabic font-bold text-sm md:text-base">${toArabicDigits(ay.numberInSurah)}</div>
           <div class="flex flex-col md:flex-row md:items-center md:gap-2">
-            <span class="font-amiri font-semibold text-foreground text-sm md:text-base">${sName}</span>
+            <span class="font-amiri font-semibold text-primary text-sm md:text-base">${sName}</span>
             <span class="text-muted-foreground text-xs md:text-sm font-arabic"><span class="hidden md:inline mx-1">·</span>الآية ${toArabicDigits(ay.numberInSurah)}${sCount ? ` <span class=\"hidden md:inline mx-1\">·</span>عدد الآيات ${toArabicDigits(sCount)}` : ''}</span>
           </div>
         </div>

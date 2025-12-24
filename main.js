@@ -28,14 +28,17 @@ function normalizeArabic(text) {
 
 function renderSurahs(filterText = '') {
     grid.innerHTML = '';
-    const query = normalizeArabic(filterText.trim());
-    const isNumber = /^\d+$/.test(filterText.trim());
-    const searchNumber = isNumber ? parseInt(filterText.trim()) : null;
+    const normalizedFilter = filterText.trim();
+    const toWestern = (s) => s.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 1632);
+    const westernFilter = toWestern(normalizedFilter);
+    const isNumber = /^[0-9\u0660-\u0669]+$/.test(normalizedFilter);
+    const searchNumber = isNumber ? parseInt(westernFilter) : null;
+    const query = normalizeArabic(normalizedFilter);
 
     const filtered = surahs.filter((name, index) => {
         const surahNumber = index + 1;
         if (isNumber) {
-            return surahNumber === searchNumber || surahNumber.toString().includes(filterText.trim());
+            return surahNumber === searchNumber;
         }
         return normalizeArabic(name).includes(query);
     });
@@ -49,6 +52,10 @@ function renderSurahs(filterText = '') {
            const surahIndex = surahs.indexOf(name);
            const surahNumber = surahIndex + 1;
 
+           const isFiltered = !!filterText;
+           const nameColor = isFiltered ? 'text-brand' : 'text-gray-700';
+           const indicatorDisplay = isFiltered ? 'flex' : 'hidden';
+
            btn.className = `
                 surah-card 
                 group
@@ -58,11 +65,16 @@ function renderSurahs(filterText = '') {
                 transition-all duration-300
                 flex items-center justify-center
                 relative overflow-hidden
-                bg-white border-gray-200 text-gray-700 hover:border-brand-gold hover:text-brand-DEFAULT hover:shadow-md
+                bg-white border-gray-200 ${nameColor} hover:border-brand-gold hover:text-brand-DEFAULT hover:shadow-md
            `;
            
            btn.innerHTML = `
-                <span class="relative z-10">سورة ${name}</span>
+                <div class="flex items-center justify-between w-full">
+                    <span class="w-7 h-7 bg-brand/10 text-brand rounded-full ${indicatorDisplay} items-center justify-center text-xs font-bold font-sans">
+                        ${surahNumber.toLocaleString('ar-EG')}
+                    </span>
+                    <span class="relative z-10 flex-1 text-center">سورة ${name}</span>
+                </div>
            `;
            
            btn.onclick = (e) => {

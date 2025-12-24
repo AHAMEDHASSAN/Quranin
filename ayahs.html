@@ -52,12 +52,19 @@
       --ayah-line-height: 2.4;
     }
 
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+      width: 100%;
+      position: relative;
+    }
+
     body {
       background-color: var(--background);
       color: var(--foreground);
       font-family: "Noto Naskh Arabic", "Amiri", serif;
       min-height: 100vh;
-      overflow-x: hidden;
       display: flex;
       flex-direction: column;
     }
@@ -884,11 +891,15 @@
           item.classList.add('bg-[#1B4332]/10');
         }
 
+        const normalizedFilter = filter.trim();
+        const nameColor = normalizedFilter ? 'text-[#1B4332]' : 'text-gray-700';
+        const numberClass = normalizedFilter ? 'bg-[#1B4332]/20 text-[#1B4332]' : 'bg-[#1B4332]/5 text-[#1B4332]/60';
+
         item.innerHTML = `
-          <span class="flex-shrink-0 w-8 h-8 bg-[#1B4332]/10 text-[#1B4332] rounded-full flex items-center justify-center text-sm font-bold">
+          <span class="flex-shrink-0 w-8 h-8 ${numberClass} rounded-full flex items-center justify-center text-sm font-bold">
             ${surahNum.toLocaleString('ar-EG')}
           </span>
-          <span class="flex-1 text-right font-semibold text-gray-700">سورة ${name}</span>
+          <span class="flex-1 text-right font-semibold ${nameColor}">سورة ${name}</span>
         `;
 
         item.onclick = () => {

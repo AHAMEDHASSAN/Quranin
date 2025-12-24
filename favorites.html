@@ -236,7 +236,7 @@
                     </button>
                 </div>
                 <div class="fav-text">
-                    ${item.text} 
+                    ${item.text || '<span class="text-gray-400 text-sm">عذراً، نص الآية غير متوفر. يرجى إعادة إضافتها للمفضلة.</span>'} 
                     <span class="text-[#D4AF37] text-sm mx-1">(${item.ayah.toLocaleString('ar-EG')})</span>
                 </div>
             `;
