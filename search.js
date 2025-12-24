@@ -29,36 +29,50 @@ let tokenSet = null; // normalized vocabulary set
 
 const BISMILLAH_NORMALIZED = "بسم الله الرحمن الرحيم";
 
-function stripBasmala(text, surahNumber, ayahNumber) {
-  if (!text || surahNumber === 1 || ayahNumber !== 1) return text;
-  const norm = normalizeArabic(text);
-  if (norm.startsWith(BISMILLAH_NORMALIZED)) {
-    // Find how many original characters make up the normalized bismillah
-    let normCharsRead = 0;
-    let originalIdx = 0;
-    while (originalIdx < text.length && normCharsRead < BISMILLAH_NORMALIZED.length) {
-      const cNorm = normalizeArabic(text[originalIdx]);
-      normCharsRead += cNorm.length;
-      originalIdx++;
-    }
-    return text.substring(originalIdx).trim();
-  }
-  return text;
-}
+const BISMILLAH_NORM = "بسم الله الرحمن الرحيم";
 
 function normalizeArabic(str) {
   if (!str) return "";
   return str
-    .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0610-\u061A\u0640]/g, "") // Remove all marks/diacritics
-    .replace(/[إأآٱ]/g, "ا")
+    .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0610-\u061A\u0640]/g, "") // Diacritics
+    .replace(/[إأآٱ]/g, "ا") // Alefs
     .replace(/ؤ/g, "و")
     .replace(/ئ/g, "ي")
     .replace(/ء/g, "")
     .replace(/ى/g, "ي")
     .replace(/ة/g, "ه")
-    .replace(/[^\u0621-\u064A\s]/g, " ") // Clean everything else to space
+    .replace(/[^\u0621-\u064A\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function stripBasmala(text, surahNumber, ayahNumber) {
+  if (!text || surahNumber === 1 || ayahNumber !== 1 || surahNumber === 9) return text;
+
+  const nt = normalizeArabic(text);
+  if (nt.startsWith(BISMILLAH_NORM)) {
+      // Split by space and check the first 4 words
+      const words = text.trim().split(/\s+/);
+      if (words.length >= 4) {
+          const firstFourNorm = normalizeArabic(words.slice(0, 4).join(" "));
+          if (firstFourNorm === BISMILLAH_NORM) {
+              const stripped = words.slice(4).join(" ").trim();
+              return stripped.length > 0 ? stripped : text;
+          }
+      }
+      
+      // Fallback: character-based search if split is tricky
+      let nIdx = 0, tIdx = 0;
+      while (tIdx < text.length && nIdx < BISMILLAH_NORM.length) {
+          const cn = normalizeArabic(text[tIdx]);
+          if (cn.length > 0) nIdx += cn.length;
+          tIdx++;
+      }
+      while (tIdx < text.length && normalizeArabic(text[tIdx]).length === 0) tIdx++;
+      const result = text.substring(tIdx).trim();
+      return result.length > 0 ? result : text;
+  }
+  return text;
 }
 
 const surahNamesNormalized = surahs.map(normalizeArabic);
@@ -209,15 +223,19 @@ function searchInAyahs(sNum, sName, query) {
 
   const results = [];
   s.ayahs.forEach((a, idx) => {
+    const ayNum = a.numberInSurah || (idx + 1);
+    const ayTextStripped = stripBasmala(a.text, sNum, ayNum);
+    
     if (isNumber) {
-        if (a.numberInSurah === searchNumber) {
+        if (ayNum === searchNumber) {
             const uthmaniS = allData?.data?.surahs?.find(x => x.number === sNum);
             results.push({ ayah: uthmaniS?.ayahs[idx] || a, surah: { number: sNum, name: sName } });
         }
         return;
     }
 
-    const nt = a.searchable || normalizeArabic(a.text);
+    // Use the dynamic stripped text for searching to avoid cache issues or partial matches
+    const nt = normalizeArabic(ayTextStripped);
     
     // Check if ALL words exist in the text in any order
     const isMatch = words.every(word => {

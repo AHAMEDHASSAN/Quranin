@@ -420,6 +420,50 @@
             background: #1B4332;
         }
 
+        /* Volume Slider Styles */
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .volume-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 0;
+            height: 4px;
+            background: #e5e0d4;
+            border-radius: 999px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: width 0.3s ease;
+        }
+
+        .volume-container:hover .volume-slider {
+            width: 60px;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 0;
+            height: 0;
+            background: #1B4332;
+            box-shadow: -100px 0 0 100px #1B4332;
+        }
+
+        @media (max-width: 640px) {
+            .volume-slider {
+                width: 40px;
+                /* Show by default on mobile */
+            }
+
+            .volume-container:hover .volume-slider {
+                width: 50px;
+            }
+        }
+
         /* Responsive adjustments */
         @media (max-width: 640px) {
             .main-card {
@@ -796,28 +840,32 @@
 
                     <span id="duration" class="text-xs text-[#1B4332]/70 font-mono w-10 text-center">0:00</span>
 
+                    <div class="volume-container flex items-center gap-2" dir="ltr">
+                        <button id="muteBtn" class="text-[#1B4332]/60 hover:text-[#1B4332] transition-colors"
+                            title="كتم/تشغيل الصوت">
+                            <svg id="volumeUpIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                            </svg>
+                            <svg id="volumeMuteIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                            </svg>
+                        </button>
+                        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" class="volume-slider"
+                            title="مستوى الصوت">
+                    </div>
+
                     <button id="replayBtn" class="text-[#1B4332]/60 hover:text-[#1B4332] transition-colors"
                         title="إعادة">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                        </svg>
-                    </button>
-
-                    <button id="muteBtn" class="text-[#1B4332]/60 hover:text-[#1B4332] transition-colors"
-                        title="كتم/تشغيل الصوت">
-                        <svg id="volumeUpIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                        </svg>
-                        <svg id="volumeMuteIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
                         </svg>
                     </button>
                 </div>
@@ -1166,25 +1214,40 @@
             }
         }
 
-        function stripBasmala(text, surahNumber, ayahNumber) {
-            if (!text || surahNumber === 1 || ayahNumber !== 1) return text;
-
-            // Simple check first
-            const bNormalized = "بسم الله الرحمن الرحيم";
-            const normalize = (s) => s.replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0610-\u061A\u0640]/g, "")
-                .replace(/[إأآٱ]/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي").replace(/ئ/g, "ي").replace(/ؤ/g, "و").replace(/ء/g, "")
+        function normalizeArabic(text) {
+            if (!text) return "";
+            return text
+                .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0610-\u061A\u0640]/g, "")
+                .replace(/[إأآٱ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/ئ/g, 'ي').replace(/ؤ/g, 'و').replace(/ء/g, '')
                 .replace(/[^\u0621-\u064A\s]/g, " ").replace(/\s+/g, " ").trim();
+        }
 
-            const norm = normalize(text);
-            if (norm.startsWith(bNormalized)) {
-                let normCharsRead = 0;
-                let originalIdx = 0;
-                while (originalIdx < text.length && normCharsRead < bNormalized.length) {
-                    const cNorm = normalize(text[originalIdx]);
-                    normCharsRead += cNorm.length;
-                    originalIdx++;
+        function stripBasmala(text, surahNumber, ayahNumber) {
+            if (!text || surahNumber === 1 || ayahNumber !== 1 || surahNumber === 9) return text;
+
+            const bNormString = "بسم الله الرحمن الرحيم";
+            const nt = normalizeArabic(text);
+
+            if (nt.startsWith(bNormString)) {
+                const words = text.trim().split(/\s+/);
+                if (words.length >= 4) {
+                    const firstFourNorm = normalizeArabic(words.slice(0, 4).join(" "));
+                    if (firstFourNorm === bNormString) {
+                        const stripped = words.slice(4).join(" ").trim();
+                        return stripped.length > 0 ? stripped : text;
+                    }
                 }
-                return text.substring(originalIdx).trim();
+
+                let nIdx = 0, tIdx = 0;
+                while (tIdx < text.length && nIdx < bNormString.length) {
+                    const cn = normalizeArabic(text[tIdx]);
+                    if (cn.length > 0) nIdx += cn.length;
+                    tIdx++;
+                }
+                while (tIdx < text.length && normalizeArabic(text[tIdx]).length === 0) tIdx++;
+
+                const stripped = text.substring(tIdx).trim();
+                return stripped.length > 0 ? stripped : text;
             }
             return text;
         }
@@ -1196,6 +1259,7 @@
         const durationEl = document.getElementById('duration');
         const replayBtn = document.getElementById('replayBtn');
         const muteBtn = document.getElementById('muteBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
 
         // Format time helper
         function formatTime(seconds) {
@@ -1236,10 +1300,23 @@
         // Toggle Mute
         muteBtn.onclick = () => {
             audio.muted = !audio.muted;
+            updateMuteIcons();
+        };
+
+        // Volume slider control
+        volumeSlider.oninput = (e) => {
+            audio.volume = e.target.value;
+            if (audio.volume > 0) {
+                audio.muted = false;
+            }
+            updateMuteIcons();
+        };
+
+        function updateMuteIcons() {
             const volumeUp = document.getElementById('volumeUpIcon');
             const volumeMute = document.getElementById('volumeMuteIcon');
 
-            if (audio.muted) {
+            if (audio.muted || audio.volume === 0) {
                 volumeUp.classList.add('hidden');
                 volumeMute.classList.remove('hidden');
                 muteBtn.classList.remove('text-[#1B4332]/60');
@@ -1250,7 +1327,14 @@
                 muteBtn.classList.add('text-[#1B4332]/60');
                 muteBtn.classList.remove('text-red-500');
             }
-        };
+
+            // Sync slider if muted
+            if (audio.muted) {
+                volumeSlider.value = 0;
+            } else if (volumeSlider.value == 0 && audio.volume > 0) {
+                volumeSlider.value = audio.volume;
+            }
+        }
 
         // Progress bar click
         progressContainer.onclick = (e) => {
@@ -1271,7 +1355,11 @@
             updatePlayIcon(false);
         };
 
-        audio.onended = () => updatePlayIcon(false);
+        audio.onended = () => {
+            if (!audio.loop) {
+                updatePlayIcon(false);
+            }
+        };
 
         audio.ontimeupdate = () => {
             const percent = (audio.currentTime / audio.duration) * 100;
@@ -1540,27 +1628,8 @@
             }
         });
 
+
         window.onload = init;
-
-        // Audio controls logic
-        document.getElementById('replayBtn').addEventListener('click', function () {
-            audio.loop = !audio.loop;
-            this.classList.toggle('bg-[#3A6B56]', audio.loop);
-            this.classList.toggle('text-white', audio.loop);
-            this.title = audio.loop ? 'إيقاف التكرار' : 'تكرار الآية';
-        });
-
-        document.getElementById('muteBtn').addEventListener('click', function () {
-            audio.muted = !audio.muted;
-            const icon = this.querySelector('svg');
-            if (audio.muted) {
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />';
-                this.classList.add('text-red-400');
-            } else {
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />';
-                this.classList.remove('text-red-400');
-            }
-        });
 
         // Scroll to Top Logic
         const scrollToTopBtn = document.getElementById('scrollToTopBtn');
