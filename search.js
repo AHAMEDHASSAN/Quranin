@@ -27,18 +27,37 @@ const metaAyahCountEl = $("metaAyahCount");
 let allData = null; // cached Quran
 let tokenSet = null; // normalized vocabulary set
 
+const BISMILLAH_NORMALIZED = "بسم الله الرحمن الرحيم";
+
+function stripBasmala(text, surahNumber, ayahNumber) {
+  if (!text || surahNumber === 1 || ayahNumber !== 1) return text;
+  const norm = normalizeArabic(text);
+  if (norm.startsWith(BISMILLAH_NORMALIZED)) {
+    // Find how many original characters make up the normalized bismillah
+    let normCharsRead = 0;
+    let originalIdx = 0;
+    while (originalIdx < text.length && normCharsRead < BISMILLAH_NORMALIZED.length) {
+      const cNorm = normalizeArabic(text[originalIdx]);
+      normCharsRead += cNorm.length;
+      originalIdx++;
+    }
+    return text.substring(originalIdx).trim();
+  }
+  return text;
+}
+
 function normalizeArabic(str) {
   if (!str) return "";
   return str
-    .replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, "") // remove all markers, diacritics and tatweel
-    .replace(/[إأآٱ]/g, "ا") // unify alef
+    .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0610-\u061A\u0640]/g, "") // Remove all marks/diacritics
+    .replace(/[إأآٱ]/g, "ا")
     .replace(/ؤ/g, "و")
     .replace(/ئ/g, "ي")
-    .replace(/ء/g, "") // remove hamza
+    .replace(/ء/g, "")
     .replace(/ى/g, "ي")
     .replace(/ة/g, "ه")
-    .replace(/[^\u0621-\u064A\s]/g, "") // clean everything else except Arabic letters and spaces
-    .replace(/\s+/g, " ") // unify spaces
+    .replace(/[^\u0621-\u064A\s]/g, " ") // Clean everything else to space
+    .replace(/\s+/g, " ")
     .trim();
 }
 
@@ -138,18 +157,24 @@ async function ensureQuranLoaded() {
     }
     
     if (!simpleQuran) {
-        // quran-simple usually has diacritics but is more standard for search than tajweed/uthmani
         const resSimple = await fetch('https://api.alquran.cloud/v1/quran/quran-simple');
         const jsonSimple = await resSimple.json();
-        if (jsonSimple && jsonSimple.data) simpleQuran = jsonSimple;
+        if (jsonSimple && jsonSimple.data) {
+            simpleQuran = jsonSimple;
+            // Pre-process for faster search
+            simpleQuran.data.surahs.forEach(s => {
+                s.ayahs.forEach(a => {
+                    const textView = stripBasmala(a.text, s.number, a.numberInSurah);
+                    a.searchable = normalizeArabic(textView);
+                });
+            });
+        }
     }
   } catch (e) {
     console.error("Quran load failed", e);
   } finally {
     loadingEl.classList.add('hidden');
   }
-  
-  if (allData && allData.data && !tokenSet) buildVocabulary();
 }
 
 function updateSurahMeta() {
@@ -171,9 +196,11 @@ function searchInAyahs(sNum, sName, query) {
   const searchNumber = isNumber ? parseInt(normalizedQuery) : null;
   
   const nq = normalizeArabic(normalizedQuery);
-  const allWords = nq.split(/\s+/).filter(w => w.length > 0);
+  const words = nq.split(/\s+/).filter(w => w.length > 0);
   
-  // Use simpleQuran if available, otherwise fallback to allData
+  if (words.length === 0 && !isNumber) return [];
+
+  // Fallback to allData if simpleQuran didn't load
   const sourceQuran = simpleQuran || allData;
   if (!sourceQuran || !sourceQuran.data) return [];
   
@@ -184,25 +211,26 @@ function searchInAyahs(sNum, sName, query) {
   s.ayahs.forEach((a, idx) => {
     if (isNumber) {
         if (a.numberInSurah === searchNumber) {
-            const uthmaniSurah = allData?.data?.surahs?.find(x => x.number === sNum);
-            results.push({ ayah: uthmaniSurah?.ayahs[idx] || a, surah: { number: sNum, name: sName } });
+            const uthmaniS = allData?.data?.surahs?.find(x => x.number === sNum);
+            results.push({ ayah: uthmaniS?.ayahs[idx] || a, surah: { number: sNum, name: sName } });
         }
         return;
     }
 
-    const nt = normalizeArabic(a.text);
+    const nt = a.searchable || normalizeArabic(a.text);
     
-    // Check if entire phrase is present OR all words are present
-    const isMatch = nt.includes(nq) || (allWords.length > 0 && allWords.every(word => {
-      const wordNoAl = stripAl(word);
-      return nt.includes(word) || (wordNoAl.length > 2 && nt.includes(wordNoAl));
-    }));
+    // Check if ALL words exist in the text in any order
+    const isMatch = words.every(word => {
+        if (nt.includes(word)) return true;
+        const noAl = stripAl(word);
+        return (noAl.length > 2 && nt.includes(noAl)) || (word.length > 2 && nt.includes(word));
+    });
 
     if (isMatch) {
-      const uthmaniSurah = allData?.data?.surahs?.find(x => x.number === sNum);
-      const uthmaniAyah = uthmaniSurah?.ayahs[idx];
+      const uthmaniS = allData?.data?.surahs?.find(x => x.number === sNum);
+      const uthmaniA = uthmaniS?.ayahs[idx];
       results.push({ 
-        ayah: uthmaniAyah || a, 
+        ayah: uthmaniA || a, 
         surah: { number: sNum, name: sName } 
       });
     }
@@ -227,10 +255,12 @@ function renderResults(matches, prefixHtml = '') {
   `;
   resultsEl.appendChild(header);
 
-  matches.slice(0, 150).forEach(m => {
+    matches.slice(0, 150).forEach(m => {
     const sNum = m.surah.number;
     const sName = m.surah.name;
-    const ay = m.ayah;
+    const ayNum = m.ayah.numberInSurah;
+    let ayText = stripBasmala(m.ayah.text, sNum, ayNum);
+
     const surahObj = allData?.data?.surahs?.find(x => x.number === sNum);
     const sCount = surahObj ? surahObj.ayahs.length : undefined;
     const card = document.createElement('div');
@@ -238,23 +268,23 @@ function renderResults(matches, prefixHtml = '') {
     card.innerHTML = `
       <div class="flex items-center justify-between px-4 md:px-5 py-2.5 md:py-3 bg-secondary/30 border-b border-border">
         <div class="flex items-center gap-2 md:gap-3">
-          <div class="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-lg bg-primary/10 text-primary font-arabic font-bold text-sm md:text-base">${toArabicDigits(ay.numberInSurah)}</div>
+          <div class="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-lg bg-primary/10 text-primary font-arabic font-bold text-sm md:text-base">${toArabicDigits(ayNum)}</div>
           <div class="flex flex-col md:flex-row md:items-center md:gap-2">
             <span class="font-amiri font-semibold text-primary text-sm md:text-base">${sName}</span>
-            <span class="text-muted-foreground text-xs md:text-sm font-arabic"><span class="hidden md:inline mx-1">·</span>الآية ${toArabicDigits(ay.numberInSurah)}${sCount ? ` <span class=\"hidden md:inline mx-1\">·</span>عدد الآيات ${toArabicDigits(sCount)}` : ''}</span>
+            <span class="text-muted-foreground text-xs md:text-sm font-arabic"><span class="hidden md:inline mx-1">·</span>الآية ${toArabicDigits(ayNum)}${sCount ? ` <span class=\"hidden md:inline mx-1\">·</span>عدد الآيات ${toArabicDigits(sCount)}` : ''}</span>
           </div>
         </div>
         <span class="px-2 py-0.5 rounded text-xs font-arabic hidden md:inline-block bg-blue-500/10 text-blue-600">تطابق عبارة</span>
       </div>
       <div class="p-4 md:p-5">
-        <p class="font-serif text-lg md:text-xl leading-loose text-foreground">${highlight(ay.text, searchBox.value)}</p>
+        <p class="font-serif text-lg md:text-xl leading-loose text-foreground">${highlight(ayText, searchBox.value)}</p>
       </div>
       <div class="flex items-center gap-2 md:gap-3 px-4 md:px-5 py-2.5 md:py-3 bg-secondary/20 border-t border-border">
-        <a class="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-arabic text-xs md:text-sm" href="ayahs.html?surah=${sNum}&name=${encodeURIComponent(sName)}&ayah=${ay.numberInSurah}">
+        <a class="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-arabic text-xs md:text-sm" href="ayah_detail.html?surah=${sNum}&ayah=${ayNum}">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 md:h-4 md:w-4"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
           <span>صفحة الآية والتفسير</span>
         </a>
-        <a class="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-lg bg-secondary text-foreground hover:bg-secondary/80 transition-colors font-arabic text-xs md:text-sm" href="ayahs.html?surah=${sNum}&name=${encodeURIComponent(sName)}&ayah=${ay.numberInSurah}">
+        <a class="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-lg bg-secondary text-foreground hover:bg-secondary/80 transition-colors font-arabic text-xs md:text-sm" href="ayahs.html?surah=${sNum}&name=${encodeURIComponent(sName)}#ayah-${ayNum}">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 md:h-4 md:w-4"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>
           <span>موضعها في السورة</span>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-2.5 w-2.5 md:h-3 md:w-3"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
@@ -385,6 +415,7 @@ async function performSearch() {
 // init
 ensureSurahOptions();
 searchBox.addEventListener('input', () => { performSearch(); });
+searchBox.addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(); });
 surahSelect.addEventListener('change', async () => { await ensureQuranLoaded(); updateSurahMeta(); if (searchBox.value.trim()) performSearch(); else resultsEl.innerHTML = ''; });
 // initialize meta if a surah is preselected
 (async () => { await ensureQuranLoaded(); updateSurahMeta(); })();

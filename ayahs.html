@@ -650,10 +650,33 @@
     function normalizeArabic(text) {
       if (!text) return "";
       return text
-        .replace(/[\u064B-\u065F]/g, '') // Tashkeel
-        .replace(/[إأآا]/g, 'ا') // Normalize Alef
+        .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0610-\u061A\u0640]/g, "")
+        .replace(/[إأآٱ]/g, 'ا') // Normalize Alef
         .replace(/ة/g, 'ه') // Teh Marbuta -> Heh
-        .replace(/ى/g, 'ي'); // Alef Maqsura -> Ya
+        .replace(/ى/g, 'ي') // Alef Maqsura -> Ya
+        .replace(/ئ/g, 'ي')
+        .replace(/ؤ/g, 'و')
+        .replace(/ء/g, '')
+        .replace(/[^\u0621-\u064A\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function stripBasmala(text, surahNumber, ayahNumber) {
+      if (!text || surahNumber === 1 || ayahNumber !== 1) return text;
+      const bNormalized = "بسم الله الرحمن الرحيم";
+      const norm = normalizeArabic(text);
+      if (norm.startsWith(bNormalized)) {
+        let normCharsRead = 0;
+        let originalIdx = 0;
+        while (originalIdx < text.length && normCharsRead < bNormalized.length) {
+          const cNorm = normalizeArabic(text[originalIdx]);
+          normCharsRead += cNorm.length;
+          originalIdx++;
+        }
+        return text.substring(originalIdx).trim();
+      }
+      return text;
     }
 
     // Favorites Logic
@@ -729,10 +752,8 @@
 
           ayahs.forEach((ayah, index) => {
             const ayahNumber = index + 1;
-            let text = ayah.text;
-
-            if (surahNumber !== 1 && ayahNumber === 1 && text.includes("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ")) {
-              text = text.replace("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "").trim();
+            const textView = stripBasmala(ayah.text, surahNumber, ayahNumber);
+            if (surahNumber !== 1 && ayahNumber === 1 && textView !== ayah.text) {
               if (!document.getElementById('bismillah-header')) {
                 const bism = document.createElement('div');
                 bism.id = 'bismillah-header';
@@ -741,6 +762,7 @@
                 container.appendChild(bism);
               }
             }
+            let text = textView;
 
             const row = document.createElement('div');
             row.className = 'ayah-row group';

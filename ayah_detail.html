@@ -268,11 +268,11 @@
 
         /* Final Refined Ayah Selector Styles - Step 113 */
         .ayah-dropdown-modern {
-            padding: 1.5rem;
+            padding: 1rem;
             background: #ffffff;
             border-radius: 16px;
             box-shadow: 0 12px 45px rgba(0, 0, 0, 0.12);
-            width: 380px;
+            width: 320px;
             max-width: 95vw;
             border: 1px solid #BDC7C2;
             box-sizing: border-box;
@@ -345,15 +345,15 @@
         .dropdown-divider {
             height: 1px;
             background: #F1EDE4;
-            margin: 0.75rem -1.5rem 1.25rem -1.5rem;
-            width: calc(100% + 3rem);
+            margin: 0.75rem -1rem 1.25rem -1rem;
+            width: calc(100% + 2rem);
         }
 
         .ayah-grid-modern {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 0.75rem;
-            max-height: 280px;
+            gap: 0.5rem;
+            max-height: 240px;
             overflow-y: auto;
             padding: 12px 14px 12px 20px;
             /* More padding on the left for the scrollbar */
@@ -379,9 +379,9 @@
             align-items: center;
             justify-content: center;
             background: #F8F7F2;
-            border-radius: 12px;
+            border-radius: 8px;
             font-family: 'Amiri', serif;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             color: #1B4332;
             cursor: pointer;
             transition: all 0.2s;
@@ -400,6 +400,26 @@
             box-shadow: 0 4px 15px rgba(45, 106, 79, 0.35);
         }
 
+        /* Tafsir Scrollbar Styling */
+        .tafsir-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .tafsir-content::-webkit-scrollbar-track {
+            background: #F8F7F2;
+            border-radius: 10px;
+        }
+
+        .tafsir-content::-webkit-scrollbar-thumb {
+            background: #2D6A4F;
+            border-radius: 10px;
+            border: 2px solid #F8F7F2;
+        }
+
+        .tafsir-content::-webkit-scrollbar-thumb:hover {
+            background: #1B4332;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 640px) {
             .main-card {
@@ -414,7 +434,7 @@
 
             .ayah-dropdown-modern {
                 width: 95vw !important;
-                max-width: 380px !important;
+                max-width: 320px !important;
                 position: absolute;
                 left: 50% !important;
                 right: auto !important;
@@ -435,7 +455,7 @@
 
             .ayah-grid-modern {
                 gap: 0.5rem;
-                max-height: 45vh;
+                max-height: 200px;
             }
 
             .navigation-btn {
@@ -487,7 +507,54 @@
         #surahSelectorBtn:hover {
             border-color: #1B4332;
         }
+
+        /* Celebration Modal Styles */
+        .celebration-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(27, 67, 50, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .celebration-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .celebration-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 2rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 4px solid #D4AF37;
+        }
+
+        .celebration-overlay.active .celebration-card {
+            transform: translateY(0);
+        }
+
+        .celebration-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 
 <body class="bg-[#FDFBF7] text-[#1B4332]">
@@ -866,7 +933,7 @@
                 </div>
 
                 <div id="tafsirContent"
-                    class="tafsir-content bg-[#fdfcfb] p-8 rounded-2xl border border-[#e5e0d4] shadow-sm text-right leading-loose text-[#2c2b26] text-lg font-serif">
+                    class="tafsir-content bg-[#fdfcfb] p-8 rounded-2xl border border-[#e5e0d4] shadow-sm text-right leading-loose text-[#2c2b26] text-lg font-serif max-h-[500px] overflow-y-auto">
                     جاري تحميل التفسير...
                 </div>
             </div>
@@ -976,6 +1043,21 @@
         </div>
     </footer>
 
+    <!-- Celebration Modal -->
+    <div id="celebrationOverlay" class="celebration-overlay">
+        <div class="celebration-card">
+            <span class="celebration-icon">✨ 📖 ✨</span>
+            <h2 class="text-3xl font-bold font-serif text-[#1B4332] mb-4">هنيئاً لك ختم القرآن!</h2>
+            <p class="text-[#5c5b54] mb-8 leading-relaxed font-serif text-lg">
+                ما شاء الله، لقد أتممت قراءة القرآن الكريم كاملاً. جزاك الله خيراً ونفعك بما قرأت وجعله نوراً لك.
+            </p>
+            <button onclick="document.getElementById('celebrationOverlay').classList.remove('active')"
+                class="bg-[#1B4332] text-white px-8 py-3 rounded-full font-bold hover:bg-[#2D6A4F] transition-all">
+                تقبل الله منا ومنكم
+            </button>
+        </div>
+    </div>
+
     <audio id="audio" preload="none"></audio>
 
     <script src="settings.js"></script>
@@ -1043,7 +1125,7 @@
                         ayahNumInfo.textContent = `الآية ${ayah.toLocaleString('ar-EG')} من ${totalAyahs.toLocaleString('ar-EG')}`;
                     }
 
-                    ayahText = ayahData.text;
+                    ayahText = stripBasmala(ayahData.text, surah, ayah);
                     currentSurahName = surahName;
 
                     document.getElementById('ayahText').textContent = ayahText;
@@ -1087,6 +1169,9 @@
                     localStorage.setItem('lastReadSurah', surah);
                     localStorage.setItem('lastReadAyah', ayah);
 
+                    // Track as read
+                    markAyahAsRead(surah, ayah);
+
                     // Check Favorite Status
                     updateFavoriteIcon();
                 }
@@ -1125,6 +1210,29 @@
                 console.error('Tafsir fetch error:', e);
                 tafsirBox.innerHTML = '<span class="text-red-400">خطأ في الاتصال بالخادم - حاول مرة أخرى</span>';
             }
+        }
+
+        function stripBasmala(text, surahNumber, ayahNumber) {
+            if (!text || surahNumber === 1 || ayahNumber !== 1) return text;
+
+            // Simple check first
+            const bNormalized = "بسم الله الرحمن الرحيم";
+            const normalize = (s) => s.replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0610-\u061A\u0640]/g, "")
+                .replace(/[إأآٱ]/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي").replace(/ئ/g, "ي").replace(/ؤ/g, "و").replace(/ء/g, "")
+                .replace(/[^\u0621-\u064A\s]/g, " ").replace(/\s+/g, " ").trim();
+
+            const norm = normalize(text);
+            if (norm.startsWith(bNormalized)) {
+                let normCharsRead = 0;
+                let originalIdx = 0;
+                while (originalIdx < text.length && normCharsRead < bNormalized.length) {
+                    const cNorm = normalize(text[originalIdx]);
+                    normCharsRead += cNorm.length;
+                    originalIdx++;
+                }
+                return text.substring(originalIdx).trim();
+            }
+            return text;
         }
 
         // Audio Controls
@@ -1302,6 +1410,53 @@
                 outline.classList.remove('hidden');
                 btn.classList.remove('bg-red-50');
             }
+        }
+
+        // ====== Reading Progress Tracking ======
+        function markAyahAsRead(s, a) {
+            const readKey = `${s}:${a}`;
+            let readAyahs = JSON.parse(localStorage.getItem('quran_read_ayahs') || '{}');
+
+            if (!readAyahs[readKey]) {
+                readAyahs[readKey] = true;
+                localStorage.setItem('quran_read_ayahs', JSON.stringify(readAyahs));
+            }
+
+            // Check for Khatm (Surah 114, Ayah 6)
+            if (s === 114 && a === 6) {
+                const totalRead = Object.keys(readAyahs).length;
+                // If they've read more than 90% (to be safe/flexible) or reached the end
+                if (totalRead > 5500) {
+                    showKhatmCelebration();
+                }
+            }
+        }
+
+        function showKhatmCelebration() {
+            const overlay = document.getElementById('celebrationOverlay');
+            overlay.classList.add('active');
+
+            // Confetti effect
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function () {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                // since particles fall down, start a bit higher than random
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
         }
 
         // Initialize Favorite Button

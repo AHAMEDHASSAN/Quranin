@@ -142,34 +142,13 @@ function loadLastReadVerse() {
     }
 
     // Update reading progress
-    updateReadingProgress(surahNum, ayahNum);
+    updateReadingProgress();
 }
 
-function updateReadingProgress(surah, ayah) {
-    // Simple calculation: assuming we track verses sequentially
-    // This is a simplified version - you could improve by tracking all read verses
+function updateReadingProgress() {
     const totalVerses = 6236;
-    const ayahCounts = [
-        7, 286, 200, 176, 120, 165, 206, 75, 129, 109,
-        123, 111, 43, 52, 99, 128, 111, 110, 98, 135,
-        112, 78, 118, 64, 77, 227, 93, 88, 69, 60,
-        34, 30, 73, 54, 45, 83, 182, 88, 75, 85,
-        54, 53, 89, 59, 37, 35, 38, 29, 18, 45,
-        60, 49, 62, 55, 78, 96, 29, 22, 24, 13,
-        14, 11, 11, 18, 12, 12, 30, 52, 52, 44,
-        28, 28, 20, 56, 40, 31, 50, 40, 46, 42,
-        29, 19, 36, 25, 22, 17, 19, 26, 30, 20,
-        15, 21, 11, 8, 5, 19, 5, 8, 8, 11,
-        11, 8, 3, 9, 5, 4, 6, 3, 6, 3,
-        5, 4, 5, 6
-    ];
-
-    // Calculate total verses read up to current surah and ayah
-    let versesRead = 0;
-    for (let i = 0; i < surah - 1; i++) {
-        versesRead += ayahCounts[i];
-    }
-    versesRead += ayah;
+    const readAyahs = JSON.parse(localStorage.getItem('quran_read_ayahs') || '{}');
+    const versesRead = Object.keys(readAyahs).length;
 
     const percentage = ((versesRead / totalVerses) * 100).toFixed(1);
 
