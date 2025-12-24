@@ -35,6 +35,7 @@ function normalizeArabic(str) {
     .replace(/[\u0622\u0623\u0625]/g, "ا") // alef forms to bare alef
     .replace(/\u0671/g, "ا") // alef wasla
     .replace(/ى/g, "ي") // alif maqsura to ya (helps matching)
+    .replace(/ة/g, "ه") // teh marbuta to heh
     .trim();
 }
 
@@ -140,10 +141,20 @@ function updateSurahMeta() {
 }
 
 function searchInAyahs(ayahs, query) {
+  const isNumber = /^\d+$/.test(query.trim());
+  const searchNumber = isNumber ? parseInt(query.trim()) : null;
+
   const nq = normalizeArabic(query);
   const nqNoAl = stripAl(nq);
   const results = [];
   ayahs.forEach((a, idx) => {
+    if (isNumber) {
+      if (a.numberInSurah === searchNumber) {
+        results.push({ ayah: a, indexInSurah: a.numberInSurah });
+      }
+      return;
+    }
+
     const nt = normalizeArabic(a.text);
     if (nt.includes(nq) || nt.includes(nqNoAl)) {
       results.push({ ayah: a, indexInSurah: a.numberInSurah });

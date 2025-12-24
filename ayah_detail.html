@@ -328,75 +328,106 @@
         </div>
     </header>
 
-    <!-- Breadcrumb & Selectors -->
-    <div class="bg-white border-b border-gray-100 sticky top-[57px] z-40">
-        <div
-            class="container mx-auto max-w-6xl px-4 md:px-6 py-3 flex flex-col md:flex-row gap-3 md:gap-0 justify-between items-stretch md:items-center">
-            <!-- Breadcrumb (Right) -->
-            <nav id="breadcrumb" class="hidden md:flex items-center gap-2 text-sm text-gray-500">
-                <a href="index.html" class="hover:text-[#1B4332] transition-colors">الرئيسية</a>
-                <span>•</span>
+    <!-- Navigation Header -->
+    <div class="bg-[#fdfcfb] border-b border-[#ecead8] sticky top-0 z-40 shadow-sm transition-all duration-300">
+        <div class="container mx-auto max-w-4xl px-4 py-3">
+
+            <!-- Row 1: Breadcrumbs -->
+            <nav
+                class="flex items-center justify-start gap-2 text-sm text-[#8d8b80] mb-3 font-serif dir-rtl w-full overflow-hidden whitespace-nowrap">
+                <a href="index.html"
+                    class="flex items-center gap-1 hover:text-[#1B4332] transition-colors flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    <span>الرئيسية</span>
+                </a>
+                <span class="text-gray-300 flex-shrink-0">‹</span>
                 <span id="breadcrumbSurah"
-                    class="text-[#1B4332] font-semibold cursor-pointer hover:underline">...</span>
-                <span>•</span>
-                <span id="breadcrumbAyah" class="text-[#1B4332] font-semibold">...</span>
+                    class="hover:text-[#1B4332] cursor-pointer truncate max-w-[100px] md:max-w-none">...</span>
+                <span class="text-gray-300 flex-shrink-0">‹</span>
+                <span id="breadcrumbAyah" class="font-bold text-[#1B4332] flex-shrink-0">...</span>
             </nav>
 
-            <!-- Selectors (Left) -->
-            <div class="flex flex-col md:flex-row items-stretch md:items-center gap-3 w-full md:w-auto">
+            <!-- Row 2: Selectors -->
+            <div class="flex items-center justify-start gap-3 dir-rtl w-full">
+
+                <!-- Surah Selector -->
+                <div class="relative">
+                    <button id="surahSelectorBtn"
+                        class="flex items-center gap-2 px-4 py-2 bg-white border border-[#e5e7eb] rounded-xl hover:border-[#1B4332] transition-all shadow-sm active:scale-95 text-[#1B4332] w-auto justify-between group h-10">
+                        <div class="flex items-center gap-2 w-auto">
+                            <span id="currentSurahName"
+                                class="font-bold font-serif text-base whitespace-nowrap">...</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-[#4b5563] group-hover:text-[#1B4332] flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform duration-300"
+                                id="surahDropdownArrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </button>
+
+                    <!-- Surah Dropdown -->
+                    <div id="surahDropdown"
+                        class="hidden absolute top-full right-0 mt-2 w-72 bg-white border border-gray-100 rounded-xl shadow-xl z-50 overflow-hidden">
+                        <div class="p-3 border-b border-gray-50 bg-[#f9fafb]">
+                            <input type="text" id="surahSearch" placeholder="ابحث عن سورة..."
+                                class="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1B4332] text-right dir-rtl" />
+                        </div>
+                        <div id="surahList" class="max-h-[300px] overflow-y-auto"></div>
+                    </div>
+                </div>
+
                 <!-- Ayah Selector -->
-                <div class="relative w-full md:w-auto">
+                <div class="relative">
                     <button id="ayahSelectorBtn"
-                        class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:border-[#1B4332] transition-all focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 w-full md:min-w-[120px]">
-                        <span class="text-gray-600 text-xs">الآية</span>
-                        <span id="currentAyahNumber" class="flex-1 text-center font-bold text-[#1B4332]">...</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 transition-transform"
-                            id="ayahDropdownArrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
+                        class="flex items-center gap-2 px-4 py-2 bg-white border border-[#e5e7eb] rounded-xl hover:border-[#1B4332] transition-all shadow-sm active:scale-95 text-[#1B4332] w-auto justify-between group h-10">
+                        <div class="flex items-center gap-2 w-auto">
+                            <span class="text-[10px] text-gray-500 font-normal">الآية</span>
+                            <span id="currentAyahNumber"
+                                class="font-bold font-serif text-lg whitespace-nowrap">...</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-[#4b5563] group-hover:text-[#1B4332] flex-shrink-0">
+                            <span
+                                class="text-sm leading-none font-serif text-[#1B4332]/70 group-hover:text-[#1B4332]">#</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform duration-300"
+                                id="ayahDropdownArrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
                     </button>
 
                     <!-- Ayah Dropdown -->
                     <div id="ayahDropdown"
-                        class="hidden absolute left-0 right-0 md:right-auto mt-2 md:w-72 bg-white border border-gray-200 rounded-lg shadow-xl max-h-[350px] overflow-y-auto z-50">
-                        <div id="ayahList" class="p-2">
-                            <!-- Will be populated by JavaScript -->
-                        </div>
+                        class="hidden absolute top-full right-0 mt-2 w-full min-w-[120px] bg-white border border-gray-100 rounded-xl shadow-xl z-50 overflow-hidden">
+                        <div id="ayahList" class="max-h-[300px] overflow-y-auto p-1 grid grid-cols-4 gap-1"></div>
                     </div>
                 </div>
 
-                <!-- Surah Selector -->
-                <div class="relative w-full md:w-auto">
-                    <button id="surahSelectorBtn"
-                        class="flex items-center gap-3 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:border-[#1B4332] transition-all focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 w-full md:min-w-[200px]">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#1B4332]" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
-                        <span id="currentSurahName" class="flex-1 text-right font-semibold text-[#1B4332]">...</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 transition-transform"
-                            id="surahDropdownArrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-
-                    <!-- Surah Dropdown Menu -->
-                    <div id="surahDropdown"
-                        class="hidden absolute left-0 right-0 md:right-auto mt-2 md:w-80 bg-white border border-gray-200 rounded-lg shadow-xl max-h-[400px] overflow-hidden z-50">
-                        <!-- Search Box -->
-                        <div class="p-3 border-b border-gray-100">
-                            <input type="text" id="surahSearch" placeholder="ابحث عن سورة..."
-                                class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 text-right" />
-                        </div>
-
-                        <!-- Surah List -->
-                        <div id="surahList" class="overflow-y-auto max-h-[340px]">
-                            <!-- Will be populated by JavaScript -->
-                        </div>
-                    </div>
-                </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Verse Tracking Button -->
+    <div id="verseTracker" class="verse-tracker-container hidden" onclick="goToSavedPosition()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="verse-tracker-icon" width="24" height="24" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <div class="verse-tracker-content">
+            <div class="verse-tracker-label">متابعة القراءة:</div>
+            <div class="verse-tracker-info" id="trackerInfo">سورة البقرة: الآية ١</div>
         </div>
     </div>
 
@@ -408,110 +439,186 @@
 
         <div id="content" class="hidden">
 
-            <div class="main-card animate-fade-in-up">
-                <span class="surah-tag" id="surahNameTag">...</span>
-
-                <div id="ayahText" class="ayah-large">
-                    ...
-                </div>
-
-                <div class="flex justify-center mt-6">
-                    <span
-                        class="bg-[#D4AF37] text-white w-8 h-8 rounded-full flex items-center justify-center font-bold font-serif"
-                        id="ayahNumBadge">1</span>
-                </div>
-
-                <div class="audio-player-container">
-                    <div class="text-right mb-2">
-                        <span class="text-sm text-gray-500 font-serif">الاستماع للآية</span>
-                    </div>
-                    <div class="audio-controls">
-                        <button id="replayBtn" class="control-btn" title="إعادة">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                            </svg>
-                        </button>
-
-                        <span id="currentTime" class="audio-time">0:00</span>
-
-                        <div class="progress-container" id="progressContainer">
-                            <div id="progressBar" class="progress-bar"></div>
-                        </div>
-
-                        <span id="duration" class="audio-time">0:00</span>
-
-                        <button id="playBtn" class="play-btn">
-                            <svg id="playIcon" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z" />
-                            </svg>
-                            <svg id="pauseIcon" class="hidden" viewBox="0 0 24 24">
-                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="reciter-name">مصحف القارئ مشاري راشد العفاسي</div>
+            <!-- Info Capsule (Above Card) -->
+            <div class="flex justify-center mb-6 mt-8">
+                <div
+                    class="inline-flex items-center gap-3 px-6 py-2 bg-[#fdfcfb] border border-[#1B4332]/10 rounded-full text-[#1B4332] font-serif shadow-sm">
+                    <span class="font-bold text-lg" id="surahNameTag">...</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#1B4332]/40"></span>
+                    <span class="text-sm opacity-80" id="ayahNumInfo">الآية ١</span>
                 </div>
             </div>
 
-            <!-- Navigation Between Ayahs -->
-            <div class="mt-8 mb-8">
-                <!-- Top Line with Star -->
-                <div class="flex items-center justify-center gap-4 mb-6">
-                    <div class="flex-1 h-px bg-gray-200"></div>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#D4AF37]" fill="currentColor"
-                        viewBox="0 0 24 24">
-                        <path
-                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            <div
+                class="main-card animate-fade-in-up relative overflow-hidden p-6 md:p-10 border border-[#ecead8] bg-white shadow-sm rounded-3xl group">
+                <!-- Favorite Button (Persistent) -->
+                <button id="favoriteBtn"
+                    class="absolute top-6 left-6 z-30 p-2 rounded-full hover:bg-red-50 transition-colors"
+                    title="إضافة للمفضلة">
+                    <svg id="favIconOutline" xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6 text-gray-400 hover:text-red-500 transition-colors" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
-                    <div class="flex-1 h-px bg-gray-200"></div>
+                    <svg id="favIconFilled" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 hidden"
+                        viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </button>
+
+                <!-- Decorative Corners -->
+                <div
+                    class="absolute top-4 left-4 w-12 h-12 border-t-[3px] border-l-[3px] border-[#1B4332]/10 rounded-tl-3xl z-10">
+                </div>
+                <div
+                    class="absolute top-4 right-4 w-12 h-12 border-t-[3px] border-r-[3px] border-[#1B4332]/10 rounded-tr-3xl">
+                </div>
+                <div
+                    class="absolute bottom-4 left-4 w-12 h-12 border-b-[3px] border-l-[3px] border-[#1B4332]/10 rounded-bl-3xl">
+                </div>
+                <div
+                    class="absolute bottom-4 right-4 w-12 h-12 border-b-[3px] border-r-[3px] border-[#1B4332]/10 rounded-br-3xl">
                 </div>
 
-                <!-- Buttons Row -->
-                <div class="flex items-center justify-center gap-6">
-                    <button id="nextAyahBtn"
-                        class="nav-btn group flex items-center gap-2 bg-[#fdfcfb] text-[#1B4332] border-[#ebe8e1]">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                        <span id="nextAyahText" class="text-sm">آية تالية</span>
-                    </button>
+                <div id="ayahText" class="ayah-large text-center relative z-20 mb-10 mt-6 leading-relaxed">
+                    ...
+                </div>
 
-                    <a href="" id="surahIndexBtn"
-                        class="nav-btn group flex items-center gap-2 bg-[#fdfcfb] text-[#1B4332] border-[#ebe8e1]">
+                <div class="flex justify-center relative z-10">
+                    <span
+                        class="bg-[#1B4332]/5 text-[#1B4332] w-12 h-12 rounded-full flex items-center justify-center font-bold font-serif border border-[#1B4332]/20 text-xl shadow-sm"
+                        id="ayahNumBadge">1</span>
+                </div>
+            </div>
+
+            <!-- Audio Player Card -->
+            <div class="audio-player-container bg-[#f9f7f2] border border-[#e5e0d4] rounded-2xl p-6 mt-6 shadow-sm">
+                <div class="flex items-center justify-between mb-4 text-[#1B4332]/70 text-sm font-serif">
+                    <div class="flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
+                                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
                         </svg>
-                        <span class="text-sm">فهرس السورة</span>
-                    </a>
+                        <span>الاستماع للآية</span>
+                    </div>
+                </div>
 
-                    <button id="prevAyahBtn"
-                        class="nav-btn group flex items-center gap-2 bg-[#fdfcfb] text-[#1B4332] border-[#ebe8e1]">
-                        <span id="prevAyahText" class="text-sm">آية سابقة</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                <div class="audio-controls flex items-center gap-4 dir-ltr">
+                    <button id="playBtn"
+                        class="w-12 h-12 bg-white border border-[#1B4332]/20 rounded-full flex items-center justify-center text-[#1B4332] hover:bg-[#1B4332] hover:text-white transition-all shadow-sm">
+                        <svg id="playIcon" class="h-5 w-5 ml-0.5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                        <svg id="pauseIcon" class="h-5 w-5 hidden" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
                         </svg>
                     </button>
+
+                    <span id="currentTime" class="text-xs text-[#1B4332]/70 font-mono w-10 text-center">0:00</span>
+
+                    <div class="flex-1 h-1.5 bg-[#e5e0d4] rounded-full relative cursor-pointer group"
+                        id="progressContainer">
+                        <div id="progressBar"
+                            class="absolute top-0 left-0 h-full bg-[#2D5A46] rounded-full w-0 group-hover:bg-[#1B4332] transition-all">
+                        </div>
+                    </div>
+
+                    <span id="duration" class="text-xs text-[#1B4332]/70 font-mono w-10 text-center">0:00</span>
+
+                    <button id="replayBtn" class="text-[#1B4332]/60 hover:text-[#1B4332] transition-colors"
+                        title="إعادة">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    </button>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#1B4332]/60" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    </svg>
+                </div>
+
+                <div class="text-center mt-4 pt-4 border-t border-[#e5e0d4]/60">
+                    <span class="text-xs text-[#8d8b80] font-serif">بصوت القارئ مشاري راشد العفاسي</span>
                 </div>
             </div>
         </div>
 
-        <div class="px-6 pb-20">
-            <div class="tafsir-section">
-                <h3 class="text-2xl font-bold font-serif text-[#1B4332] mb-4">التفسير</h3>
-                <div class="tafsir-tabs">
-                    <button class="tafsir-tab active" onclick="loadTafsirContent('ar.muyassar', this)">الميسر</button>
-                    <button class="tafsir-tab" onclick="loadTafsirContent('ar.jalalayn', this)">الجلالين</button>
-                    <button class="tafsir-tab" onclick="loadTafsirContent('ar.qurtubi', this)">القرطبي</button>
-                    <button class="tafsir-tab" onclick="loadTafsirContent('ar.baghawi', this)">البغوي</button>
-                    <button class="tafsir-tab" onclick="loadTafsirContent('ar.waseet', this)">الوسيط</button>
+        <!-- Decorative Separator -->
+        <div class="flex items-center justify-center gap-4 my-10 opacity-60">
+            <div class="w-16 h-px bg-gradient-to-r from-transparent to-[#2D5A46]"></div>
+            <div class="transform rotate-45 w-2 h-2 bg-[#2D5A46]"></div>
+            <div class="transform rotate-45 w-1.5 h-1.5 bg-[#2D5A46]/50"></div>
+            <div class="transform rotate-45 w-2 h-2 bg-[#2D5A46]"></div>
+            <div class="w-16 h-px bg-gradient-to-l from-transparent to-[#2D5A46]"></div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex items-center justify-between gap-4 mb-16 px-4">
+            <a href="" id="surahIndexBtn"
+                class="flex items-center gap-2 text-[#2D5A46] hover:text-[#1B4332] transition-colors font-serif group">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                <span class="group-hover:underline">العودة للسورة</span>
+            </a>
+
+            <button id="nextAyahBtn"
+                class="flex items-center gap-3 px-6 py-3 bg-[#fdfcfb] border border-[#e5e0d4] rounded-xl text-[#1B4332] hover:bg-white hover:border-[#2D5A46] hover:shadow-md transition-all group dir-rtl">
+                <span class="font-bold font-serif">الآية التالية</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 transform group-hover:-translate-x-1 transition-transform" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+
+            <!-- Hidden Previous Button to maintain logic if needed, or remove -->
+            <button id="prevAyahBtn" class="hidden"></button>
+        </div>
+
+        <!-- Tafsir Section -->
+        <div class="px-2 pb-20">
+            <div class="tafsir-section text-center">
+                <h3 class="text-3xl font-bold font-serif text-[#1B4332] mb-2">التفسير</h3>
+                <p class="text-[#8d8b80] text-sm mb-8 font-serif">اختر التفسير المناسب لك</p>
+
+                <div class="tafsir-tabs flex flex-wrap justify-center gap-3 mb-8">
+                    <button
+                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif active"
+                        onclick="loadTafsirContent('ar.muyassar', this)">الميسر</button>
+                    <button
+                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
+                        onclick="loadTafsirContent('ar.jalalayn', this)">الجلالين</button>
+                    <button
+                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
+                        onclick="loadTafsirContent('ar.qurtubi', this)">القرطبي</button>
+                    <button
+                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
+                        onclick="loadTafsirContent('ar.baghawi', this)">البغوي</button>
+                    <button
+                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
+                        onclick="loadTafsirContent('ar.waseet', this)">الوسيط</button>
                 </div>
-                <div id="tafsirContent" class="tafsir-content">
+
+                <!-- Decorative Divider -->
+                <div class="flex items-center justify-center mb-8 opacity-40">
+                    <div class="w-12 h-px bg-[#2D5A46]"></div>
+                    <div class="mx-2 text-[#2D5A46] text-xl">✦</div>
+                    <div class="w-12 h-px bg-[#2D5A46]"></div>
+                </div>
+
+                <div id="tafsirContent"
+                    class="tafsir-content bg-[#fdfcfb] p-8 rounded-2xl border border-[#e5e0d4] shadow-sm text-right leading-loose text-[#2c2b26] text-lg font-serif">
                     جاري تحميل التفسير...
                 </div>
             </div>
@@ -523,93 +630,66 @@
     <!-- Footer -->
     <footer class="pt-6 pb-6 border-t" style="background-color:#f1ede499;">
         <div class="container mx-auto max-w-6xl px-6 py-12 md:py-16">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
-                <!-- Intro -->
-                <div class="md:col-span-1">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-book-open h-5 w-5 text-primary">
-                                <path d="M12 7v14"></path>
-                                <path
-                                    d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z">
-                                </path>
-                            </svg>
-                        </div>
-                        <h3 class="font-amiri font-bold text-foreground text-xl">القرآن الكريم</h3>
-                    </div>
-                    <p class="text-sm text-muted-foreground leading-relaxed">موقع للقراءة والتدبر في كتاب الله الكريم مع
-                        تفاسير العلماء الأجلاء. صُمم بعناية لتوفير تجربة قراءة مريحة وسهلة.</p>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
 
-                <!-- Quick Links -->
+                <!-- Adhkar & Duas (New Section) -->
                 <div>
-                    <h3 class="font-amiri font-bold text-foreground mb-4 text-lg flex items-center gap-2"><svg
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-star h-4 w-4 text-gold">
+                    <h3 class="font-amiri font-bold text-foreground mb-6 text-xl flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#D4AF37]" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <path
-                                d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
-                            </path>
-                        </svg>روابط سريعة</h3>
-                    <ul class="space-y-3 text-sm">
-                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
-                                href="index.html"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition-colors"></span>فهرس
-                                السور</a></li>
-                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
-                                href="#"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition-colors"></span>سورة
-                                الفاتحة</a></li>
-                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
-                                href="#"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition-colors"></span>سورة
-                                يس</a></li>
-                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
-                                href="#"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition-colors"></span>سورة
-                                الملك</a></li>
-                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
-                                href="search.html"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-primary/30 group-hover:bg-primary transition-colors"></span>البحث
-                                في القرآن</a></li>
-                    </ul>
+                                d="M4.5 9.5V4a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v5.5M4.5 9.5h15M4.5 9.5v9a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-9" />
+                        </svg>
+                        الأذكار والأدعية
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <a href="adhkar.html?type=morning"
+                            class="flex items-center gap-3 p-4 bg-white border border-[#e5e0d4] rounded-xl hover:border-[#1B4332] hover:shadow-md transition-all group">
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#1B4332]/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                ☀️</div>
+                            <div>
+                                <h4 class="font-bold text-[#1B4332]">أذكار الصباح</h4>
+                                <span class="text-xs text-gray-500">بداية يومك بذكر الله</span>
+                            </div>
+                        </a>
+
+                        <a href="adhkar.html?type=evening"
+                            class="flex items-center gap-3 p-4 bg-white border border-[#e5e0d4] rounded-xl hover:border-[#1B4332] hover:shadow-md transition-all group">
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#1B4332]/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                🌙</div>
+                            <div>
+                                <h4 class="font-bold text-[#1B4332]">أذكار المساء</h4>
+                                <span class="text-xs text-gray-500">حصن نفسك في المساء</span>
+                            </div>
+                        </a>
+
+                        <a href="adhkar.html?type=sleep"
+                            class="flex items-center gap-3 p-4 bg-white border border-[#e5e0d4] rounded-xl hover:border-[#1B4332] hover:shadow-md transition-all group">
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#1B4332]/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                💤</div>
+                            <div>
+                                <h4 class="font-bold text-[#1B4332]">أذكار النوم</h4>
+                                <span class="text-xs text-gray-500">نوم هادئ ومطمئن</span>
+                            </div>
+                        </a>
+
+                        <a href="adhkar.html"
+                            class="flex items-center gap-3 p-4 bg-white border border-[#e5e0d4] rounded-xl hover:border-[#1B4332] hover:shadow-md transition-all group">
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#1B4332]/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                🤲</div>
+                            <div>
+                                <h4 class="font-bold text-[#1B4332]">جميع الأذكار</h4>
+                                <span class="text-xs text-gray-500">أدعية وأذكار متنوعة</span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
 
-                <!-- Tafsir List -->
-                <div>
-                    <h3 class="font-amiri font-bold text-foreground mb-4 text-lg flex items-center gap-2"><svg
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-moon h-4 w-4 text-gold">
-                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-                        </svg>التفاسير المتوفرة</h3>
-                    <ul class="space-y-3 text-sm">
-                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
-                                href="#"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-gold/50 group-hover:bg-gold transition-colors"></span>التفسير
-                                الميسر</a></li>
-                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
-                                href="#"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-gold/50 group-hover:bg-gold transition-colors"></span>تفسير
-                                الجلالين</a></li>
-                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
-                                href="#"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-gold/50 group-hover:bg-gold transition-colors"></span>تفسير
-                                القرطبي</a></li>
-                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
-                                href="#"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-gold/50 group-hover:bg-gold transition-colors"></span>تفسير
-                                البغوي</a></li>
-                        <li><a class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
-                                href="#"><span
-                                    class="w-1.5 h-1.5 rounded-full bg-gold/50 group-hover:bg-gold transition-colors"></span>التفسير
-                                الوسيط</a></li>
-                    </ul>
-                </div>
-
-                <!-- Stats -->
                 <div>
                     <h3 class="font-amiri font-bold text-foreground mb-4 text-lg">إحصائيات القرآن</h3>
                     <div class="grid grid-cols-2 gap-3">
@@ -710,6 +790,10 @@
                     populateAyahList(totalAyahs);
 
                     document.getElementById('surahNameTag').textContent = `سورة ${surahName}`;
+                    const ayahNumInfo = document.getElementById('ayahNumInfo');
+                    if (ayahNumInfo) {
+                        ayahNumInfo.textContent = `الآية ${ayah.toLocaleString('ar-EG')} من ${totalAyahs.toLocaleString('ar-EG')}`;
+                    }
                     document.getElementById('ayahText').textContent = ayahData.text;
                     document.getElementById('ayahNumBadge').textContent = ayah.toLocaleString('ar-EG');
 
@@ -746,6 +830,13 @@
 
                     // Load initial Tafsir
                     loadTafsirContent(currentTafsir, document.querySelector('.tafsir-tab.active'));
+
+                    // Save current position to localStorage for tracking
+                    localStorage.setItem('lastReadSurah', surah);
+                    localStorage.setItem('lastReadAyah', ayah);
+
+                    // Check Favorite Status
+                    updateFavoriteIcon();
                 }
             } catch (e) {
                 console.error(e);
@@ -898,7 +989,65 @@
             }
         }
 
-        // Toggle Surah Dropdown
+        // ====== Favorites Logic ======
+        function isFavorite(s, a) {
+            const favorites = JSON.parse(localStorage.getItem('quran_favorites') || '[]');
+            return favorites.some(f => f.surah === s && f.ayah === a);
+        }
+
+        function toggleFavorite() {
+            let favorites = JSON.parse(localStorage.getItem('quran_favorites') || '[]');
+            const index = favorites.findIndex(f => f.surah === surah && f.ayah === ayah);
+
+            if (index === -1) {
+                // Add
+                favorites.push({ surah, ayah, date: new Date().toISOString() });
+            } else {
+                // Remove
+                favorites.splice(index, 1);
+            }
+
+            localStorage.setItem('quran_favorites', JSON.stringify(favorites));
+            updateFavoriteIcon();
+        }
+
+        function updateFavoriteIcon() {
+            const filled = document.getElementById('favIconFilled');
+            const outline = document.getElementById('favIconOutline');
+            const btn = document.getElementById('favoriteBtn');
+
+            if (isFavorite(surah, ayah)) {
+                filled.classList.remove('hidden');
+                outline.classList.add('hidden');
+                btn.classList.add('bg-red-50');
+            } else {
+                filled.classList.add('hidden');
+                outline.classList.remove('hidden');
+                btn.classList.remove('bg-red-50');
+            }
+        }
+
+        // Initialize Favorite Button
+        const favoriteBtn = document.getElementById('favoriteBtn');
+        if (favoriteBtn) {
+            favoriteBtn.onclick = (e) => {
+                e.stopPropagation();
+                toggleFavorite();
+            };
+        }
+
+        // Add to init function
+        const originalInit = window.onload; // Or hook into existing init
+        // Since we have init() called explicitly or via body onload?
+        // Checking existing code, init() is async.
+        // We will just call updateFavoriteIcon() inside init() success block.
+
+        // Let's hook into the init logic by overwriting the end of init():
+        // Actually, better to just call updateFavoriteIcon() at end of script if we are sure vars are set,
+        // but surah/ayah come from URL params which are global.
+        // So safe to call immediately? No, wait for DOM.
+        // I will add a call to updateFavoriteIcon() inside init() success block by replacing a known line in init().
+
         surahSelectorBtn.onclick = (e) => {
             e.stopPropagation();
             const isHidden = surahDropdown.classList.contains('hidden');

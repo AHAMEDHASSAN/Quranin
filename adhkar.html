@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأذكار والأدعية - القرآن الكريم</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            light: '#FFFBEB',
+                            DEFAULT: '#1B4332',
+                            dark: '#0f291e',
+                            gold: '#D4AF37',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        serif: ['Amiri', 'serif'],
+                        naskh: ['Noto Naskh Arabic', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: "Noto Naskh Arabic", sans-serif;
+        }
+
+        .font-amiri {
+            font-family: "Amiri", serif;
+        }
+
+        .adhkar-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+
+<body class="bg-[#FDFBF7] text-[#1B4332] flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-[#1B4332] text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto max-w-6xl px-6 py-3 flex justify-between items-center dir-rtl">
+            <div class="flex items-center gap-3">
+                <div class="bg-[#2D5A46] p-2 rounded-xl border border-[#4A7C66]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold font-serif leading-none">القرآن الكريم</h1>
+                    <span class="text-[10px] text-gray-300 opacity-80">الأذكار والأدعية</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6 text-sm">
+                <a href="index.html" class="flex items-center gap-2 text-gray-300 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    <span class="hidden md:inline">الرئيسية</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="bg-[#1B4332] pb-12 pt-6 rounded-b-[3rem] shadow-lg mb-8 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 pattern-dots"></div>
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-white font-amiri mb-2" id="pageTitle">حصن المسلم</h1>
+            <p class="text-green-100/80 text-sm">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
+        </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="container mx-auto max-w-4xl px-4 -mt-16 relative z-20 mb-10">
+        <div
+            class="bg-white rounded-2xl p-2 shadow-md flex justify-around md:justify-center gap-2 md:gap-4 overflow-x-auto">
+            <button onclick="setCategory('morning')"
+                class="tab-btn active flex items-center gap-2 px-6 py-3 rounded-xl transition-all whitespace-nowrap"
+                data-cat="morning">
+                <span>☀️</span> <span class="font-bold">الصباح</span>
+            </button>
+            <button onclick="setCategory('evening')"
+                class="tab-btn flex items-center gap-2 px-6 py-3 rounded-xl transition-all whitespace-nowrap"
+                data-cat="evening">
+                <span>🌙</span> <span class="font-bold">المساء</span>
+            </button>
+            <button onclick="setCategory('sleep')"
+                class="tab-btn flex items-center gap-2 px-6 py-3 rounded-xl transition-all whitespace-nowrap"
+                data-cat="sleep">
+                <span>💤</span> <span class="font-bold">النوم</span>
+            </button>
+            <button onclick="setCategory('all')"
+                class="tab-btn flex items-center gap-2 px-6 py-3 rounded-xl transition-all whitespace-nowrap"
+                data-cat="all">
+                <span>🤲</span> <span class="font-bold">شاملة</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Content Grid -->
+    <main class="container mx-auto max-w-4xl px-4 pb-20 flex-grow">
+        <div id="adhkarGrid" class="grid grid-cols-1 gap-6">
+            <!-- Items populated by JS -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="pt-6 pb-6 border-t bg-[#FAF9F6]">
+        <div class="container mx-auto max-w-6xl px-6 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Adhkar Links -->
+                <div>
+                    <h3 class="font-amiri font-bold text-[#1B4332] mb-6 text-xl flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#D4AF37]" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path
+                                d="M4.5 9.5V4a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v5.5M4.5 9.5h15M4.5 9.5v9a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-9" />
+                        </svg>
+                        الأذكار والأدعية
+                    </h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <a href="?type=morning"
+                            class="text-sm p-3 bg-white border border-gray-200 rounded-lg hover:border-[#1B4332] hover:text-[#1B4332] block text-center transition-colors">أذكار
+                            الصباح</a>
+                        <a href="?type=evening"
+                            class="text-sm p-3 bg-white border border-gray-200 rounded-lg hover:border-[#1B4332] hover:text-[#1B4332] block text-center transition-colors">أذكار
+                            المساء</a>
+                        <a href="?type=sleep"
+                            class="text-sm p-3 bg-white border border-gray-200 rounded-lg hover:border-[#1B4332] hover:text-[#1B4332] block text-center transition-colors">أذكار
+                            النوم</a>
+                        <a href="?type=all"
+                            class="text-sm p-3 bg-white border border-gray-200 rounded-lg hover:border-[#1B4332] hover:text-[#1B4332] block text-center transition-colors">جميع
+                            الأذكار</a>
+                    </div>
+                </div>
+                <!-- Stats -->
+                <div>
+                    <h3 class="font-amiri font-bold text-[#1B4332] mb-4 text-lg">إحصائيات</h3>
+                    <div class="p-4 bg-white border border-gray-200 rounded-xl text-center">
+                        <p class="text-[#1B4332] font-bold">ذكر الله حياة القلوب</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-200 py-4 bg-[#f1ede499] text-center text-xs text-gray-500">
+            القرآن الكريم - القراءة والتدبر والتفسير
+        </div>
+    </footer>
+
+    <script>
+        const adhkarData = [
+            // Morning
+            { type: 'morning', text: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لَا إِلَهَ إِلَّا اللهُ، وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', count: 1, virtue: 'من قالها حين يصبح كفي ما أهمه من أمر الدنيا والآخرة.' },
+            { type: 'morning', text: 'اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ.', count: 1, virtue: '' },
+            { type: 'morning', text: 'آية الكرسي: اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...', count: 1, virtue: 'من قالها حين يصبح أجير من الجن حتى يمسي.' },
+            { type: 'morning', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ.', count: 3, virtue: '' },
+
+            // Evening
+            { type: 'evening', text: 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لَا إِلَهَ إِلَّا اللهُ، وَحْدَهُ لَا شَرِيكَ لَهُ.', count: 1, virtue: '' },
+            { type: 'evening', text: 'اللَّهُمَّ بِكَ أَمْسَيْنَا وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ.', count: 1, virtue: '' },
+
+            // Sleep
+            { type: 'sleep', text: 'بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا.', count: 1, virtue: '' },
+            { type: 'sleep', text: 'اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ.', count: 3, virtue: '' },
+
+            // All/General
+            { type: 'all', text: 'سُبْحَانَ اللهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَهَ إِلَّا اللهُ وَاللهُ أَكْبَرُ.', count: 100, virtue: 'أحب الكلام إلى الله.' },
+            { type: 'all', text: 'أَسْتَغْفِرُ اللهَ وَأَتُوبُ إِلَيْهِ.', count: 100, virtue: '' },
+        ];
+
+        function setCategory(cat) {
+            // Update UI
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.dataset.cat === cat) {
+                    btn.classList.add('bg-[#1B4332]', 'text-white', 'shadow-lg');
+                    btn.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                } else {
+                    btn.classList.remove('bg-[#1B4332]', 'text-white', 'shadow-lg');
+                    btn.classList.add('text-gray-600', 'hover:bg-gray-100');
+                }
+            });
+
+            // Filter Data
+            const grid = document.getElementById('adhkarGrid');
+            grid.innerHTML = '';
+
+            const filtered = cat === 'all' ? adhkarData : adhkarData.filter(item => item.type === cat || item.type === 'all');
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="text-center py-10 text-gray-400">لا توجد أذكار في هذا القسم حالياً</div>';
+                return;
+            }
+
+            filtered.forEach(zekr => {
+                const div = document.createElement('div');
+                div.className = 'bg-white p-6 rounded-2xl border border-[#e5e0d4] shadow-sm adhkar-card transition-all duration-300 relative';
+
+                div.innerHTML = `
+                    <div class="mb-4">
+                         <p class="font-amiri text-xl md:text-2xl leading-loose text-[#1B4332] font-bold text-center">${zekr.text}</p>
+                    </div>
+                    ${zekr.virtue ? `<div class="bg-amber-50 rounded-lg p-3 text-sm text-amber-800 mb-4 text-center border border-amber-100">${zekr.virtue}</div>` : ''}
+                    
+                    <div class="flex items-center justify-center mt-4">
+                        <button class="count-btn w-full py-2 bg-[#1B4332]/5 hover:bg-[#1B4332] hover:text-white text-[#1B4332] font-bold rounded-xl transition-colors border border-[#1B4332]/10" onclick="count(this, ${zekr.count})">
+                            ${zekr.count} مرات
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(div);
+            });
+
+            // Update Title
+            const titles = { 'morning': 'أذكار الصباح', 'evening': 'أذكار المساء', 'sleep': 'أذكار النوم', 'all': 'الأذكار الشاملة' };
+            document.getElementById('pageTitle').textContent = titles[cat] || 'حصن المسلم';
+        }
+
+        function count(btn, max) {
+            let current = parseInt(btn.dataset.current || 0);
+            current++;
+            btn.dataset.current = current;
+
+            if (current >= max) {
+                btn.textContent = 'تم ✓';
+                btn.classList.add('bg-green-600', 'text-white');
+                btn.classList.remove('bg-[#1B4332]/5', 'text-[#1B4332]');
+                btn.disabled = true;
+            } else {
+                btn.textContent = `${max - current} متبقي`;
+            }
+        }
+
+        // On Load
+        const urlParams = new URLSearchParams(window.location.search);
+        const type = urlParams.get('type') || 'morning';
+        setCategory(type);
+
+    </script>
+</body>
+
+</html>
