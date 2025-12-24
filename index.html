@@ -216,7 +216,7 @@
                 <p class="text-gray-500 text-sm mt-2">اختر سورة للقراءة والتدبر مع التفسير</p>
                 <div class="relative max-w-2xl mx-auto mt-6">
                     <input type="text" id="searchInput" placeholder="ابحث عن سورة..."
-                        class="w-full py-3 pr-12 pl-4 rounded-xl border border-gray-200 focus:border-brand-gold focus:outline-none shadow-sm bg-white">
+                        class="w-full py-3 pr-12 pl-4 rounded-xl border border-gray-200 focus:border-brand-gold focus:outline-none shadow-sm bg-white dark:bg-white/5 dark:border-white/10 dark:text-white dark:placeholder-white/40">
                     <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-gray-400">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -232,17 +232,16 @@
         <section class="container mx-auto max-w-2xl px-6 mb-8">
             <!-- كارت متابعة القراءة -->
             <div id="verseTrackerCard"
-                class="w-[80%] md:w-full max-w-sm mx-auto bg-[#fffbf5] rounded-lg p-2 mb-4 border-2 shadow-sm"
-                style="border-color: rgb(121, 59, 13);">
+                class="w-[80%] md:w-full max-w-sm mx-auto bg-[#fffbf5] dark:bg-brand-dark rounded-lg p-2 mb-4 border-2 shadow-sm border-[#793b0d] dark:border-brand-gold/50">
                 <div class="flex items-center justify-between cursor-pointer">
                     <div class="flex-1">
-                        <h3 class="text-[10px] mb-0.5" style="color: rgb(121, 59, 13);">متابعة القراءة</h3>
-                        <p id="verseTrackerText" class="font-serif text-sm font-bold" style="color: rgb(121, 59, 13);">
+                        <h3 class="text-[10px] mb-0.5 text-[#793b0d] dark:text-brand-gold">متابعة القراءة</h3>
+                        <p id="verseTrackerText" class="font-serif text-sm font-bold text-[#793b0d] dark:text-white/90">
                             سورة الفاتحة - الآية ١</p>
                     </div>
-                    <div class="rounded-full p-1.5 bg-[#f0e6d2]">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" style="color: rgb(121, 59, 13);">
+                    <div class="rounded-full p-1.5 bg-[#f0e6d2] dark:bg-white/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#793b0d] dark:text-brand-gold"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -251,26 +250,27 @@
             </div>
 
             <!-- كارت تقدم القراءة -->
-            <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm">
+            <div
+                class="bg-white dark:bg-white/10 rounded-2xl p-5 border border-gray-200 dark:border-white/10 shadow-sm">
                 <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-base font-medium text-[#1B4332]">تقدم القراءة</h3>
+                    <h3 class="text-base font-medium text-[#1B4332] dark:text-brand-gold">تقدم القراءة</h3>
                     <div class="flex items-center gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-600" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-600 dark:text-brand-gold"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                         </svg>
-                        <span class="text-2xl font-bold text-gray-700">٠٪</span>
+                        <span class="text-2xl font-bold text-gray-700 dark:text-white">٠٪</span>
                     </div>
                 </div>
 
                 <!-- شريط التقدم -->
-                <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
-                    <div class="bg-emerald-600 h-2 rounded-full" style="width: 0%"></div>
+                <div class="w-full bg-gray-200 dark:bg-white/5 rounded-full h-2 mb-3">
+                    <div class="bg-emerald-600 dark:bg-brand-gold h-2 rounded-full" style="width: 0%"></div>
                 </div>
 
                 <!-- معلومات التقدم -->
-                <div class="flex items-center justify-between text-xs text-gray-500">
+                <div class="flex items-center justify-between text-xs text-gray-500 dark:text-white/60">
                     <span>تم قراءة ٢ آية</span>
                     <span>من أصل ٦٢٣٦ آية</span>
                 </div>
@@ -286,53 +286,54 @@
 
     <!-- Footer -->
     <!-- Footer -->
-    <footer class="pt-16 pb-6 border-t" style="background-color:#f1ede499;">
+    <footer class="pt-16 pb-6 border-t border-border/10 bg-[#f1ede499] dark:bg-brand-dark">
         <div class="container mx-auto max-w-5xl px-6 text-center">
             <!-- Adhkar & Duas (Centered Section) -->
             <div class="mb-16">
-                <h3 class="font-amiri font-bold text-[#1B4332] mb-8 text-2xl flex items-center justify-center gap-4">
+                <h3
+                    class="font-amiri font-bold text-[#1B4332] dark:text-brand-gold mb-8 text-2xl flex items-center justify-center gap-4">
                     <div class="h-px w-10 bg-[#D4AF37]/40"></div>
                     الأذكار والأدعية
                     <div class="h-px w-10 bg-[#D4AF37]/40"></div>
                 </h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
                     <a href="adhkar.html?type=morning"
-                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        class="flex flex-col items-center gap-3 p-5 bg-white dark:bg-white/5 border border-[#e5e0d4] dark:border-white/10 rounded-2xl hover:border-[#1B4332] dark:hover:border-brand-gold hover:shadow-lg transition-all group">
                         <div
                             class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
                             ☀️</div>
                         <div>
-                            <h4 class="font-bold text-[#1B4332] text-sm">أذكار الصباح</h4>
+                            <h4 class="font-bold text-[#1B4332] dark:text-brand-gold text-sm">أذكار الصباح</h4>
                         </div>
                     </a>
 
                     <a href="adhkar.html?type=evening"
-                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        class="flex flex-col items-center gap-3 p-5 bg-white dark:bg-white/5 border border-[#e5e0d4] dark:border-white/10 rounded-2xl hover:border-[#1B4332] dark:hover:border-brand-gold hover:shadow-lg transition-all group">
                         <div
                             class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
                             🌙</div>
                         <div>
-                            <h4 class="font-bold text-[#1B4332] text-sm">أذكار المساء</h4>
+                            <h4 class="font-bold text-[#1B4332] dark:text-brand-gold text-sm">أذكار المساء</h4>
                         </div>
                     </a>
 
                     <a href="adhkar.html?type=sleep"
-                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        class="flex flex-col items-center gap-3 p-5 bg-white dark:bg-white/5 border border-[#e5e0d4] dark:border-white/10 rounded-2xl hover:border-[#1B4332] dark:hover:border-brand-gold hover:shadow-lg transition-all group">
                         <div
                             class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
                             💤</div>
                         <div>
-                            <h4 class="font-bold text-[#1B4332] text-sm">أذكار النوم</h4>
+                            <h4 class="font-bold text-[#1B4332] dark:text-brand-gold text-sm">أذكار النوم</h4>
                         </div>
                     </a>
 
                     <a href="adhkar.html"
-                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        class="flex flex-col items-center gap-3 p-5 bg-white dark:bg-white/5 border border-[#e5e0d4] dark:border-white/10 rounded-2xl hover:border-[#1B4332] dark:hover:border-brand-gold hover:shadow-lg transition-all group">
                         <div
                             class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
                             🤲</div>
                         <div>
-                            <h4 class="font-bold text-[#1B4332] text-sm">جميع الأذكار</h4>
+                            <h4 class="font-bold text-[#1B4332] dark:text-brand-gold text-sm">جميع الأذكار</h4>
                         </div>
                     </a>
                 </div>
@@ -340,36 +341,37 @@
 
             <!-- Stats (Centered Section) -->
             <div class="mb-12">
-                <h3 class="font-amiri font-bold text-[#1B4332] mb-8 text-2xl flex items-center justify-center gap-4">
+                <h3
+                    class="font-amiri font-bold text-[#1B4332] dark:text-brand-gold mb-8 text-2xl flex items-center justify-center gap-4">
                     <div class="h-px w-10 bg-[#D4AF37]/40"></div>
                     إحصائيات القرآن
                     <div class="h-px w-10 bg-[#D4AF37]/40"></div>
                 </h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
                     <div
-                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
-                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">١١٤</p>
+                        class="bg-white/80 dark:bg-white/5 rounded-2xl p-6 text-center border border-[#e5e0d4] dark:border-white/10 shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] dark:text-brand-gold mb-1">١١٤</p>
                         <p class="text-xs text-gray-500 font-medium">سورة</p>
                     </div>
                     <div
-                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
-                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">٦٢٣٦</p>
+                        class="bg-white/80 dark:bg-white/5 rounded-2xl p-6 text-center border border-[#e5e0d4] dark:border-white/10 shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] dark:text-brand-gold mb-1">٦٢٣٦</p>
                         <p class="text-xs text-gray-500 font-medium">آية</p>
                     </div>
                     <div
-                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
-                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">٣٠</p>
+                        class="bg-white/80 dark:bg-white/5 rounded-2xl p-6 text-center border border-[#e5e0d4] dark:border-white/10 shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] dark:text-brand-gold mb-1">٣٠</p>
                         <p class="text-xs text-gray-500 font-medium">جزء</p>
                     </div>
                     <div
-                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
-                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">٦٠</p>
+                        class="bg-white/80 dark:bg-white/5 rounded-2xl p-6 text-center border border-[#e5e0d4] dark:border-white/10 shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] dark:text-brand-gold mb-1">٦٠</p>
                         <p class="text-xs text-gray-500 font-medium">حزب</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="border-t border-border/50 py-5" style="background-color:#f1ede499;">
+        <div class="border-t border-border/10 py-5 bg-[#f1ede499] dark:bg-brand-dark">
             <div class="container mx-auto max-w-6xl px-6">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
                     <p class="font-arabic flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24"

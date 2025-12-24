@@ -65,12 +65,12 @@ function renderSurahs(filterText = '') {
                 transition-all duration-300
                 flex items-center justify-center
                 relative overflow-hidden
-                bg-white border-gray-200 ${nameColor} hover:border-brand-gold hover:text-brand-DEFAULT hover:shadow-md
+                bg-white dark:bg-white/5 border-gray-200 dark:border-white/10 ${nameColor} dark:text-white/80 hover:border-brand-gold dark:hover:border-brand-gold hover:text-brand-DEFAULT dark:hover:text-white hover:shadow-md
            `;
            
            btn.innerHTML = `
                 <div class="flex items-center justify-between w-full">
-                    <span class="w-7 h-7 bg-brand/10 text-brand rounded-full ${indicatorDisplay} items-center justify-center text-xs font-bold font-sans">
+                    <span class="w-7 h-7 bg-brand/10 dark:bg-white/10 text-brand dark:text-brand-gold rounded-full ${indicatorDisplay} items-center justify-center text-xs font-bold font-sans">
                         ${surahNumber.toLocaleString('ar-EG')}
                     </span>
                     <span class="relative z-10 flex-1 text-center">سورة ${name}</span>
@@ -87,13 +87,13 @@ function renderSurahs(filterText = '') {
                    // If not active, activate this one and deactivate others
                    // Remove active class from all other cards
                    document.querySelectorAll('.surah-card').forEach(card => {
-                       card.classList.remove('active-surah', 'border-brand-gold', 'text-brand-DEFAULT', 'shadow-md');
-                       card.classList.add('border-gray-200', 'text-gray-700');
+                       card.classList.remove('active-surah', 'border-brand-gold', 'text-brand-DEFAULT', 'shadow-md', 'dark:text-white');
+                       card.classList.add('border-gray-200', 'dark:border-white/10', 'text-gray-700', 'dark:text-white/80');
                    });
                    
                    // Add active class to clicked card
-                   btn.classList.add('active-surah', 'border-brand-gold', 'text-brand-DEFAULT', 'shadow-md');
-                   btn.classList.remove('border-gray-200', 'text-gray-700');
+                   btn.classList.add('active-surah', 'border-brand-gold', 'text-brand-DEFAULT', 'shadow-md', 'dark:text-white');
+                   btn.classList.remove('border-gray-200', 'dark:border-white/10', 'text-gray-700', 'dark:text-white/80');
                }
            };
 

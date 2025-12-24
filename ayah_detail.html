@@ -278,6 +278,25 @@
             border: 1px solid #ebe8e1;
         }
 
+        .dark .tafsir-content {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .dark .tafsir-tab.active,
+        .dark .tafsir-tab:hover {
+            background: #D4AF37 !important;
+            color: #1B4332 !important;
+            border-color: #D4AF37 !important;
+        }
+
+        .dark .tafsir-tab {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
         /* Final Refined Ayah Selector Styles - Step 113 */
         .ayah-dropdown-modern {
             padding: 1rem;
@@ -443,13 +462,16 @@
         .volume-slider {
             -webkit-appearance: none;
             appearance: none;
-            width: 0;
+            width: 80px;
             height: 4px;
             background: #e5e0d4;
-            border-radius: 999px;
-            overflow: hidden;
+            border-radius: 99px;
             cursor: pointer;
             transition: width 0.3s ease;
+        }
+
+        .dark .volume-slider {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .volume-container:hover .volume-slider {
@@ -459,10 +481,15 @@
         .volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 0;
-            height: 0;
+            width: 12px;
+            height: 12px;
             background: #1B4332;
-            box-shadow: -100px 0 0 100px #1B4332;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .dark .volume-slider::-webkit-slider-thumb {
+            background: #D4AF37;
         }
 
         @media (max-width: 640px) {
@@ -546,6 +573,16 @@
             background: #f0fdf444;
         }
 
+        .dark #ayahSelectorBtn {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .dark #ayahSelectorBtn:hover {
+            border-color: #D4AF37;
+        }
+
         #surahSelectorBtn {
             border-radius: 10px;
             border: 1px solid #e5e7eb;
@@ -560,8 +597,18 @@
             font-family: 'Amiri', serif;
         }
 
+        .dark #surahSelectorBtn {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
         #surahSelectorBtn:hover {
             border-color: #1B4332;
+        }
+
+        .dark #surahSelectorBtn:hover {
+            border-color: #D4AF37;
         }
     </style>
 </head>
@@ -635,7 +682,7 @@
 
     <!-- Scroll to Top Button -->
     <button id="scrollToTopBtn"
-        class="fixed bottom-8 right-8 z-50 bg-[#1B4332] text-white p-3 rounded-2xl shadow-2xl opacity-0 translate-y-10 transition-all duration-500 hover:scale-110 active:scale-95 border border-white/20 group pointer-events-none"
+        class="fixed bottom-8 right-8 z-50 bg-[#1B4332] text-white p-3 rounded-2xl shadow-2xl opacity-0 translate-y-10 transition-all duration-500 hover:scale-110 active:scale-95 border border-white/20 group pointer-events-none dark:bg-brand-gold dark:text-brand-dark dark:border-brand-gold"
         onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:-translate-y-1 transition-transform"
             fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -644,14 +691,15 @@
     </button>
 
     <!-- Navigation Header -->
-    <div class="bg-[#fdfcfb] border-b border-[#ecead8] sticky top-0 z-40 shadow-sm transition-all duration-300">
+    <div
+        class="bg-[#fdfcfb] dark:bg-brand-dark border-b border-[#ecead8] dark:border-white/10 sticky top-0 z-40 shadow-sm transition-all duration-300">
         <div class="container mx-auto max-w-4xl px-4 py-3">
 
             <!-- Row 1: Breadcrumbs -->
             <nav
-                class="flex items-center justify-start gap-2 text-sm text-[#8d8b80] mb-3 font-serif dir-rtl w-full overflow-hidden whitespace-nowrap">
+                class="flex items-center justify-start gap-2 text-sm text-[#8d8b80] dark:text-white/60 mb-3 font-serif dir-rtl w-full overflow-hidden whitespace-nowrap">
                 <a href="index.html"
-                    class="flex items-center gap-1 hover:text-[#1B4332] transition-colors flex-shrink-0">
+                    class="flex items-center gap-1 hover:text-[#1B4332] dark:hover:text-brand-gold transition-colors flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -659,11 +707,11 @@
                     </svg>
                     <span>الرئيسية</span>
                 </a>
-                <span class="text-gray-300 flex-shrink-0">‹</span>
+                <span class="text-gray-300 dark:text-white/20 flex-shrink-0">‹</span>
                 <span id="breadcrumbSurah"
-                    class="hover:text-[#1B4332] cursor-pointer truncate max-w-[100px] md:max-w-none">...</span>
-                <span class="text-gray-300 flex-shrink-0">‹</span>
-                <span id="breadcrumbAyah" class="font-bold text-[#1B4332] flex-shrink-0">...</span>
+                    class="hover:text-[#1B4332] dark:hover:text-brand-gold cursor-pointer truncate max-w-[100px] md:max-w-none">...</span>
+                <span class="text-gray-300 dark:text-white/20 flex-shrink-0">‹</span>
+                <span id="breadcrumbAyah" class="font-bold text-[#1B4332] dark:text-white flex-shrink-0">...</span>
             </nav>
 
             <!-- Row 2: Selectors -->
@@ -671,21 +719,25 @@
 
                 <!-- Surah Selector -->
                 <div class="relative">
-                    <button id="surahSelectorBtn" class="active:scale-95 shadow-sm" dir="rtl">
+                    <button id="surahSelectorBtn"
+                        class="active:scale-95 shadow-sm bg-white dark:bg-white/5 border border-[#e5e7eb] dark:border-white/10 rounded-lg px-3 py-1.5 flex items-center gap-2"
+                        dir="rtl">
                         <!-- Book Icon (Right) -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#1B4332] opacity-80 flex-shrink-0"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-4 w-4 text-[#1B4332] dark:text-brand-gold opacity-80 flex-shrink-0" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                         </svg>
 
                         <!-- Surah Name (Middle) -->
                         <span id="currentSurahName"
-                            class="font-bold font-serif text-sm text-[#1B4332] whitespace-nowrap leading-none mb-0.5">...</span>
+                            class="font-bold font-serif text-sm text-[#1B4332] dark:text-white whitespace-nowrap leading-none mb-0.5">...</span>
 
                         <!-- Chevron (Left) -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-400 flex-shrink-0"
-                            id="surahDropdownArrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-3 w-3 text-gray-400 dark:text-white/40 flex-shrink-0" id="surahDropdownArrow"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
@@ -703,20 +755,25 @@
 
                 <!-- Ayah Selector -->
                 <div class="relative">
-                    <button id="ayahSelectorBtn" class="active:scale-95 shadow-sm" dir="rtl">
+                    <button id="ayahSelectorBtn"
+                        class="active:scale-95 shadow-sm bg-white dark:bg-white/5 border border-[#e5e7eb] dark:border-white/10 rounded-lg px-3 py-1.5 flex items-center gap-2"
+                        dir="rtl">
                         <!-- # Icon (Right) -->
-                        <span class="text-[14px] text-[#2D5A46] font-sans font-bold flex-shrink-0">#</span>
+                        <span
+                            class="text-[14px] text-[#2D5A46] dark:text-brand-gold font-sans font-bold flex-shrink-0">#</span>
 
                         <!-- Ayah text (Middle) -->
-                        <span class="text-[10px] text-[#1B4332] opacity-60 font-sans whitespace-nowrap">الآية</span>
+                        <span
+                            class="text-[10px] text-[#1B4332] dark:text-white/60 opacity-60 font-sans whitespace-nowrap">الآية</span>
 
                         <!-- Ayah Number (Middle) -->
                         <span id="currentAyahNumber"
-                            class="font-bold text-[13px] text-[#1B4332] leading-none mb-0.5">...</span>
+                            class="font-bold text-[13px] text-[#1B4332] dark:text-white leading-none mb-0.5">...</span>
 
                         <!-- Chevron (Left) -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-400 flex-shrink-0"
-                            id="ayahDropdownArrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-3 w-3 text-gray-400 dark:text-white/40 flex-shrink-0" id="ayahDropdownArrow"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
@@ -765,22 +822,22 @@
             <!-- Info Capsule (Above Card) -->
             <div class="flex justify-center mb-6 mt-8">
                 <div
-                    class="inline-flex items-center gap-3 px-6 py-2 bg-[#fdfcfb] border border-[#1B4332]/10 rounded-full text-[#1B4332] font-serif shadow-sm">
+                    class="inline-flex items-center gap-3 px-6 py-2 bg-[#fdfcfb] dark:bg-white/5 border border-[#1B4332]/10 dark:border-white/10 rounded-full text-[#1B4332] dark:text-brand-gold font-serif shadow-sm">
                     <span class="font-bold text-lg" id="surahNameTag">...</span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#1B4332]/40"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#1B4332]/40 dark:bg-brand-gold/40"></span>
                     <span class="text-sm opacity-80" id="ayahNumInfo">الآية ١</span>
                 </div>
             </div>
 
             <div
-                class="main-card animate-fade-in-up relative overflow-hidden p-6 md:p-10 border border-[#ecead8] bg-white shadow-sm rounded-3xl group">
+                class="main-card animate-fade-in-up relative overflow-hidden p-6 md:p-10 border border-[#ecead8] dark:border-white/10 bg-white dark:bg-white/5 shadow-sm rounded-3xl group">
                 <!-- Favorite Button (Persistent) -->
                 <button id="favoriteBtn"
-                    class="absolute top-6 left-6 z-30 p-2 rounded-full hover:bg-red-50 transition-colors"
+                    class="absolute top-6 left-6 z-30 p-2 rounded-full hover:bg-red-50 dark:hover:bg-white/10 transition-colors"
                     title="إضافة للمفضلة">
                     <svg id="favIconOutline" xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6 text-gray-400 hover:text-red-500 transition-colors" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
+                        class="h-6 w-6 text-gray-400 dark:text-white/40 hover:text-red-500 transition-colors"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
@@ -794,32 +851,35 @@
 
                 <!-- Decorative Corners -->
                 <div
-                    class="absolute top-4 left-4 w-12 h-12 border-t-[3px] border-l-[3px] border-[#1B4332]/10 rounded-tl-3xl z-10">
+                    class="absolute top-4 left-4 w-12 h-12 border-t-[3px] border-l-[3px] border-[#1B4332]/10 dark:border-brand-gold/20 rounded-tl-3xl z-10">
                 </div>
                 <div
-                    class="absolute top-4 right-4 w-12 h-12 border-t-[3px] border-r-[3px] border-[#1B4332]/10 rounded-tr-3xl">
+                    class="absolute top-4 right-4 w-12 h-12 border-t-[3px] border-r-[3px] border-[#1B4332]/10 dark:border-brand-gold/20 rounded-tr-3xl">
                 </div>
                 <div
-                    class="absolute bottom-4 left-4 w-12 h-12 border-b-[3px] border-l-[3px] border-[#1B4332]/10 rounded-bl-3xl">
+                    class="absolute bottom-4 left-4 w-12 h-12 border-b-[3px] border-l-[3px] border-[#1B4332]/10 dark:border-brand-gold/20 rounded-bl-3xl">
                 </div>
                 <div
-                    class="absolute bottom-4 right-4 w-12 h-12 border-b-[3px] border-r-[3px] border-[#1B4332]/10 rounded-br-3xl">
+                    class="absolute bottom-4 right-4 w-12 h-12 border-b-[3px] border-r-[3px] border-[#1B4332]/10 dark:border-brand-gold/20 rounded-br-3xl">
                 </div>
 
-                <div id="ayahText" class="ayah-large text-center relative z-20 mb-10 mt-6 leading-relaxed">
+                <div id="ayahText"
+                    class="ayah-large text-center relative z-20 mb-10 mt-6 leading-relaxed dark:text-white/95">
                     ...
                 </div>
 
                 <div class="flex justify-center relative z-10">
                     <span
-                        class="bg-[#1B4332]/5 text-[#1B4332] w-12 h-12 rounded-full flex items-center justify-center font-bold font-serif border border-[#1B4332]/20 text-xl shadow-sm"
+                        class="bg-[#1B4332]/5 dark:bg-brand-gold/10 text-[#1B4332] dark:text-brand-gold w-12 h-12 rounded-full flex items-center justify-center font-bold font-serif border border-[#1B4332]/20 dark:border-brand-gold/30 text-xl shadow-sm"
                         id="ayahNumBadge">1</span>
                 </div>
             </div>
 
             <!-- Audio Player Card -->
-            <div class="audio-player-container bg-[#f9f7f2] border border-[#e5e0d4] rounded-2xl p-6 mt-6 shadow-sm">
-                <div class="flex items-center justify-between mb-4 text-[#1B4332]/70 text-sm font-serif">
+            <div
+                class="audio-player-container bg-[#f9f7f2] dark:bg-white/5 border border-[#e5e0d4] dark:border-white/10 rounded-2xl p-6 mt-6 shadow-sm">
+                <div
+                    class="flex items-center justify-between mb-4 text-[#1B4332]/70 dark:text-brand-gold text-sm font-serif">
                     <div class="flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -832,7 +892,7 @@
 
                 <div class="audio-controls flex items-center gap-4 dir-ltr">
                     <button id="playBtn"
-                        class="w-12 h-12 bg-white border border-[#1B4332]/20 rounded-full flex items-center justify-center text-[#1B4332] hover:bg-[#1B4332] hover:text-white transition-all shadow-sm">
+                        class="w-12 h-12 bg-white dark:bg-white/10 border border-[#1B4332]/20 dark:border-white/20 rounded-full flex items-center justify-center text-[#1B4332] dark:text-white hover:bg-[#1B4332] dark:hover:bg-brand-gold hover:text-white dark:hover:text-brand-dark transition-all shadow-sm">
                         <svg id="playIcon" class="h-5 w-5 ml-0.5" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M8 5v14l11-7z" />
                         </svg>
@@ -841,19 +901,22 @@
                         </svg>
                     </button>
 
-                    <span id="currentTime" class="text-xs text-[#1B4332]/70 font-mono w-10 text-center">0:00</span>
+                    <span id="currentTime"
+                        class="text-xs text-[#1B4332]/70 dark:text-white/60 font-mono w-10 text-center">0:00</span>
 
-                    <div class="flex-1 h-1.5 bg-[#e5e0d4] rounded-full relative cursor-pointer group"
+                    <div class="flex-1 h-1.5 bg-[#e5e0d4] dark:bg-white/10 rounded-full relative cursor-pointer group"
                         id="progressContainer">
                         <div id="progressBar"
-                            class="absolute top-0 left-0 h-full bg-[#2D5A46] rounded-full w-0 group-hover:bg-[#1B4332] transition-all">
+                            class="absolute top-0 left-0 h-full bg-[#2D5A46] dark:bg-brand-gold rounded-full w-0 group-hover:bg-[#1B4332] transition-all">
                         </div>
                     </div>
 
-                    <span id="duration" class="text-xs text-[#1B4332]/70 font-mono w-10 text-center">0:00</span>
+                    <span id="duration"
+                        class="text-xs text-[#1B4332]/70 dark:text-white/60 font-mono w-10 text-center">0:00</span>
 
                     <div class="volume-container flex items-center gap-2" dir="ltr">
-                        <button id="muteBtn" class="text-[#1B4332]/60 hover:text-[#1B4332] transition-colors"
+                        <button id="muteBtn"
+                            class="text-[#1B4332]/60 dark:text-white/40 hover:text-[#1B4332] dark:hover:text-white transition-colors"
                             title="كتم/تشغيل الصوت">
                             <svg id="volumeUpIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -872,8 +935,9 @@
                             title="مستوى الصوت">
                     </div>
 
-                    <button id="replayBtn" class="text-[#1B4332]/60 hover:text-[#1B4332] transition-colors"
-                        title="إعادة">
+                    <button id="replayBtn"
+                        class="text-[#1B4332]/60 dark:text-white/40 hover:text-[#1B4332] dark:hover:text-white transition-colors"
+                        title="تكرار الآية">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -882,26 +946,27 @@
                     </button>
                 </div>
 
-                <div class="text-center mt-4 pt-4 border-t border-[#e5e0d4]/60">
-                    <span class="text-xs text-[#8d8b80] font-serif">بصوت القارئ مشاري راشد العفاسي</span>
+                <div class="text-center mt-4 pt-4 border-t border-[#e5e0d4]/60 dark:border-white/10">
+                    <span class="text-xs text-[#8d8b80] dark:text-white/40 font-serif">بصوت القارئ مشاري راشد
+                        العفاسي</span>
                 </div>
             </div>
         </div>
 
         <!-- Decorative Separator -->
         <div class="flex items-center justify-center gap-4 my-10 opacity-60">
-            <div class="w-16 h-px bg-gradient-to-r from-transparent to-[#2D5A46]"></div>
-            <div class="transform rotate-45 w-2 h-2 bg-[#2D5A46]"></div>
-            <div class="transform rotate-45 w-1.5 h-1.5 bg-[#2D5A46]/50"></div>
-            <div class="transform rotate-45 w-2 h-2 bg-[#2D5A46]"></div>
-            <div class="w-16 h-px bg-gradient-to-l from-transparent to-[#2D5A46]"></div>
+            <div class="w-16 h-px bg-gradient-to-r from-transparent to-[#2D5A46] dark:to-brand-gold"></div>
+            <div class="transform rotate-45 w-2 h-2 bg-[#2D5A46] dark:bg-brand-gold"></div>
+            <div class="transform rotate-45 w-1.5 h-1.5 bg-[#2D5A46]/50 dark:bg-brand-gold/50"></div>
+            <div class="transform rotate-45 w-2 h-2 bg-[#2D5A46] dark:bg-brand-gold"></div>
+            <div class="w-16 h-px bg-gradient-to-l from-transparent to-[#2D5A46] dark:to-brand-gold"></div>
         </div>
 
         <!-- Navigation Buttons -->
         <div class="grid grid-cols-3 gap-3 md:gap-6 mb-16 px-4 max-w-2xl mx-auto" dir="rtl">
             <!-- Next Ayah (Left visually in RTL, Forward in logic) -->
             <button id="nextAyahBtn"
-                class="navigation-btn flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] border border-[#e5e0d4] rounded-xl text-[#1B4332] hover:bg-white hover:border-[#1B4332] transition-all group order-3">
+                class="navigation-btn flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] dark:bg-white/5 border border-[#e5e0d4] dark:border-white/10 rounded-xl text-[#1B4332] dark:text-white/80 hover:bg-white dark:hover:bg-white/10 hover:border-[#1B4332] dark:hover:border-brand-gold transition-all group order-3">
                 <svg xmlns="http://www.w3.org/2000/svg"
                     class="h-3.5 w-3.5 transform group-hover:-translate-x-1 transition-transform flex-shrink-0"
                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -912,7 +977,7 @@
 
             <!-- Back to Surah (Center) -->
             <a href="" id="surahIndexBtn"
-                class="navigation-btn flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] border border-[#e5e0d4] rounded-xl text-[#1B4332] hover:bg-white hover:border-[#1B4332] transition-all font-serif group order-2">
+                class="navigation-btn flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] dark:bg-white/5 border border-[#e5e0d4] dark:border-white/10 rounded-xl text-[#1B4332] dark:text-white/80 hover:bg-white dark:hover:bg-white/10 hover:border-[#1B4332] dark:hover:border-brand-gold transition-all font-serif group order-2">
                 <span class="text-sm font-bold font-serif whitespace-nowrap">العودة للسورة</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70 flex-shrink-0" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
@@ -923,7 +988,7 @@
 
             <!-- Previous Ayah (Right visually in RTL, Backward in logic) -->
             <button id="prevAyahBtn"
-                class="navigation-btn flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] border border-[#e5e0d4] rounded-xl text-[#1B4332] hover:bg-white hover:border-[#1B4332] transition-all group order-1">
+                class="navigation-btn flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] dark:bg-white/5 border border-[#e5e0d4] dark:border-white/10 rounded-xl text-[#1B4332] dark:text-white/80 hover:bg-white dark:hover:bg-white/10 hover:border-[#1B4332] dark:hover:border-brand-gold transition-all group order-1">
                 <span class="text-sm font-bold font-serif whitespace-nowrap">الآية السابقة</span>
                 <svg xmlns="http://www.w3.org/2000/svg"
                     class="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform flex-shrink-0"
@@ -936,32 +1001,32 @@
         <!-- Tafsir Section -->
         <div class="px-2 pb-20">
             <div class="tafsir-section text-center">
-                <h3 class="text-3xl font-bold font-serif text-[#1B4332] mb-2">التفسير</h3>
-                <p class="text-[#8d8b80] text-sm mb-8 font-serif">اختر التفسير المناسب لك</p>
+                <h3 class="text-3xl font-bold font-serif text-[#1B4332] dark:text-brand-gold mb-2">التفسير</h3>
+                <p class="text-[#8d8b80] dark:text-white/60 text-sm mb-8 font-serif">اختر التفسير المناسب لك</p>
 
                 <div class="tafsir-tabs flex flex-wrap justify-center gap-3 mb-8">
                     <button
-                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif active"
+                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] dark:border-white/10 bg-[#fdfcfb] dark:bg-white/5 text-[#5c5b54] dark:text-white/70 hover:bg-white dark:hover:bg-brand-gold hover:border-[#2D5A46] dark:hover:border-brand-gold hover:text-[#2D5A46] dark:hover:text-brand-dark transition-all text-sm font-serif active"
                         onclick="loadTafsirContent(14, this)">تفسير ابن كثير</button>
                     <button
-                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
+                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] dark:border-white/10 bg-[#fdfcfb] dark:bg-white/5 text-[#5c5b54] dark:text-white/70 hover:bg-white dark:hover:bg-brand-gold hover:border-[#2D5A46] dark:hover:border-brand-gold hover:text-[#2D5A46] dark:hover:text-brand-dark transition-all text-sm font-serif"
                         onclick="loadTafsirContent(91, this)">تفسير السعدي</button>
                     <button
-                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
+                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] dark:border-white/10 bg-[#fdfcfb] dark:bg-white/5 text-[#5c5b54] dark:text-white/70 hover:bg-white dark:hover:bg-brand-gold hover:border-[#2D5A46] dark:hover:border-brand-gold hover:text-[#2D5A46] dark:hover:text-brand-dark transition-all text-sm font-serif"
                         onclick="loadTafsirContent(16, this)">التفسير الميسر</button>
                     <button
-                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
+                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] dark:border-white/10 bg-[#fdfcfb] dark:bg-white/5 text-[#5c5b54] dark:text-white/70 hover:bg-white dark:hover:bg-brand-gold hover:border-[#2D5A46] dark:hover:border-brand-gold hover:text-[#2D5A46] dark:hover:text-brand-dark transition-all text-sm font-serif"
                         onclick="loadTafsirContent(90, this)">تفسير القرطبي</button>
                     <button
-                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
+                        class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] dark:border-white/10 bg-[#fdfcfb] dark:bg-white/5 text-[#5c5b54] dark:text-white/70 hover:bg-white dark:hover:bg-brand-gold hover:border-[#2D5A46] dark:hover:border-brand-gold hover:text-[#2D5A46] dark:hover:text-brand-dark transition-all text-sm font-serif"
                         onclick="loadTafsirContent(15, this)">تفسير الطبري</button>
                 </div>
 
                 <!-- Decorative Divider -->
                 <div class="flex items-center justify-center mb-8 opacity-40">
-                    <div class="w-12 h-px bg-[#2D5A46]"></div>
-                    <div class="mx-2 text-[#2D5A46] text-xl">✦</div>
-                    <div class="w-12 h-px bg-[#2D5A46]"></div>
+                    <div class="w-12 h-px bg-[#2D5A46] dark:bg-brand-gold"></div>
+                    <div class="mx-2 text-[#2D5A46] dark:text-brand-gold text-xl">✦</div>
+                    <div class="w-12 h-px bg-[#2D5A46] dark:bg-brand-gold"></div>
                 </div>
 
                 <div id="tafsirContent"
@@ -975,53 +1040,54 @@
     </main>
 
     <!-- Footer -->
-    <footer class="pt-16 pb-6 border-t" style="background-color:#f1ede499;">
+    <footer class="pt-16 pb-6 border-t border-border/10 bg-[#f1ede499] dark:bg-brand-dark">
         <div class="container mx-auto max-w-5xl px-6 text-center">
             <!-- Adhkar & Duas (Centered Section) -->
             <div class="mb-16">
-                <h3 class="font-amiri font-bold text-[#1B4332] mb-8 text-2xl flex items-center justify-center gap-4">
+                <h3
+                    class="font-amiri font-bold text-[#1B4332] dark:text-brand-gold mb-8 text-2xl flex items-center justify-center gap-4">
                     <div class="h-px w-10 bg-[#D4AF37]/40"></div>
                     الأذكار والأدعية
                     <div class="h-px w-10 bg-[#D4AF37]/40"></div>
                 </h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
                     <a href="adhkar.html?type=morning"
-                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        class="flex flex-col items-center gap-3 p-5 bg-white dark:bg-white/5 border border-[#e5e0d4] dark:border-white/10 rounded-2xl hover:border-[#1B4332] dark:hover:border-brand-gold hover:shadow-lg transition-all group">
                         <div
                             class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
                             ☀️</div>
                         <div>
-                            <h4 class="font-bold text-[#1B4332] text-sm">أذكار الصباح</h4>
+                            <h4 class="font-bold text-[#1B4332] dark:text-brand-gold text-sm">أذكار الصباح</h4>
                         </div>
                     </a>
 
                     <a href="adhkar.html?type=evening"
-                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        class="flex flex-col items-center gap-3 p-5 bg-white dark:bg-white/5 border border-[#e5e0d4] dark:border-white/10 rounded-2xl hover:border-[#1B4332] dark:hover:border-brand-gold hover:shadow-lg transition-all group">
                         <div
                             class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
                             🌙</div>
                         <div>
-                            <h4 class="font-bold text-[#1B4332] text-sm">أذكار المساء</h4>
+                            <h4 class="font-bold text-[#1B4332] dark:text-brand-gold text-sm">أذكار المساء</h4>
                         </div>
                     </a>
 
                     <a href="adhkar.html?type=sleep"
-                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        class="flex flex-col items-center gap-3 p-5 bg-white dark:bg-white/5 border border-[#e5e0d4] dark:border-white/10 rounded-2xl hover:border-[#1B4332] dark:hover:border-brand-gold hover:shadow-lg transition-all group">
                         <div
                             class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
                             💤</div>
                         <div>
-                            <h4 class="font-bold text-[#1B4332] text-sm">أذكار النوم</h4>
+                            <h4 class="font-bold text-[#1B4332] dark:text-brand-gold text-sm">أذكار النوم</h4>
                         </div>
                     </a>
 
                     <a href="adhkar.html"
-                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        class="flex flex-col items-center gap-3 p-5 bg-white dark:bg-white/5 border border-[#e5e0d4] dark:border-white/10 rounded-2xl hover:border-[#1B4332] dark:hover:border-brand-gold hover:shadow-lg transition-all group">
                         <div
                             class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
                             🤲</div>
                         <div>
-                            <h4 class="font-bold text-[#1B4332] text-sm">جميع الأذكار</h4>
+                            <h4 class="font-bold text-[#1B4332] dark:text-brand-gold text-sm">جميع الأذكار</h4>
                         </div>
                     </a>
                 </div>
@@ -1029,36 +1095,37 @@
 
             <!-- Stats (Centered Section) -->
             <div class="mb-12">
-                <h3 class="font-amiri font-bold text-[#1B4332] mb-8 text-2xl flex items-center justify-center gap-4">
+                <h3
+                    class="font-amiri font-bold text-[#1B4332] dark:text-brand-gold mb-8 text-2xl flex items-center justify-center gap-4">
                     <div class="h-px w-10 bg-[#D4AF37]/40"></div>
                     إحصائيات القرآن
                     <div class="h-px w-10 bg-[#D4AF37]/40"></div>
                 </h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
                     <div
-                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
-                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">١١٤</p>
+                        class="bg-white/80 dark:bg-white/5 rounded-2xl p-6 text-center border border-[#e5e0d4] dark:border-white/10 shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] dark:text-brand-gold mb-1">١١٤</p>
                         <p class="text-xs text-gray-500 font-medium">سورة</p>
                     </div>
                     <div
-                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
-                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">٦٢٣٦</p>
+                        class="bg-white/80 dark:bg-white/5 rounded-2xl p-6 text-center border border-[#e5e0d4] dark:border-white/10 shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] dark:text-brand-gold mb-1">٦٢٣٦</p>
                         <p class="text-xs text-gray-500 font-medium">آية</p>
                     </div>
                     <div
-                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
-                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">٣٠</p>
+                        class="bg-white/80 dark:bg-white/5 rounded-2xl p-6 text-center border border-[#e5e0d4] dark:border-white/10 shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] dark:text-brand-gold mb-1">٣٠</p>
                         <p class="text-xs text-gray-500 font-medium">جزء</p>
                     </div>
                     <div
-                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
-                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">٦٠</p>
+                        class="bg-white/80 dark:bg-white/5 rounded-2xl p-6 text-center border border-[#e5e0d4] dark:border-white/10 shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] dark:text-brand-gold mb-1">٦٠</p>
                         <p class="text-xs text-gray-500 font-medium">حزب</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="border-t border-border/50 py-5" style="background-color:#f1ede499;">
+        <div class="border-t border-border/10 py-5 bg-[#f1ede499] dark:bg-brand-dark">
             <div class="container mx-auto max-w-6xl px-6">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
                     <p class="font-arabic flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -1299,11 +1366,11 @@
         replayBtn.onclick = () => {
             audio.loop = !audio.loop;
             if (audio.loop) {
-                replayBtn.classList.remove('text-[#1B4332]/60');
+                replayBtn.classList.remove('text-[#1B4332]/60', 'dark:text-white/40');
                 replayBtn.classList.add('text-brand', 'scale-110');
                 replayBtn.title = "إيقاف التكرار";
             } else {
-                replayBtn.classList.add('text-[#1B4332]/60');
+                replayBtn.classList.add('text-[#1B4332]/60', 'dark:text-white/40');
                 replayBtn.classList.remove('text-brand', 'scale-110');
                 replayBtn.title = "تكرار الآية";
             }
@@ -1331,12 +1398,12 @@
             if (audio.muted || audio.volume === 0) {
                 volumeUp.classList.add('hidden');
                 volumeMute.classList.remove('hidden');
-                muteBtn.classList.remove('text-[#1B4332]/60');
+                muteBtn.classList.remove('text-[#1B4332]/60', 'dark:text-white/40');
                 muteBtn.classList.add('text-red-500');
             } else {
                 volumeUp.classList.remove('hidden');
                 volumeMute.classList.add('hidden');
-                muteBtn.classList.add('text-[#1B4332]/60');
+                muteBtn.classList.add('text-[#1B4332]/60', 'dark:text-white/40');
                 muteBtn.classList.remove('text-red-500');
             }
 
