@@ -13,6 +13,18 @@
         href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap"
         rel="stylesheet" />
 
+    <!-- Theme Initialization: Prevent Flash -->
+    <script>
+        (function () {
+            const theme = localStorage.getItem('kran_theme') || 'light';
+            if (theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -171,8 +183,7 @@
                     </svg>
                     <span class="hidden md:inline">البحث</span>
                 </a>
-                <a href="favorites.html"
-                    class="bg-[#3A6B56] text-white px-3 md:px-4 py-1.5 rounded-full font-medium flex items-center gap-2">
+                <a href="favorites.html" class="flex items-center gap-2 text-white transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

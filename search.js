@@ -354,7 +354,7 @@ async function performSearch() {
                 ${toArabicDigits(s.number)}
             </div>
             <div>
-              <h2 class="text-xl md:text-2xl font-serif font-bold mb-1">سورة ${s.name}</h2>
+              <h2 class="text-xl md:text-2xl font-serif font-bold mb-1">${s.name}</h2>
               <p class="text-brand-goldLight/80 text-xs md:text-sm">عدد آياتها: ${toArabicDigits(s.ayahs.length)} · نزولها: ${s.revelationType === 'Meccan' ? 'مكية' : 'مدنية'}</p>
             </div>
         </div>

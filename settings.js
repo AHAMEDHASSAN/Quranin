@@ -304,12 +304,15 @@
     function setTheme(theme) {
         localStorage.setItem('kran_theme', theme);
         document.body.classList.remove('dark', 'light');
+        document.documentElement.classList.remove('dark', 'light');
         
         if (theme === 'dark') {
             document.body.classList.add('dark');
+            document.documentElement.classList.add('dark');
         } else if (theme === 'auto') {
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 document.body.classList.add('dark');
+                document.documentElement.classList.add('dark');
             }
         }
         
