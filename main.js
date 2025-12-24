@@ -100,18 +100,16 @@ searchInput.addEventListener('input', (e) => {
 
 // ====== Verse Tracking ======
 function loadLastReadVerse() {
-    const savedSurah = localStorage.getItem('lastReadSurah');
-    const savedAyah = localStorage.getItem('lastReadAyah');
+    let savedSurah = localStorage.getItem('lastReadSurah');
+    let savedAyah = localStorage.getItem('lastReadAyah');
 
     const trackerCard = document.getElementById('verseTrackerCard');
     const trackerText = document.getElementById('verseTrackerText');
 
     if (!savedSurah || !savedAyah) {
-        // No saved position, hide the tracker button
-        if (trackerCard) {
-            trackerCard.style.display = 'none';
-        }
-        return;
+        // Default to Surah 1, Ayah 1 (Al-Fatiha) if no saved history
+        savedSurah = "1";
+        savedAyah = "1";
     }
 
     const surahNum = parseInt(savedSurah);
@@ -125,7 +123,7 @@ function loadLastReadVerse() {
 
     // Make tracker card clickable
     if (trackerCard) {
-        trackerCard.style.display = 'block'; // Ensure it's visible if hidden previously
+        trackerCard.style.display = 'block'; // Always show the tracker
         trackerCard.onclick = () => {
             window.location.href = `ayah_detail.html?surah=${surahNum}&ayah=${ayahNum}`;
         };
