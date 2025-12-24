@@ -128,46 +128,99 @@
     </main>
 
     <!-- Footer -->
-    <footer class="pt-6 pb-6 border-t bg-[#FAF9F6]">
-        <div class="container mx-auto max-w-6xl px-6 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <!-- Adhkar Links -->
-                <div>
-                    <h3 class="font-amiri font-bold text-[#1B4332] mb-6 text-xl flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#D4AF37]" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round">
-                            <path
-                                d="M4.5 9.5V4a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v5.5M4.5 9.5h15M4.5 9.5v9a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-9" />
-                        </svg>
-                        الأذكار والأدعية
-                    </h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <a href="?type=morning"
-                            class="text-sm p-3 bg-white border border-gray-200 rounded-lg hover:border-[#1B4332] hover:text-[#1B4332] block text-center transition-colors">أذكار
-                            الصباح</a>
-                        <a href="?type=evening"
-                            class="text-sm p-3 bg-white border border-gray-200 rounded-lg hover:border-[#1B4332] hover:text-[#1B4332] block text-center transition-colors">أذكار
-                            المساء</a>
-                        <a href="?type=sleep"
-                            class="text-sm p-3 bg-white border border-gray-200 rounded-lg hover:border-[#1B4332] hover:text-[#1B4332] block text-center transition-colors">أذكار
-                            النوم</a>
-                        <a href="?type=all"
-                            class="text-sm p-3 bg-white border border-gray-200 rounded-lg hover:border-[#1B4332] hover:text-[#1B4332] block text-center transition-colors">جميع
-                            الأذكار</a>
-                    </div>
+    <!-- Footer -->
+    <footer class="pt-16 pb-6 border-t" style="background-color:#f1ede499;">
+        <div class="container mx-auto max-w-5xl px-6 text-center">
+            <!-- Adhkar & Duas (Centered Section) -->
+            <div class="mb-16">
+                <h3 class="font-amiri font-bold text-[#1B4332] mb-8 text-2xl flex items-center justify-center gap-4">
+                    <div class="h-px w-10 bg-[#D4AF37]/40"></div>
+                    الأذكار والأدعية
+                    <div class="h-px w-10 bg-[#D4AF37]/40"></div>
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                    <a href="adhkar.html?type=morning"
+                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                            ☀️</div>
+                        <div>
+                            <h4 class="font-bold text-[#1B4332] text-sm">أذكار الصباح</h4>
+                        </div>
+                    </a>
+
+                    <a href="adhkar.html?type=evening"
+                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                            🌙</div>
+                        <div>
+                            <h4 class="font-bold text-[#1B4332] text-sm">أذكار المساء</h4>
+                        </div>
+                    </a>
+
+                    <a href="adhkar.html?type=sleep"
+                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                            💤</div>
+                        <div>
+                            <h4 class="font-bold text-[#1B4332] text-sm">أذكار النوم</h4>
+                        </div>
+                    </a>
+
+                    <a href="adhkar.html"
+                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                            🤲</div>
+                        <div>
+                            <h4 class="font-bold text-[#1B4332] text-sm">جميع الأذكار</h4>
+                        </div>
+                    </a>
                 </div>
-                <!-- Stats -->
-                <div>
-                    <h3 class="font-amiri font-bold text-[#1B4332] mb-4 text-lg">إحصائيات</h3>
-                    <div class="p-4 bg-white border border-gray-200 rounded-xl text-center">
-                        <p class="text-[#1B4332] font-bold">ذكر الله حياة القلوب</p>
+            </div>
+
+            <!-- Stats (Centered Section) -->
+            <div class="mb-12">
+                <h3 class="font-amiri font-bold text-[#1B4332] mb-8 text-2xl flex items-center justify-center gap-4">
+                    <div class="h-px w-10 bg-[#D4AF37]/40"></div>
+                    إحصائيات القرآن
+                    <div class="h-px w-10 bg-[#D4AF37]/40"></div>
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                    <div
+                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">١١٤</p>
+                        <p class="text-xs text-gray-500 font-medium">سورة</p>
+                    </div>
+                    <div
+                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">٦٢٣٦</p>
+                        <p class="text-xs text-gray-500 font-medium">آية</p>
+                    </div>
+                    <div
+                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">٣٠</p>
+                        <p class="text-xs text-gray-500 font-medium">جزء</p>
+                    </div>
+                    <div
+                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">٦٠</p>
+                        <p class="text-xs text-gray-500 font-medium">حزب</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="border-t border-gray-200 py-4 bg-[#f1ede499] text-center text-xs text-gray-500">
-            القرآن الكريم - القراءة والتدبر والتفسير
+        <div class="border-t border-gray-200 py-6 bg-[#f1ede499] text-center text-xs text-gray-500">
+            <p class="flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                القرآن الكريم - القراءة والتدبر والتفسير
+            </p>
         </div>
     </footer>
 

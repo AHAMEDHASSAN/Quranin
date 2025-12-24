@@ -56,8 +56,8 @@
             --background: #FDFBF7;
             --foreground: #1B4332;
             --accent: #D4AF37;
-            --ayah-font-size: 2.8rem;
-            --ayah-line-height: 2.2;
+            --ayah-font-size: 2.22rem;
+            --ayah-line-height: 2.1;
         }
 
         body {
@@ -439,26 +439,42 @@
             }
         }
 
-        /* Ayah Header Button Style - Match Image 113 */
+        /* Ayah Header Button Style - Compact & Clean - Step 151 */
         #ayahSelectorBtn {
-            border-radius: 14px;
-            border: 2px solid #2D6A4F;
-            /* Green border */
-            padding: 0.4rem 1.25rem;
-            height: 44px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            padding: 0 8px;
+            height: 36px;
             font-family: 'Cairo', sans-serif;
-            background: #FFFFFF;
-            color: #2D6A4F;
-            /* Green text */
+            background: #ffffff;
+            color: #1B4332;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 4px;
             transition: all 0.2s;
             font-weight: 500;
         }
 
         #ayahSelectorBtn:hover {
-            background: #f0fdf4;
+            border-color: #1B4332;
+            background: #f0fdf444;
+        }
+
+        #surahSelectorBtn {
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            padding: 0 10px;
+            height: 36px;
+            background: #FFFFFF;
+            color: #1B4332;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            font-family: 'Amiri', serif;
+        }
+
+        #surahSelectorBtn:hover {
             border-color: #1B4332;
         }
     </style>
@@ -560,24 +576,23 @@
 
                 <!-- Surah Selector -->
                 <div class="relative">
-                    <button id="surahSelectorBtn"
-                        class="flex items-center gap-2 px-4 py-2 bg-white border border-[#e5e7eb] rounded-xl hover:border-[#1B4332] transition-all shadow-sm active:scale-95 text-[#1B4332] w-auto justify-between group h-10">
-                        <div class="flex items-center gap-2 w-auto">
-                            <span id="currentSurahName"
-                                class="font-bold font-serif text-base whitespace-nowrap">...</span>
-                        </div>
-                        <div class="flex items-center gap-1 text-[#4b5563] group-hover:text-[#1B4332] flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform duration-300"
-                                id="surahDropdownArrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </div>
+                    <button id="surahSelectorBtn" class="active:scale-95 shadow-sm" dir="rtl">
+                        <!-- Book Icon (Right) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#1B4332] opacity-80 flex-shrink-0"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+
+                        <!-- Surah Name (Middle) -->
+                        <span id="currentSurahName"
+                            class="font-bold font-serif text-sm text-[#1B4332] whitespace-nowrap leading-none mb-0.5">...</span>
+
+                        <!-- Chevron (Left) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-400 flex-shrink-0"
+                            id="surahDropdownArrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
                     </button>
 
                     <!-- Surah Dropdown -->
@@ -594,12 +609,18 @@
                 <!-- Ayah Selector -->
                 <div class="relative">
                     <button id="ayahSelectorBtn" class="active:scale-95 shadow-sm" dir="rtl">
-                        <span class="font-serif text-lg opacity-70">#</span>
-                        <div class="flex items-center gap-1">
-                            <span class="text-sm opacity-60">الآية</span>
-                            <span id="currentAyahNumber" class="font-bold text-lg">...</span>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-300"
+                        <!-- # Icon (Right) -->
+                        <span class="text-[14px] text-[#2D5A46] font-sans font-bold flex-shrink-0">#</span>
+
+                        <!-- Ayah text (Middle) -->
+                        <span class="text-[10px] text-[#1B4332] opacity-60 font-sans whitespace-nowrap">الآية</span>
+
+                        <!-- Ayah Number (Middle) -->
+                        <span id="currentAyahNumber"
+                            class="font-bold text-[13px] text-[#1B4332] leading-none mb-0.5">...</span>
+
+                        <!-- Chevron (Left) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-400 flex-shrink-0"
                             id="ayahDropdownArrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
@@ -768,29 +789,39 @@
         </div>
 
         <!-- Navigation Buttons -->
-        <div class="flex items-center justify-between gap-4 mb-16 px-4">
+        <div class="grid grid-cols-3 gap-3 md:gap-6 mb-16 px-4 max-w-2xl mx-auto" dir="rtl">
+            <!-- Next Ayah (Left visually in RTL, Forward in logic) -->
+            <button id="nextAyahBtn"
+                class="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] border border-[#e5e0d4] rounded-xl text-[#1B4332] hover:bg-white hover:border-[#1B4332] transition-all group order-3">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="h-3.5 w-3.5 transform group-hover:-translate-x-1 transition-transform" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                <span class="text-sm font-bold font-serif">الآية التالية</span>
+            </button>
+
+            <!-- Back to Surah (Center) -->
             <a href="" id="surahIndexBtn"
-                class="flex items-center gap-2 text-[#2D5A46] hover:text-[#1B4332] transition-colors font-serif group">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                class="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] border border-[#e5e0d4] rounded-xl text-[#1B4332] hover:bg-white hover:border-[#1B4332] transition-all font-serif group order-2">
+                <span class="text-sm font-bold font-serif">العودة للسورة</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
-                <span class="group-hover:underline">العودة للسورة</span>
             </a>
 
-            <button id="nextAyahBtn"
-                class="flex items-center gap-3 px-6 py-3 bg-[#fdfcfb] border border-[#e5e0d4] rounded-xl text-[#1B4332] hover:bg-white hover:border-[#2D5A46] hover:shadow-md transition-all group dir-rtl">
-                <span class="font-bold font-serif">الآية التالية</span>
+            <!-- Previous Ayah (Right visually in RTL, Backward in logic) -->
+            <button id="prevAyahBtn"
+                class="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] border border-[#e5e0d4] rounded-xl text-[#1B4332] hover:bg-white hover:border-[#1B4332] transition-all group order-1">
+                <span class="text-sm font-bold font-serif">الآية السابقة</span>
                 <svg xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4 transform group-hover:-translate-x-1 transition-transform" fill="none"
+                    class="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
-
-            <!-- Hidden Previous Button to maintain logic if needed, or remove -->
-            <button id="prevAyahBtn" class="hidden"></button>
         </div>
 
         <!-- Tafsir Section -->
@@ -802,19 +833,19 @@
                 <div class="tafsir-tabs flex flex-wrap justify-center gap-3 mb-8">
                     <button
                         class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif active"
-                        onclick="loadTafsirContent('ar.ibnkathir', this)">تفسير ابن كثير</button>
+                        onclick="loadTafsirContent(14, this)">تفسير ابن كثير</button>
                     <button
                         class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
-                        onclick="loadTafsirContent('ar.saadi', this)">تفسير السعدي</button>
+                        onclick="loadTafsirContent(91, this)">تفسير السعدي</button>
                     <button
                         class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
-                        onclick="loadTafsirContent('ar.tabari', this)">تفسير الطبري</button>
+                        onclick="loadTafsirContent(16, this)">التفسير الميسر</button>
                     <button
                         class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
-                        onclick="loadTafsirContent('ar.qurtubi', this)">تفسير القرطبي</button>
+                        onclick="loadTafsirContent(90, this)">تفسير القرطبي</button>
                     <button
                         class="tafsir-tab px-6 py-2 rounded-full border border-[#e5e0d4] bg-[#fdfcfb] text-[#5c5b54] hover:bg-white hover:border-[#2D5A46] hover:text-[#2D5A46] transition-all text-sm font-serif"
-                        onclick="loadTafsirContent('ar.muyassar', this)">التفسير الميسر</button>
+                        onclick="loadTafsirContent(15, this)">تفسير الطبري</button>
                 </div>
 
                 <!-- Decorative Divider -->
@@ -835,87 +866,85 @@
     </main>
 
     <!-- Footer -->
-    <footer class="pt-6 pb-6 border-t" style="background-color:#f1ede499;">
-        <div class="container mx-auto max-w-6xl px-6 py-12 md:py-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+    <footer class="pt-16 pb-6 border-t" style="background-color:#f1ede499;">
+        <div class="container mx-auto max-w-5xl px-6 text-center">
+            <!-- Adhkar & Duas (Centered Section) -->
+            <div class="mb-16">
+                <h3 class="font-amiri font-bold text-[#1B4332] mb-8 text-2xl flex items-center justify-center gap-4">
+                    <div class="h-px w-10 bg-[#D4AF37]/40"></div>
+                    الأذكار والأدعية
+                    <div class="h-px w-10 bg-[#D4AF37]/40"></div>
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                    <a href="adhkar.html?type=morning"
+                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                            ☀️</div>
+                        <div>
+                            <h4 class="font-bold text-[#1B4332] text-sm">أذكار الصباح</h4>
+                        </div>
+                    </a>
 
-                <!-- Adhkar & Duas (New Section) -->
-                <div>
-                    <h3 class="font-amiri font-bold text-foreground mb-6 text-xl flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#D4AF37]" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round">
-                            <path
-                                d="M4.5 9.5V4a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v5.5M4.5 9.5h15M4.5 9.5v9a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-9" />
-                        </svg>
-                        الأذكار والأدعية
-                    </h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <a href="adhkar.html?type=morning"
-                            class="flex items-center gap-3 p-4 bg-white border border-[#e5e0d4] rounded-xl hover:border-[#1B4332] hover:shadow-md transition-all group">
-                            <div
-                                class="w-10 h-10 rounded-full bg-[#1B4332]/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                ☀️</div>
-                            <div>
-                                <h4 class="font-bold text-[#1B4332]">أذكار الصباح</h4>
-                                <span class="text-xs text-gray-500">بداية يومك بذكر الله</span>
-                            </div>
-                        </a>
+                    <a href="adhkar.html?type=evening"
+                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                            🌙</div>
+                        <div>
+                            <h4 class="font-bold text-[#1B4332] text-sm">أذكار المساء</h4>
+                        </div>
+                    </a>
 
-                        <a href="adhkar.html?type=evening"
-                            class="flex items-center gap-3 p-4 bg-white border border-[#e5e0d4] rounded-xl hover:border-[#1B4332] hover:shadow-md transition-all group">
-                            <div
-                                class="w-10 h-10 rounded-full bg-[#1B4332]/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                🌙</div>
-                            <div>
-                                <h4 class="font-bold text-[#1B4332]">أذكار المساء</h4>
-                                <span class="text-xs text-gray-500">حصن نفسك في المساء</span>
-                            </div>
-                        </a>
+                    <a href="adhkar.html?type=sleep"
+                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                            💤</div>
+                        <div>
+                            <h4 class="font-bold text-[#1B4332] text-sm">أذكار النوم</h4>
+                        </div>
+                    </a>
 
-                        <a href="adhkar.html?type=sleep"
-                            class="flex items-center gap-3 p-4 bg-white border border-[#e5e0d4] rounded-xl hover:border-[#1B4332] hover:shadow-md transition-all group">
-                            <div
-                                class="w-10 h-10 rounded-full bg-[#1B4332]/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                💤</div>
-                            <div>
-                                <h4 class="font-bold text-[#1B4332]">أذكار النوم</h4>
-                                <span class="text-xs text-gray-500">نوم هادئ ومطمئن</span>
-                            </div>
-                        </a>
-
-                        <a href="adhkar.html"
-                            class="flex items-center gap-3 p-4 bg-white border border-[#e5e0d4] rounded-xl hover:border-[#1B4332] hover:shadow-md transition-all group">
-                            <div
-                                class="w-10 h-10 rounded-full bg-[#1B4332]/5 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                                🤲</div>
-                            <div>
-                                <h4 class="font-bold text-[#1B4332]">جميع الأذكار</h4>
-                                <span class="text-xs text-gray-500">أدعية وأذكار متنوعة</span>
-                            </div>
-                        </a>
-                    </div>
+                    <a href="adhkar.html"
+                        class="flex flex-col items-center gap-3 p-5 bg-white border border-[#e5e0d4] rounded-2xl hover:border-[#1B4332] hover:shadow-lg transition-all group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-[#1B4332]/5 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                            🤲</div>
+                        <div>
+                            <h4 class="font-bold text-[#1B4332] text-sm">جميع الأذكار</h4>
+                        </div>
+                    </a>
                 </div>
+            </div>
 
-                <div>
-                    <h3 class="font-amiri font-bold text-foreground mb-4 text-lg">إحصائيات القرآن</h3>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="bg-card/80 rounded-lg p-3 text-center border border-border/50">
-                            <p class="font-arabic text-xl font-bold text-primary">١١٤</p>
-                            <p class="text-xs text-muted-foreground">سورة</p>
-                        </div>
-                        <div class="bg-card/80 rounded-lg p-3 text-center border border-border/50">
-                            <p class="font-arabic text-xl font-bold text-primary">٦٢٣٦</p>
-                            <p class="text-xs text-muted-foreground">آية</p>
-                        </div>
-                        <div class="bg-card/80 rounded-lg p-3 text-center border border-border/50">
-                            <p class="font-arabic text-xl font-bold text-primary">٣٠</p>
-                            <p class="text-xs text-muted-foreground">جزء</p>
-                        </div>
-                        <div class="bg-card/80 rounded-lg p-3 text-center border border-border/50">
-                            <p class="font-arabic text-xl font-bold text-primary">٦٠</p>
-                            <p class="text-xs text-muted-foreground">حزب</p>
-                        </div>
+            <!-- Stats (Centered Section) -->
+            <div class="mb-12">
+                <h3 class="font-amiri font-bold text-[#1B4332] mb-8 text-2xl flex items-center justify-center gap-4">
+                    <div class="h-px w-10 bg-[#D4AF37]/40"></div>
+                    إحصائيات القرآن
+                    <div class="h-px w-10 bg-[#D4AF37]/40"></div>
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                    <div
+                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">١١٤</p>
+                        <p class="text-xs text-gray-500 font-medium">سورة</p>
+                    </div>
+                    <div
+                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">٦٢٣٦</p>
+                        <p class="text-xs text-gray-500 font-medium">آية</p>
+                    </div>
+                    <div
+                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">٣٠</p>
+                        <p class="text-xs text-gray-500 font-medium">جزء</p>
+                    </div>
+                    <div
+                        class="bg-white/80 rounded-2xl p-6 text-center border border-[#e5e0d4] shadow-sm hover:shadow-md transition-shadow">
+                        <p class="font-serif text-3xl font-bold text-[#1B4332] mb-1">٦٠</p>
+                        <p class="text-xs text-gray-500 font-medium">حزب</p>
                     </div>
                 </div>
             </div>
@@ -966,7 +995,7 @@
         const content = document.getElementById('content');
 
         // Default Tafsir
-        let currentTafsir = 'ar.ibnkathir';
+        let currentTafsir = 14; // Ibn Kathir ID
         let ayahText = '';
         let currentSurahName = '';
 
@@ -1026,7 +1055,7 @@
                             window.location.href = `ayah_detail.html?surah=${surah}&ayah=${ayah - 1}`;
                         };
                     } else {
-                        document.getElementById('prevAyahBtn').classList.add('hidden');
+                        document.getElementById('prevAyahBtn').classList.add('invisible');
                     }
 
                     // Next Ayah Button
@@ -1035,7 +1064,7 @@
                             window.location.href = `ayah_detail.html?surah=${surah}&ayah=${ayah + 1}`;
                         };
                     } else {
-                        document.getElementById('nextAyahBtn').classList.add('hidden');
+                        document.getElementById('nextAyahBtn').classList.add('invisible');
                     }
 
                     loading.classList.add('hidden');
@@ -1057,7 +1086,7 @@
             }
         }
 
-        window.loadTafsirContent = async function (edition, btnEl) {
+        window.loadTafsirContent = async function (tafsirId, btnEl) {
             if (btnEl) {
                 document.querySelectorAll('.tafsir-tab').forEach(t => t.classList.remove('active'));
                 btnEl.classList.add('active');
@@ -1067,16 +1096,18 @@
             tafsirBox.innerHTML = '<span class="opacity-50">جاري التحميل...</span>';
 
             try {
-                // استخدام AlQuran.cloud API مباشرة - يحتوي على جميع التفاسير العربية
-                const apiUrl = `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/${edition}`;
+                // استخدام Quran.com API - يحتوي على جميع التفاسير المطلوبة
+                const apiUrl = `https://api.quran.com/api/v4/tafsirs/${tafsirId}/by_ayah/${surah}:${ayah}`;
 
                 const res = await fetch(apiUrl);
                 const data = await res.json();
 
-                console.log('Tafsir API Response:', data); // للتشخيص
+                console.log('Tafsir API Response:', data);
 
-                if (data.code === 200 && data.data && data.data.text) {
-                    tafsirBox.innerHTML = data.data.text;
+                if (data.tafsir && data.tafsir.text) {
+                    // تحويل السطور الجديدة إلى <br> إذا لزم الأمر، أو استخدام innerHTML مباشرة
+                    // الـ API يرجع HTML في الغالب
+                    tafsirBox.innerHTML = data.tafsir.text;
                 } else {
                     tafsirBox.innerHTML = '<span class="text-amber-600">التفسير غير متوفر لهذه الآية حالياً</span>';
                 }

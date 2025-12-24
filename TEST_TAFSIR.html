@@ -92,11 +92,11 @@
 
     <div class="card">
         <h2>📚 اختبار التفاسير</h2>
-        <button class="test-btn" onclick="testTafsir('ar.muyassar', 'الميسر')">اختبار التفسير الميسر</button>
-        <button class="test-btn" onclick="testTafsir('ar.qurtubi', 'القرطبي')">اختبار تفسير القرطبي</button>
-        <button class="test-btn" onclick="testTafsir('ar.katheer', 'ابن كثير')">اختبار تفسير ابن كثير</button>
-        <button class="test-btn" onclick="testTafsir('ar.saadi', 'السعدي')">اختبار تفسير السعدي</button>
-        <button class="test-btn" onclick="testTafsir('ar.tabari', 'الطبري')">اختبار تفسير الطبري</button>
+        <button class="test-btn" onclick="testTafsir(16, 'الميسر')">اختبار التفسير الميسر (Quran.com)</button>
+        <button class="test-btn" onclick="testTafsir(90, 'القرطبي')">اختبار تفسير القرطبي (Quran.com)</button>
+        <button class="test-btn" onclick="testTafsir(14, 'ابن كثير')">اختبار تفسير ابن كثير (Quran.com)</button>
+        <button class="test-btn" onclick="testTafsir(91, 'السعدي')">اختبار تفسير السعدي (Quran.com)</button>
+        <button class="test-btn" onclick="testTafsir(15, 'الطبري')">اختبار تفسير الطبري (Quran.com)</button>
         <div id="tafsirStatus"></div>
         <div id="tafsirContent"
             style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 5px; line-height: 1.8;"></div>
@@ -140,12 +140,12 @@
             content.textContent = '';
 
             try {
-                const res = await fetch(`https://api.alquran.cloud/v1/ayah/1:1/${edition}`);
+                const res = await fetch(`https://api.quran.com/api/v4/tafsirs/${edition}/by_ayah/1:1`);
                 const data = await res.json();
 
-                if (data.code === 200 && data.data && data.data.text) {
+                if (data.tafsir && data.tafsir.text) {
                     status.innerHTML = `<div class="status success">✅ تم تحميل تفسير ${name} بنجاح!</div>`;
-                    content.textContent = data.data.text;
+                    content.innerHTML = data.tafsir.text;
                 } else {
                     status.innerHTML = `<div class="status error">❌ التفسير غير متوفر</div>`;
                     content.textContent = JSON.stringify(data, null, 2);
