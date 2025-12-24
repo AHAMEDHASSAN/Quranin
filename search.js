@@ -30,14 +30,19 @@ let tokenSet = null; // normalized vocabulary set
 function normalizeArabic(str) {
   if (!str) return "";
   return str
-    .replace(/[\u0610-\u061A\u064B-\u065F\u06D6-\u06ED]/g, "") // remove diacritics
-    .replace(/\u0640/g, "") // tatweel
-    .replace(/[\u0622\u0623\u0625]/g, "ا") // alef forms to bare alef
-    .replace(/\u0671/g, "ا") // alef wasla
-    .replace(/ى/g, "ي") // alif maqsura to ya (helps matching)
-    .replace(/ة/g, "ه") // teh marbuta to heh
+    .replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, "") // remove all markers, diacritics and tatweel
+    .replace(/[إأآٱ]/g, "ا") // unify alef
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي")
+    .replace(/ء/g, "") // remove hamza
+    .replace(/ى/g, "ي")
+    .replace(/ة/g, "ه")
+    .replace(/[^\u0621-\u064A\s]/g, "") // clean everything else except Arabic letters and spaces
+    .replace(/\s+/g, " ") // unify spaces
     .trim();
 }
+
+const surahNamesNormalized = surahs.map(normalizeArabic);
 
 function stripAl(word) {
   return word.startsWith("ال") ? word.slice(2) : word;
@@ -118,13 +123,33 @@ function ensureSurahOptions() {
   });
 }
 
+let simpleQuran = null; // cached simple text for better search
+
 async function ensureQuranLoaded() {
-  if (allData) return;
+  if (allData && simpleQuran) return;
+  
   loadingEl.classList.remove('hidden');
-  const res = await fetch('https://api.alquran.cloud/v1/quran');
-  allData = await res.json();
-  loadingEl.classList.add('hidden');
-  if (allData && allData.data) buildVocabulary();
+  
+  try {
+    if (!allData) {
+        const res = await fetch('https://api.alquran.cloud/v1/quran/quran-uthmani');
+        const json = await res.json();
+        if (json && json.data) allData = json;
+    }
+    
+    if (!simpleQuran) {
+        // quran-simple usually has diacritics but is more standard for search than tajweed/uthmani
+        const resSimple = await fetch('https://api.alquran.cloud/v1/quran/quran-simple');
+        const jsonSimple = await resSimple.json();
+        if (jsonSimple && jsonSimple.data) simpleQuran = jsonSimple;
+    }
+  } catch (e) {
+    console.error("Quran load failed", e);
+  } finally {
+    loadingEl.classList.add('hidden');
+  }
+  
+  if (allData && allData.data && !tokenSet) buildVocabulary();
 }
 
 function updateSurahMeta() {
@@ -140,39 +165,57 @@ function updateSurahMeta() {
   surahMetaEl.classList.remove('hidden');
 }
 
-function searchInAyahs(ayahs, query) {
+function searchInAyahs(sNum, sName, query) {
   const normalizedQuery = query.trim();
-  const toWestern = (s) => s.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 1632);
-  const westernQuery = toWestern(normalizedQuery);
-  const isNumber = /^[0-9\u0660-\u0669]+$/.test(normalizedQuery);
-  const searchNumber = isNumber ? parseInt(westernQuery) : null;
-
+  const isNumber = /^\d+$/.test(normalizedQuery);
+  const searchNumber = isNumber ? parseInt(normalizedQuery) : null;
+  
   const nq = normalizeArabic(normalizedQuery);
-  const nqNoAl = stripAl(nq);
+  const allWords = nq.split(/\s+/).filter(w => w.length > 0);
+  
+  // Use simpleQuran if available, otherwise fallback to allData
+  const sourceQuran = simpleQuran || allData;
+  if (!sourceQuran || !sourceQuran.data) return [];
+  
+  const s = sourceQuran.data.surahs.find(x => x.number === sNum);
+  if (!s) return [];
+
   const results = [];
-  ayahs.forEach((a, idx) => {
+  s.ayahs.forEach((a, idx) => {
     if (isNumber) {
-      if (a.numberInSurah === searchNumber) {
-        results.push({ ayah: a, indexInSurah: a.numberInSurah });
-      }
-      return;
+        if (a.numberInSurah === searchNumber) {
+            const uthmaniSurah = allData?.data?.surahs?.find(x => x.number === sNum);
+            results.push({ ayah: uthmaniSurah?.ayahs[idx] || a, surah: { number: sNum, name: sName } });
+        }
+        return;
     }
 
     const nt = normalizeArabic(a.text);
-    if (nt.includes(nq) || nt.includes(nqNoAl)) {
-      results.push({ ayah: a, indexInSurah: a.numberInSurah });
-      return;
+    
+    // Check if entire phrase is present OR all words are present
+    const isMatch = nt.includes(nq) || (allWords.length > 0 && allWords.every(word => {
+      const wordNoAl = stripAl(word);
+      return nt.includes(word) || (wordNoAl.length > 2 && nt.includes(wordNoAl));
+    }));
+
+    if (isMatch) {
+      const uthmaniSurah = allData?.data?.surahs?.find(x => x.number === sNum);
+      const uthmaniAyah = uthmaniSurah?.ayahs[idx];
+      results.push({ 
+        ayah: uthmaniAyah || a, 
+        surah: { number: sNum, name: sName } 
+      });
     }
-    const withAl = nq.startsWith("ال") ? nq : "ال" + nq;
-    if (nt.includes(withAl)) results.push({ ayah: a, indexInSurah: a.numberInSurah });
   });
   return results;
 }
 
-function renderResults(matches) {
-  resultsEl.innerHTML = '';
+function renderResults(matches, prefixHtml = '') {
+  resultsEl.innerHTML = prefixHtml;
   if (matches.length === 0) {
-    resultsEl.innerHTML = '<div class="text-center bg-white border border-gray-200 rounded-xl p-6 text-gray-600">لا توجد نتائج مطابقة</div>';
+    if (!prefixHtml) {
+        resultsEl.innerHTML = '<div class="text-center bg-white border border-gray-200 rounded-xl p-6 text-gray-600">لا توجد نتائج مطابقة</div>';
+    }
     return;
   }
   // Header with count
@@ -225,33 +268,108 @@ function renderResults(matches) {
 async function performSearch() {
   const q = searchBox.value.trim();
   ensureSurahOptions();
-  // toggle intro card
+  
   if (q) {
     introCardEl?.classList.add('hidden');
   } else {
     introCardEl?.classList.remove('hidden');
+    resultsEl.innerHTML = '';
+    suggestionsEl.classList.add('hidden');
+    return;
   }
-  if (!q) { resultsEl.innerHTML = ''; suggestionsEl.classList.add('hidden'); return; }
+
   await ensureQuranLoaded();
 
   let matches = [];
+  const nq = normalizeArabic(q);
+  
+  // 1. Check if it's a Surah name or Surah number
+  let surahMatchIdx = -1;
+  const isNumericQuery = /^\d+$/.test(nq);
+  
+  if (isNumericQuery) {
+    const sNum = parseInt(nq);
+    if (sNum >= 1 && sNum <= 114) surahMatchIdx = sNum - 1;
+  } else {
+    const cleanQ = nq.replace(/^(سوره|سورة|سورت)\s+/, "");
+    surahMatchIdx = surahNamesNormalized.findIndex(s => s === cleanQ);
+  }
+
+  let surahCardHtml = '';
+  if (surahMatchIdx !== -1) {
+    const s = allData.data.surahs[surahMatchIdx];
+    // Special result for Surah
+    surahCardHtml = `
+      <div class="mb-6 p-4 md:p-6 bg-brand text-white rounded-2xl shadow-xl flex items-center justify-between group">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-white/10 flex items-center justify-center font-serif text-xl md:text-2xl border border-white/20">
+                ${toArabicDigits(s.number)}
+            </div>
+            <div>
+              <h2 class="text-xl md:text-2xl font-serif font-bold mb-1">سورة ${s.name}</h2>
+              <p class="text-brand-goldLight/80 text-xs md:text-sm">عدد آياتها: ${toArabicDigits(s.ayahs.length)} · نزولها: ${s.revelationType === 'Meccan' ? 'مكية' : 'مدنية'}</p>
+            </div>
+        </div>
+        <a href="ayahs.html?surah=${s.number}&name=${encodeURIComponent(s.name)}" 
+           class="px-4 md:px-6 py-2 bg-brand-gold text-brand-dark rounded-xl font-bold hover:bg-white transition-all transform hover:scale-105 shadow-lg flex items-center gap-2">
+           <span>فتح السورة</span>
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+        </a>
+      </div>
+    `;
+  }
+
+  // 2. Check for reference pattern like "2:255" or "البقرة 255"
+  const refPattern = /^(.+?)[\s:]+(\d+)$/;
+  const refMatch = q.match(refPattern);
+  if (refMatch) {
+    const sNamePart = normalizeArabic(refMatch[1]).replace(/^(سوره|سورة|سورت)\s+/, "");
+    const aNum = parseInt(refMatch[2]);
+    let sIdx = -1;
+    if (/^\d+$/.test(sNamePart)) {
+      sIdx = parseInt(sNamePart) - 1;
+    } else {
+      sIdx = surahNamesNormalized.findIndex(s => s === sNamePart);
+    }
+    
+    if (sIdx >= 0 && sIdx < 114) {
+      const s = allData.data.surahs[sIdx];
+      const ay = s.ayahs.find(a => a.numberInSurah === aNum);
+      if (ay) {
+        matches.push({ ayah: ay, surah: { number: s.number, name: s.name } });
+      }
+    }
+  }
+
+  // 3. Regular text search
   if (surahSelect.value === 'all') {
     allData.data.surahs.forEach(s => {
-      const m = searchInAyahs(s.ayahs, q).map(x => ({ ...x, surah: { number: s.number, name: s.name } }));
+      const m = searchInAyahs(s.number, s.name, q);
       matches = matches.concat(m);
     });
   } else {
     const sIdx = Number(surahSelect.value);
     const s = allData.data.surahs.find(x => x.number === sIdx);
     if (s) {
-      matches = searchInAyahs(s.ayahs, q).map(x => ({ ...x, surah: { number: s.number, name: s.name } }));
+      matches = matches.concat(searchInAyahs(s.number, s.name, q));
     }
   }
 
-  renderResults(matches);
+  // Remove duplicate if it was added by reference search
+  const uniqueMatches = [];
+  const seen = new Set();
+  matches.forEach(m => {
+    const id = `${m.surah.number}:${m.ayah.numberInSurah}`;
+    if (!seen.has(id)) {
+      seen.add(id);
+      uniqueMatches.push(m);
+    }
+  });
+
+  renderResults(uniqueMatches, surahCardHtml);
 
   // suggestions
-  const sug = matches.length === 0 ? suggest(q) : [];
+  const sug = uniqueMatches.length === 0 ? suggest(q) : [];
   if (sug.length) {
     suggestionsEl.innerHTML = '<div class="mb-2 text-gray-600">هل تقصد:</div>' +
       sug.map(w => `<button class="m-1 px-2 py-1 rounded-full bg-gray-100 hover:bg-gray-200" data-sug="${w}">${w}</button>`).join('');

@@ -437,6 +437,16 @@
                 gap: 0.5rem;
                 max-height: 45vh;
             }
+
+            .navigation-btn {
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+                gap: 0.25rem !important;
+            }
+
+            .navigation-btn span {
+                font-size: 0.75rem !important;
+            }
         }
 
         /* Ayah Header Button Style - Compact & Clean - Step 151 */
@@ -792,21 +802,21 @@
         <div class="grid grid-cols-3 gap-3 md:gap-6 mb-16 px-4 max-w-2xl mx-auto" dir="rtl">
             <!-- Next Ayah (Left visually in RTL, Forward in logic) -->
             <button id="nextAyahBtn"
-                class="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] border border-[#e5e0d4] rounded-xl text-[#1B4332] hover:bg-white hover:border-[#1B4332] transition-all group order-3">
+                class="navigation-btn flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] border border-[#e5e0d4] rounded-xl text-[#1B4332] hover:bg-white hover:border-[#1B4332] transition-all group order-3">
                 <svg xmlns="http://www.w3.org/2000/svg"
-                    class="h-3.5 w-3.5 transform group-hover:-translate-x-1 transition-transform" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
+                    class="h-3.5 w-3.5 transform group-hover:-translate-x-1 transition-transform flex-shrink-0"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
-                <span class="text-sm font-bold font-serif">الآية التالية</span>
+                <span class="text-sm font-bold font-serif whitespace-nowrap">الآية التالية</span>
             </button>
 
             <!-- Back to Surah (Center) -->
             <a href="" id="surahIndexBtn"
-                class="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] border border-[#e5e0d4] rounded-xl text-[#1B4332] hover:bg-white hover:border-[#1B4332] transition-all font-serif group order-2">
-                <span class="text-sm font-bold font-serif">العودة للسورة</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
+                class="navigation-btn flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] border border-[#e5e0d4] rounded-xl text-[#1B4332] hover:bg-white hover:border-[#1B4332] transition-all font-serif group order-2">
+                <span class="text-sm font-bold font-serif whitespace-nowrap">العودة للسورة</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-70 flex-shrink-0" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
@@ -814,11 +824,11 @@
 
             <!-- Previous Ayah (Right visually in RTL, Backward in logic) -->
             <button id="prevAyahBtn"
-                class="flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] border border-[#e5e0d4] rounded-xl text-[#1B4332] hover:bg-white hover:border-[#1B4332] transition-all group order-1">
-                <span class="text-sm font-bold font-serif">الآية السابقة</span>
+                class="navigation-btn flex items-center justify-center gap-2 px-4 py-2.5 bg-[#fdfcfb] border border-[#e5e0d4] rounded-xl text-[#1B4332] hover:bg-white hover:border-[#1B4332] transition-all group order-1">
+                <span class="text-sm font-bold font-serif whitespace-nowrap">الآية السابقة</span>
                 <svg xmlns="http://www.w3.org/2000/svg"
-                    class="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
+                    class="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform flex-shrink-0"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
