@@ -48,6 +48,73 @@
         body {
             font-family: "Noto Naskh Arabic", sans-serif;
         }
+
+        /* Celebration Modal Styles */
+        #celebrationModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            padding: 1.5rem;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 24px;
+            padding: 2.5rem;
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            position: relative;
+            border: 4px solid #D4AF37;
+        }
+
+        .celebration-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .celebration-title {
+            font-family: 'Amiri', serif;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1B4332;
+            margin-bottom: 0.5rem;
+        }
+
+        .celebration-text {
+            color: #4b5563;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .close-celebration {
+            background: #1B4332;
+            color: white;
+            padding: 0.8rem 2.5rem;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1rem;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .close-celebration:hover {
+            background: #2D6A4F;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 
@@ -55,27 +122,37 @@
 
     <!-- Header -->
     <header class="bg-[#1B4332] text-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto max-w-6xl px-6 py-3 flex justify-between items-center dir-rtl">
+        <div class="container mx-auto max-w-6xl px-3 md:px-6 py-3 flex justify-between items-center dir-rtl">
             <!-- Logo -->
-            <div class="flex items-center gap-3">
+            <div onclick="window.location.href='index.html'"
+                class="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity cursor-pointer">
                 <div class="bg-[#2D5A46] p-2 rounded-xl border border-[#4A7C66]">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 text-white" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                 </div>
-                <div>
-                    <h1 class="text-lg font-bold font-serif leading-none">القرآن الكريم</h1>
-                    <span class="text-[10px] text-gray-300 opacity-80">القراءة والتدبر</span>
+                <div class="hidden sm:block">
+                    <h1 class="text-base md:text-lg font-bold font-serif leading-none">القرآن الكريم</h1>
+                    <span class="text-[10px] text-gray-300 opacity-80 mt-1">القراءة والتدبر والتفسير</span>
                 </div>
             </div>
 
             <!-- Nav -->
-            <div class="flex items-center gap-6 text-sm">
-                <a href="#"
-                    class="bg-[#3A6B56] text-white px-4 py-1.5 rounded-full font-medium hidden md:block">الرئيسية</a>
-                <a href="search.html" class="flex items-center gap-2 text-gray-300 hover:text-white">
+            <div class="flex items-center gap-3 md:gap-6 text-sm">
+                <!-- Home Button -->
+                <a href="index.html"
+                    class="bg-[#3A6B56] text-white px-3 md:px-4 py-1.5 rounded-full font-medium flex items-center gap-1.5 md:gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    <span class="text-xs md:text-sm">الرئيسية</span>
+                </a>
+                <a href="search.html"
+                    class="flex items-center gap-1.5 md:gap-2 text-gray-300 hover:text-white transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -83,7 +160,8 @@
                     </svg>
                     <span class="hidden md:inline">البحث</span>
                 </a>
-                <a href="favorites.html" class="flex items-center gap-2 text-gray-300 hover:text-white">
+                <a href="favorites.html"
+                    class="flex items-center gap-1.5 md:gap-2 text-gray-300 hover:text-white transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -92,13 +170,12 @@
                     <span class="hidden md:inline">المفضلة</span>
                 </a>
 
-                <div class="h-5 w-px bg-white/20 mx-1"></div>
+                <div class="h-5 w-px bg-white/20 mx-1 hidden md:block"></div>
 
                 <!-- Settings Button -->
-                <button onclick="toggleSettings()"
-                    class="text-gray-300 hover:text-white hover:rotate-90 transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
+                <button onclick="toggleSettings();" class="text-gray-300 hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -108,6 +185,16 @@
             </div>
         </div>
     </header>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn"
+        class="fixed bottom-8 right-8 z-50 bg-[#1B4332] text-white p-3 rounded-2xl shadow-2xl opacity-0 translate-y-10 transition-all duration-500 hover:scale-110 active:scale-95 border border-white/20 group"
+        onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:-translate-y-1 transition-transform"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
 
     <!-- Main Content -->
     <div class="flex-grow flex flex-col w-full">
@@ -288,8 +375,35 @@
         </div>
     </footer>
 
+    <div id="celebrationModal" class="dir-rtl">
+        <div class="modal-content">
+            <span class="celebration-icon">🎉</span>
+            <h2 class="celebration-title">مبروك الختمة</h2>
+            <p class="celebration-text">تم بحمد الله ختم قراءة القرآن الكريم كاملاً. بارك الله لك ونفعك بما قرأت.</p>
+            <button onclick="closeCelebration()" class="close-celebration">الحمد لله</button>
+        </div>
+    </div>
+
     <script src="main.js"></script>
     <script src="settings.js"></script>
+    <script>
+        function closeCelebration() {
+            document.getElementById('celebrationModal').style.display = 'none';
+        }
+    </script>
+    <script>
+        // Scroll to Top Logic
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+                scrollToTopBtn.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                scrollToTopBtn.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+                scrollToTopBtn.classList.remove('opacity-100', 'translate-y-0');
+            }
+        });
+    </script>
 </body>
 
 </html>

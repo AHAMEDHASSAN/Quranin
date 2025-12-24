@@ -373,15 +373,20 @@ async function performSearch() {
 
   // 3. Regular text search
   if (surahSelect.value === 'all') {
-    allData.data.surahs.forEach(s => {
-      const m = searchInAyahs(s.number, s.name, q);
-      matches = matches.concat(m);
-    });
+    // If it's a simple numeric query (searching Surah 1-114), prioritize the Surah card (shown above)
+    // and don't show the 1st ayah of every single surah to avoid clutter.
+    if (!isNumericQuery) {
+        allData.data.surahs.forEach(s => {
+            const m = searchInAyahs(s.number, s.name, q);
+            matches = matches.concat(m);
+        });
+    }
   } else {
-    const sIdx = Number(surahSelect.value);
-    const s = allData.data.surahs.find(x => x.number === sIdx);
-    if (s) {
-      matches = matches.concat(searchInAyahs(s.number, s.name, q));
+    // Specific Surah selected: Allow searching within it (including by number)
+    const sIdxSelected = Number(surahSelect.value);
+    const sSelected = allData.data.surahs.find(x => x.number === sIdxSelected);
+    if (sSelected) {
+      matches = matches.concat(searchInAyahs(sSelected.number, sSelected.name, q));
     }
   }
 

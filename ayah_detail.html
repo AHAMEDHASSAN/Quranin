@@ -507,54 +507,7 @@
         #surahSelectorBtn:hover {
             border-color: #1B4332;
         }
-
-        /* Celebration Modal Styles */
-        .celebration-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(27, 67, 50, 0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.5s ease;
-            backdrop-filter: blur(8px);
-        }
-
-        .celebration-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .celebration-card {
-            background: white;
-            padding: 3rem 2rem;
-            border-radius: 2rem;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            transform: translateY(20px);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 4px solid #D4AF37;
-        }
-
-        .celebration-overlay.active .celebration-card {
-            transform: translateY(0);
-        }
-
-        .celebration-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 
 <body class="bg-[#FDFBF7] text-[#1B4332]">
@@ -580,16 +533,15 @@
 
             <!-- Nav Links -->
             <div class="flex items-center gap-3 md:gap-6 text-sm">
-                <!-- Home Button - Icon on mobile, text on desktop -->
+                <!-- Home Button -->
                 <a href="index.html"
-                    class="bg-[#3A6B56] text-white px-3 md:px-4 py-1.5 rounded-full font-medium flex items-center gap-1.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:hidden" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
+                    class="bg-[#3A6B56] text-white px-3 md:px-4 py-1.5 rounded-full font-medium flex items-center gap-1.5 md:gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                     </svg>
-                    <span class="hidden md:inline">الرئيسية</span>
-                    <span class="md:hidden text-xs">الرئيسية</span>
+                    <span class="text-xs md:text-sm">الرئيسية</span>
                 </a>
                 <a href="search.html" class="flex items-center gap-2 text-gray-300 hover:text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -624,6 +576,16 @@
             </div>
         </div>
     </header>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn"
+        class="fixed bottom-8 right-8 z-50 bg-[#1B4332] text-white p-3 rounded-2xl shadow-2xl opacity-0 translate-y-10 transition-all duration-500 hover:scale-110 active:scale-95 border border-white/20 group pointer-events-none"
+        onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:-translate-y-1 transition-transform"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
 
     <!-- Navigation Header -->
     <div class="bg-[#fdfcfb] border-b border-[#ecead8] sticky top-0 z-40 shadow-sm transition-all duration-300">
@@ -843,11 +805,21 @@
                         </svg>
                     </button>
 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#1B4332]/60" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                    </svg>
+                    <button id="muteBtn" class="text-[#1B4332]/60 hover:text-[#1B4332] transition-colors"
+                        title="كتم/تشغيل الصوت">
+                        <svg id="volumeUpIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                        </svg>
+                        <svg id="volumeMuteIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                        </svg>
+                    </button>
                 </div>
 
                 <div class="text-center mt-4 pt-4 border-t border-[#e5e0d4]/60">
@@ -1043,21 +1015,6 @@
         </div>
     </footer>
 
-    <!-- Celebration Modal -->
-    <div id="celebrationOverlay" class="celebration-overlay">
-        <div class="celebration-card">
-            <span class="celebration-icon">✨ 📖 ✨</span>
-            <h2 class="text-3xl font-bold font-serif text-[#1B4332] mb-4">هنيئاً لك ختم القرآن!</h2>
-            <p class="text-[#5c5b54] mb-8 leading-relaxed font-serif text-lg">
-                ما شاء الله، لقد أتممت قراءة القرآن الكريم كاملاً. جزاك الله خيراً ونفعك بما قرأت وجعله نوراً لك.
-            </p>
-            <button onclick="document.getElementById('celebrationOverlay').classList.remove('active')"
-                class="bg-[#1B4332] text-white px-8 py-3 rounded-full font-bold hover:bg-[#2D6A4F] transition-all">
-                تقبل الله منا ومنكم
-            </button>
-        </div>
-    </div>
-
     <audio id="audio" preload="none"></audio>
 
     <script src="settings.js"></script>
@@ -1169,9 +1126,6 @@
                     localStorage.setItem('lastReadSurah', surah);
                     localStorage.setItem('lastReadAyah', ayah);
 
-                    // Track as read
-                    markAyahAsRead(surah, ayah);
-
                     // Check Favorite Status
                     updateFavoriteIcon();
                 }
@@ -1241,6 +1195,7 @@
         const currentTimeEl = document.getElementById('currentTime');
         const durationEl = document.getElementById('duration');
         const replayBtn = document.getElementById('replayBtn');
+        const muteBtn = document.getElementById('muteBtn');
 
         // Format time helper
         function formatTime(seconds) {
@@ -1264,11 +1219,37 @@
             }
         };
 
-        // Replay
+        // Toggle Loop (Replay)
         replayBtn.onclick = () => {
-            audio.currentTime = 0;
-            audio.play();
-            updatePlayIcon(true);
+            audio.loop = !audio.loop;
+            if (audio.loop) {
+                replayBtn.classList.remove('text-[#1B4332]/60');
+                replayBtn.classList.add('text-brand', 'scale-110');
+                replayBtn.title = "إيقاف التكرار";
+            } else {
+                replayBtn.classList.add('text-[#1B4332]/60');
+                replayBtn.classList.remove('text-brand', 'scale-110');
+                replayBtn.title = "تكرار الآية";
+            }
+        };
+
+        // Toggle Mute
+        muteBtn.onclick = () => {
+            audio.muted = !audio.muted;
+            const volumeUp = document.getElementById('volumeUpIcon');
+            const volumeMute = document.getElementById('volumeMuteIcon');
+
+            if (audio.muted) {
+                volumeUp.classList.add('hidden');
+                volumeMute.classList.remove('hidden');
+                muteBtn.classList.remove('text-[#1B4332]/60');
+                muteBtn.classList.add('text-red-500');
+            } else {
+                volumeUp.classList.remove('hidden');
+                volumeMute.classList.add('hidden');
+                muteBtn.classList.add('text-[#1B4332]/60');
+                muteBtn.classList.remove('text-red-500');
+            }
         };
 
         // Progress bar click
@@ -1410,53 +1391,6 @@
                 outline.classList.remove('hidden');
                 btn.classList.remove('bg-red-50');
             }
-        }
-
-        // ====== Reading Progress Tracking ======
-        function markAyahAsRead(s, a) {
-            const readKey = `${s}:${a}`;
-            let readAyahs = JSON.parse(localStorage.getItem('quran_read_ayahs') || '{}');
-
-            if (!readAyahs[readKey]) {
-                readAyahs[readKey] = true;
-                localStorage.setItem('quran_read_ayahs', JSON.stringify(readAyahs));
-            }
-
-            // Check for Khatm (Surah 114, Ayah 6)
-            if (s === 114 && a === 6) {
-                const totalRead = Object.keys(readAyahs).length;
-                // If they've read more than 90% (to be safe/flexible) or reached the end
-                if (totalRead > 5500) {
-                    showKhatmCelebration();
-                }
-            }
-        }
-
-        function showKhatmCelebration() {
-            const overlay = document.getElementById('celebrationOverlay');
-            overlay.classList.add('active');
-
-            // Confetti effect
-            const duration = 5 * 1000;
-            const animationEnd = Date.now() + duration;
-            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
-
-            function randomInRange(min, max) {
-                return Math.random() * (max - min) + min;
-            }
-
-            const interval = setInterval(function () {
-                const timeLeft = animationEnd - Date.now();
-
-                if (timeLeft <= 0) {
-                    return clearInterval(interval);
-                }
-
-                const particleCount = 50 * (timeLeft / duration);
-                // since particles fall down, start a bit higher than random
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-            }, 250);
         }
 
         // Initialize Favorite Button
@@ -1607,6 +1541,38 @@
         });
 
         window.onload = init;
+
+        // Audio controls logic
+        document.getElementById('replayBtn').addEventListener('click', function () {
+            audio.loop = !audio.loop;
+            this.classList.toggle('bg-[#3A6B56]', audio.loop);
+            this.classList.toggle('text-white', audio.loop);
+            this.title = audio.loop ? 'إيقاف التكرار' : 'تكرار الآية';
+        });
+
+        document.getElementById('muteBtn').addEventListener('click', function () {
+            audio.muted = !audio.muted;
+            const icon = this.querySelector('svg');
+            if (audio.muted) {
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />';
+                this.classList.add('text-red-400');
+            } else {
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />';
+                this.classList.remove('text-red-400');
+            }
+        });
+
+        // Scroll to Top Logic
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+                scrollToTopBtn.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                scrollToTopBtn.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+                scrollToTopBtn.classList.remove('opacity-100', 'translate-y-0');
+            }
+        });
     </script>
 </body>
 
