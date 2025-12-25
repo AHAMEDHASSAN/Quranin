@@ -497,19 +497,27 @@
             position: relative;
         }
 
+        /* Define specialized variables for slider colors */
+        .volume-container {
+            --vol-filled: #1B4332;
+            --vol-empty: #e5e0d4;
+        }
+
+        .dark .volume-container {
+            --vol-filled: #D4AF37;
+            --vol-empty: rgba(255, 255, 255, 0.1);
+        }
+
         .volume-slider {
             -webkit-appearance: none;
             appearance: none;
             width: 80px;
             height: 4px;
-            background: #e5e0d4;
             border-radius: 99px;
             cursor: pointer;
             transition: width 0.3s ease;
-        }
-
-        .dark .volume-slider {
-            background: rgba(255, 255, 255, 0.1);
+            /* Dynamic background gradient */
+            background: linear-gradient(to right, var(--vol-filled) 0%, var(--vol-filled) var(--volume-percent, 100%), var(--vol-empty) var(--volume-percent, 100%), var(--vol-empty) 100%);
         }
 
         .volume-container:hover .volume-slider {
@@ -521,13 +529,11 @@
             appearance: none;
             width: 12px;
             height: 12px;
-            background: #1B4332;
+            background: var(--vol-filled);
             border-radius: 50%;
             cursor: pointer;
-        }
-
-        .dark .volume-slider::-webkit-slider-thumb {
-            background: #D4AF37;
+            box-shadow: 0 0 0 2px var(--background);
+            /* Small ring for contrast */
         }
 
         @media (max-width: 640px) {
@@ -719,7 +725,7 @@
 
     <!-- Scroll to Top Button -->
     <button id="scrollToTopBtn"
-        class="fixed bottom-8 right-8 z-50 bg-[#1B4332] text-white p-3 rounded-2xl shadow-2xl opacity-0 translate-y-10 transition-all duration-500 hover:scale-110 active:scale-95 border border-white/20 group pointer-events-none dark:bg-brand-gold dark:text-brand-dark dark:border-brand-gold"
+        class="fixed bottom-8 right-8 z-50 bg-[#1B4332] dark:bg-brand-gold text-white dark:text-[#1B4332] p-3 rounded-2xl shadow-2xl opacity-0 translate-y-10 transition-all duration-500 hover:scale-110 active:scale-95 border border-white/20 dark:border-brand-gold group pointer-events-none"
         onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:-translate-y-1 transition-transform"
             fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -930,7 +936,7 @@
 
                 <div class="audio-controls flex items-center gap-4 dir-ltr">
                     <button id="playBtn"
-                        class="w-12 h-12 bg-white dark:bg-white/10 border border-[#1B4332]/20 dark:border-white/20 rounded-full flex items-center justify-center text-[#1B4332] dark:text-white hover:bg-[#1B4332] dark:hover:bg-brand-gold hover:text-white dark:hover:text-brand-dark transition-all shadow-sm">
+                        class="w-12 h-12 bg-[#1B4332] border border-[#1B4332] rounded-full flex items-center justify-center text-white transition-all shadow-sm">
                         <svg id="playIcon" class="h-5 w-5 ml-0.5 pointer-events-none" viewBox="0 0 24 24"
                             fill="currentColor">
                             <path d="M8 5v14l11-7z" />
@@ -1431,7 +1437,13 @@
                 audio.muted = false;
             }
             updateMuteIcons();
+            updateVolumeProgress();
         };
+
+        function updateVolumeProgress() {
+            const percent = volumeSlider.value * 100;
+            volumeSlider.style.setProperty('--volume-percent', `${percent}%`);
+        }
 
         function updateMuteIcons() {
             const volumeUp = document.getElementById('volumeUpIcon');
@@ -1441,7 +1453,7 @@
                 volumeUp.classList.add('hidden');
                 volumeMute.classList.remove('hidden');
                 muteBtn.classList.remove('text-[#1B4332]/60', 'dark:text-white/40');
-                muteBtn.classList.add('text-red-500');
+                muteBtn.classList.add('text-red-500'); // Red when muted
             } else {
                 volumeUp.classList.remove('hidden');
                 volumeMute.classList.add('hidden');
@@ -1455,6 +1467,7 @@
             } else if (volumeSlider.value == 0 && audio.volume > 0) {
                 volumeSlider.value = audio.volume;
             }
+            updateVolumeProgress();
         }
 
         // Progress bar click
@@ -1489,12 +1502,24 @@
         };
 
         function updatePlayIcon(isPlaying) {
+            const btn = document.getElementById('playBtn');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+
             if (isPlaying) {
-                document.getElementById('playIcon').classList.add('hidden');
-                document.getElementById('pauseIcon').classList.remove('hidden');
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+
+                // Active Styling (Playing): Gold Background, Dark Icon
+                btn.classList.remove('bg-[#1B4332]', 'text-white', 'dark:bg-[#1B4332]');
+                btn.classList.add('bg-[#D4AF37]', 'text-[#1B4332]', 'border-[#D4AF37]', 'scale-110', 'shadow-lg');
             } else {
-                document.getElementById('playIcon').classList.remove('hidden');
-                document.getElementById('pauseIcon').classList.add('hidden');
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+
+                // Inactive Styling (Paused): Dark Green Background, White Icon
+                btn.classList.remove('bg-[#D4AF37]', 'text-[#1B4332]', 'border-[#D4AF37]', 'scale-110', 'shadow-lg');
+                btn.classList.add('bg-[#1B4332]', 'text-white', 'border-[#1B4332]');
             }
         }
 
