@@ -934,9 +934,9 @@
                     </div>
                 </div>
 
-                <div class="audio-controls flex items-center gap-4 dir-ltr">
+                <div class="audio-controls flex items-center gap-2 dir-ltr">
                     <button id="playBtn"
-                        class="w-12 h-12 bg-[#1B4332] border border-[#1B4332] rounded-full flex items-center justify-center text-white transition-all shadow-sm">
+                        class="w-12 h-12 flex-shrink-0 bg-[#1B4332] border border-[#1B4332] rounded-full flex items-center justify-center text-white transition-all shadow-sm">
                         <svg id="playIcon" class="h-5 w-5 ml-0.5 pointer-events-none" viewBox="0 0 24 24"
                             fill="currentColor">
                             <path d="M8 5v14l11-7z" />
@@ -950,7 +950,7 @@
                     <span id="currentTime"
                         class="text-xs text-[#1B4332]/70 dark:text-white/60 font-mono w-10 text-center">0:00</span>
 
-                    <div class="flex-1 h-1.5 bg-[#e5e0d4] dark:bg-white/10 rounded-full relative cursor-pointer group"
+                    <div class="flex-1 min-w-[50px] h-1.5 bg-[#e5e0d4] dark:bg-white/20 rounded-full relative cursor-pointer group"
                         id="progressContainer">
                         <div id="progressBar"
                             class="absolute top-0 left-0 h-full bg-[#2D5A46] dark:bg-brand-gold rounded-full w-0 group-hover:bg-[#1B4332] transition-all">
@@ -1555,17 +1555,11 @@
             if (isPlaying) {
                 playIcon.classList.add('hidden');
                 pauseIcon.classList.remove('hidden');
-
-                // Active Styling (Playing): Gold Background, Dark Icon
-                btn.classList.remove('bg-[#1B4332]', 'text-white', 'dark:bg-[#1B4332]');
-                btn.classList.add('bg-[#D4AF37]', 'text-[#1B4332]', 'border-[#D4AF37]', 'scale-110', 'shadow-lg');
+                // Active Styling: No color change (Green default)
             } else {
                 playIcon.classList.remove('hidden');
                 pauseIcon.classList.add('hidden');
-
-                // Inactive Styling (Paused): Dark Green Background, White Icon
-                btn.classList.remove('bg-[#D4AF37]', 'text-[#1B4332]', 'border-[#D4AF37]', 'scale-110', 'shadow-lg');
-                btn.classList.add('bg-[#1B4332]', 'text-white', 'border-[#1B4332]');
+                // Inactive Styling: No color change (Green default)
             }
         }
 
