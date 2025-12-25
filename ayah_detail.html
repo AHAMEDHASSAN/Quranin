@@ -1414,12 +1414,14 @@
         replayBtn.addEventListener('click', () => {
             audio.loop = !audio.loop;
             if (audio.loop) {
+                // Active State: Yellow/Gold
                 replayBtn.classList.remove('text-[#1B4332]/60', 'dark:text-white/40');
-                replayBtn.classList.add('text-[#1B4332]', 'dark:text-brand-gold', 'scale-110', 'bg-[#1B4332]/10', 'dark:bg-brand-gold/10');
+                replayBtn.classList.add('text-[#D4AF37]', 'scale-110', 'bg-[#D4AF37]/10');
                 replayBtn.title = "إيقاف التكرار";
             } else {
+                // Inactive State: Dimmed
                 replayBtn.classList.add('text-[#1B4332]/60', 'dark:text-white/40');
-                replayBtn.classList.remove('text-[#1B4332]', 'dark:text-brand-gold', 'scale-110', 'bg-[#1B4332]/10', 'dark:bg-brand-gold/10');
+                replayBtn.classList.remove('text-[#D4AF37]', 'scale-110', 'bg-[#D4AF37]/10');
                 replayBtn.title = "تكرار الآية";
             }
         });
