@@ -160,12 +160,20 @@
             position: relative;
         }
 
-        .progress-bar {
+        #progressBar {
             height: 100%;
-            background: linear-gradient(90deg, #1B4332, #2D5A46);
+            background: #D4AF37;
             border-radius: 999px;
             width: 0%;
             transition: width 0.1s linear;
+        }
+
+        .dark #progressBar {
+            background: #D4AF37 !important;
+        }
+
+        .dark #progressContainer {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .control-btn {
@@ -1046,8 +1054,7 @@
 
                     <div class="flex-1 min-w-[50px] h-1.5 bg-[#e5e0d4] dark:bg-white/20 rounded-full relative cursor-pointer group"
                         id="progressContainer">
-                        <div id="progressBar"
-                            class="absolute top-0 left-0 h-full bg-[#2D5A46] dark:bg-brand-gold rounded-full w-0 group-hover:bg-[#1B4332] transition-all">
+                        <div id="progressBar" class="absolute top-0 left-0 h-full rounded-full w-0 transition-all">
                         </div>
                     </div>
 
