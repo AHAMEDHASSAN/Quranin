@@ -1501,8 +1501,6 @@
         const volumeSlider = document.getElementById('volumeSlider');
 
         // Reciter Handling
-        let currentReciterId = localStorage.getItem('lastReciter') || 'Alafasy_128kbps';
-
         const reciterNames = {
             'Alafasy_128kbps': 'مشاري العفاسي',
             'Minshawy_Murattal_128kbps': 'محمد صديق المنشاوي',
@@ -1513,6 +1511,15 @@
             'Yasser_Ad-Dussary_128kbps': 'ياسر الدوسري',
             'Mustafa_Ismail_48kbps': 'مصطفى إسماعيل'
         };
+
+        // Validate and Migrate Reciter ID (Handle Legacy Stored Values)
+        let currentReciterId = localStorage.getItem('lastReciter') || 'Alafasy_128kbps';
+        if (currentReciterId === 'Mustafa_Ismail') {
+            currentReciterId = 'Mustafa_Ismail_48kbps';
+            localStorage.setItem('lastReciter', currentReciterId);
+        } else if (!reciterNames[currentReciterId]) {
+            currentReciterId = 'Alafasy_128kbps';
+        }
 
         function updateReciterText() {
             const label = document.getElementById('currentReciterLabel');
@@ -1564,11 +1571,12 @@
         // Filter Reciters
         function filterReciters(query) {
             const options = document.querySelectorAll('.reciter-option');
-            const normalizedQuery = query.toLowerCase().trim();
+            const normalizedQuery = normalizeArabic(query.toLowerCase().trim());
 
             options.forEach(option => {
-                const name = option.getAttribute('data-name').toLowerCase();
-                if (name.includes(normalizedQuery)) {
+                const nameAttr = option.getAttribute('data-name') || '';
+                const normalizedName = normalizeArabic(nameAttr.toLowerCase());
+                if (normalizedName.includes(normalizedQuery)) {
                     option.classList.remove('hidden');
                 } else {
                     option.classList.add('hidden');
@@ -1591,7 +1599,6 @@
 
         function initReciterSelector() {
             updateReciterText();
-            // Optional: Mark initial active reciter in UI
         }
 
         function loadAudio(autoPlay = false) {
