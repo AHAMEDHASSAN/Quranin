@@ -921,9 +921,9 @@
 
             <!-- Audio Player Card -->
             <div
-                class="audio-player-container bg-[#f9f7f2] dark:bg-white/5 border border-[#e5e0d4] dark:border-white/10 rounded-2xl p-6 mt-6 shadow-sm">
+                class="audio-player-container bg-[#f9f7f2] dark:bg-white/5 border border-[#e5e0d4] dark:border-white/10 rounded-2xl p-4 sm:p-6 mt-6 shadow-sm">
                 <div
-                    class="flex items-center justify-between mb-4 text-[#1B4332]/70 dark:text-brand-gold text-sm font-serif">
+                    class="flex flex-wrap items-center justify-between mb-4 text-[#1B4332]/70 dark:text-brand-gold text-sm font-serif">
                     <div class="flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -932,6 +932,18 @@
                         </svg>
                         <span>الاستماع للآية</span>
                     </div>
+
+                    <select id="reciterSelector"
+                        class="bg-[#f9f7f2] dark:bg-[#0f291e] border border-[#1B4332]/20 dark:border-brand-gold/30 text-[#1B4332] dark:text-brand-gold text-xs rounded-xl px-3 py-1.5 focus:outline-none focus:border-[#1B4332] dark:focus:border-brand-gold font-serif appearance-none cursor-pointer hover:bg-[#1B4332]/5 dark:hover:bg-white/5 transition-colors max-w-[60%] truncate focus:ring-1 focus:ring-[#1B4332]/30 dark:focus:ring-brand-gold/30">
+                        <option value="Alafasy_128kbps" class="bg-[#f9f7f2] dark:bg-[#0f291e]">مشاري العفاسي</option>
+                        <option value="Minshawy_Murattal_128kbps" class="bg-[#f9f7f2] dark:bg-[#0f291e]">محمد صديق
+                            المنشاوي</option>
+                        <option value="Husary_128kbps" class="bg-[#f9f7f2] dark:bg-[#0f291e]">محمود خليل الحصري</option>
+                        <option value="Abdul_Basit_Murattal_192kbps" class="bg-[#f9f7f2] dark:bg-[#0f291e]">عبد الباسط
+                            عبد الصمد</option>
+                        <option value="Abdullah_Kamel_128kbps" class="bg-[#f9f7f2] dark:bg-[#0f291e]">عبدالله كامل
+                        </option>
+                    </select>
                 </div>
 
                 <div class="audio-controls flex items-center gap-2 dir-ltr">
@@ -960,7 +972,7 @@
                     <span id="duration"
                         class="text-xs text-[#1B4332]/70 dark:text-white/60 font-mono w-10 text-center">0:00</span>
 
-                    <div class="volume-container flex items-center gap-2" dir="ltr">
+                    <div class="volume-container hidden sm:flex items-center gap-2" dir="ltr">
                         <button id="muteBtn"
                             class="text-[#1B4332]/60 dark:text-white/40 hover:text-[#1B4332] dark:hover:text-white transition-colors"
                             title="كتم/تشغيل الصوت">
@@ -1273,10 +1285,11 @@
                     document.getElementById('ayahText').textContent = ayahText;
                     document.getElementById('ayahNumBadge').textContent = ayah.toLocaleString('ar-EG');
 
-                    // Audio Setup (Using EveryAyah for reliability)
-                    const pad = n => n.toString().padStart(3, '0');
-                    const audioUrl = `https://everyayah.com/data/Alafasy_128kbps/${pad(surah)}${pad(ayah)}.mp3`;
-                    audio.src = audioUrl;
+                    document.getElementById('ayahNumBadge').textContent = ayah.toLocaleString('ar-EG');
+
+                    // Audio Setup
+                    updateReciterText();
+                    loadAudio();
 
                     // Setup Navigation Buttons
 
@@ -1397,6 +1410,56 @@
         const replayBtn = document.getElementById('replayBtn');
         const muteBtn = document.getElementById('muteBtn');
         const volumeSlider = document.getElementById('volumeSlider');
+
+        // Reciter Handling
+        const reciterSelector = document.getElementById('reciterSelector');
+        let currentReciterId = localStorage.getItem('lastReciter') || 'Alafasy_128kbps';
+
+        // Set initial selected value
+        if (reciterSelector) {
+            reciterSelector.value = currentReciterId;
+            reciterSelector.onchange = (e) => {
+                currentReciterId = e.target.value;
+                localStorage.setItem('lastReciter', currentReciterId);
+                loadAudio();
+                updateReciterText();
+            };
+        }
+
+        const reciterNames = {
+            'Alafasy_128kbps': 'مشاري راشد العفاسي',
+            'Minshawy_Murattal_128kbps': 'محمد صديق المنشاوي',
+            'Husary_128kbps': 'محمود خليل الحصري',
+            'Abdul_Basit_Murattal_192kbps': 'عبد الباسط عبد الصمد',
+            'Abdullah_Kamel_128kbps': 'عبدالله كامل'
+        };
+
+        function updateReciterText() {
+            const footerText = document.querySelector('.audio-player-container .text-center span');
+            if (footerText) {
+                footerText.textContent = `بصوت القارئ ${reciterNames[currentReciterId] || 'مشاري راشد العفاسي'}`;
+            }
+        }
+
+        function loadAudio(autoPlay = false) {
+            const pad = n => n.toString().padStart(3, '0');
+            const audioUrl = `https://everyayah.com/data/${currentReciterId}/${pad(surah)}${pad(ayah)}.mp3`;
+
+            // Keep playback state if possible? No, safer to stop.
+            const wasPlaying = !audio.paused;
+
+            audio.src = audioUrl;
+
+            // If this load is triggered by user change, maybe autoplay?
+            // Or just update metadata. 
+            // Let's reset play state to be safe unless we want seamless.
+            // User just wants to switch.
+
+            updatePlayIcon(false);
+            if (autoPlay || wasPlaying && autoPlay !== false) {
+                // audio.play(); // Option to autoplay
+            }
+        }
 
         // Format time helper
         function formatTime(seconds) {
