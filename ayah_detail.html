@@ -1023,14 +1023,7 @@
                                         ٧</div>
                                     <span class="text-right font-bold">ياسر الدوسري</span>
                                 </button>
-                                <button onclick="selectReciter('Mustafa_Ismail_48kbps', 'مصطفى إسماعيل')"
-                                    class="w-full flex items-center gap-3 px-4 py-3 text-sm text-[#1B4332] dark:text-white hover:bg-[#1B4332]/5 dark:hover:bg-black/20 transition-colors border-b border-[#1B4332]/5 dark:border-white/5 last:border-0 reciter-option group"
-                                    data-value="Mustafa_Ismail_48kbps" data-name="مصطفى إسماعيل">
-                                    <div
-                                        class="w-8 h-8 rounded-full bg-[#1B4332] text-white dark:bg-white/10 dark:text-brand-gold flex items-center justify-center text-xs font-bold flex-shrink-0 shadow-sm group-hover:scale-110 transition-transform">
-                                        ٨</div>
-                                    <span class="text-right font-bold">مصطفى إسماعيل</span>
-                                </button>
+
                             </div>
                         </div>
                     </div>
@@ -1508,14 +1501,13 @@
             'Abdul_Basit_Murattal_192kbps': 'عبد الباسط عبد الصمد',
             'Ahmed_ibn_Ali_al-Ajamy_128kbps_ketaballah.net': 'أحمد العجمي',
             'Maher_AlMuaiqly_64kbps': 'ماهر المعيقلي',
-            'Yasser_Ad-Dussary_128kbps': 'ياسر الدوسري',
-            'Mustafa_Ismail_48kbps': 'مصطفى إسماعيل'
+            'Yasser_Ad-Dussary_128kbps': 'ياسر الدوسري'
         };
 
         // Validate and Migrate Reciter ID (Handle Legacy Stored Values)
         let currentReciterId = localStorage.getItem('lastReciter') || 'Alafasy_128kbps';
-        if (currentReciterId === 'Mustafa_Ismail') {
-            currentReciterId = 'Mustafa_Ismail_48kbps';
+        if (currentReciterId === 'Mustafa_Ismail' || currentReciterId === 'Mustafa_Ismail_48kbps') {
+            currentReciterId = 'Alafasy_128kbps';
             localStorage.setItem('lastReciter', currentReciterId);
         } else if (!reciterNames[currentReciterId]) {
             currentReciterId = 'Alafasy_128kbps';
