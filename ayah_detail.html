@@ -1397,7 +1397,10 @@
         }
 
         // Play/Pause
-        playBtn.onclick = () => {
+        playBtn.onclick = function () {
+            playClickSound(); // Sound feedback
+            this.blur(); // Fix mobile sticky hover
+
             if (audio.paused) {
                 audio.play().catch(err => {
                     console.error('Audio play error:', err);
@@ -1411,7 +1414,32 @@
         };
 
         // Toggle Loop (Replay)
-        replayBtn.addEventListener('click', () => {
+        // Simple Click Sound Generator (Web Audio API)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playClickSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(800, audioCtx.currentTime); // Start at 800Hz
+            oscillator.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1); // Drop to 300Hz
+
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime); // Volume
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.1);
+        }
+
+        // Toggle Loop (Replay)
+        replayBtn.addEventListener('click', function () {
+            playClickSound(); // Play sound
+            this.blur(); // Remove focus to fix mobile sticky hover
+
             audio.loop = !audio.loop;
             if (audio.loop) {
                 // Active State: Yellow/Gold
@@ -1427,7 +1455,9 @@
         });
 
         // Toggle Mute
-        muteBtn.onclick = () => {
+        muteBtn.onclick = function () {
+            playClickSound();
+            this.blur();
             audio.muted = !audio.muted;
             updateMuteIcons();
         };
