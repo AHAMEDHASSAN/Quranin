@@ -323,7 +323,7 @@ function renderResults(matches, prefixHtml = '') {
   resultsEl.innerHTML = prefixHtml;
   if (matches.length === 0) {
     if (!prefixHtml) {
-        resultsEl.innerHTML = '<div class="text-center bg-white border border-gray-200 rounded-xl p-6 text-gray-600">لا توجد نتائج مطابقة</div>';
+        resultsEl.innerHTML = '<div class="text-center bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-6 text-gray-600 dark:text-gray-400">لا توجد نتائج مطابقة</div>';
     }
     return;
   }
@@ -331,8 +331,8 @@ function renderResults(matches, prefixHtml = '') {
   const header = document.createElement('div');
   header.className = 'flex items-center justify-between mb-4 md:mb-6';
   header.innerHTML = `
-    <h2 class="font-amiri font-bold text-lg md:text-xl text-foreground">نتائج البحث</h2>
-    <span class="bg-primary/10 text-primary px-3 md:px-4 py-1 md:py-1.5 rounded-full text-sm font-arabic">${toArabicDigits(matches.length)} نتيجة</span>
+    <h2 class="font-amiri font-bold text-lg md:text-xl text-foreground dark:text-white">نتائج البحث</h2>
+    <span class="bg-primary/10 dark:bg-brand-gold/20 text-primary dark:text-brand-gold px-3 md:px-4 py-1 md:py-1.5 rounded-full text-sm font-arabic">${toArabicDigits(matches.length)} نتيجة</span>
   `;
   resultsEl.appendChild(header);
 
@@ -345,27 +345,27 @@ function renderResults(matches, prefixHtml = '') {
     const surahObj = allData?.data?.surahs?.find(x => x.number === sNum);
     const sCount = surahObj ? surahObj.ayahs.length : undefined;
     const card = document.createElement('div');
-    card.className = 'group border border-border rounded-xl bg-card overflow-hidden hover:border-primary/30 hover:shadow-lg transition-all duration-300';
+    card.className = 'group border border-border dark:border-white/10 rounded-xl bg-card dark:bg-white/5 overflow-hidden hover:border-primary/30 dark:hover:border-brand-gold/30 hover:shadow-lg transition-all duration-300';
     card.innerHTML = `
-      <div class="flex items-center justify-between px-4 md:px-5 py-2.5 md:py-3 bg-secondary/30 border-b border-border">
+      <div class="flex items-center justify-between px-4 md:px-5 py-2.5 md:py-3 bg-secondary/30 dark:bg-white/5 border-b border-border dark:border-white/10">
         <div class="flex items-center gap-2 md:gap-3">
-          <div class="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-lg bg-primary/10 text-primary font-arabic font-bold text-sm md:text-base">${toArabicDigits(ayNum)}</div>
+          <div class="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-lg bg-primary/10 dark:bg-brand-gold/20 text-primary dark:text-brand-gold font-arabic font-bold text-sm md:text-base">${toArabicDigits(ayNum)}</div>
           <div class="flex flex-col md:flex-row md:items-center md:gap-2">
-            <span class="font-amiri font-semibold text-primary text-sm md:text-base">${sName}</span>
-            <span class="text-muted-foreground text-xs md:text-sm font-arabic"><span class="hidden md:inline mx-1">·</span>الآية ${toArabicDigits(ayNum)}${sCount ? ` <span class=\"hidden md:inline mx-1\">·</span>عدد الآيات ${toArabicDigits(sCount)}` : ''}</span>
+            <span class="font-amiri font-semibold text-primary dark:text-brand-gold text-sm md:text-base">${sName}</span>
+            <span class="text-muted-foreground dark:text-white/60 text-xs md:text-sm font-arabic"><span class="hidden md:inline mx-1">·</span>الآية ${toArabicDigits(ayNum)}${sCount ? ` <span class=\"hidden md:inline mx-1\">·</span>عدد الآيات ${toArabicDigits(sCount)}` : ''}</span>
           </div>
         </div>
-        <span class="px-2 py-0.5 rounded text-xs font-arabic hidden md:inline-block bg-blue-500/10 text-blue-600">تطابق عبارة</span>
+        <span class="px-2 py-0.5 rounded text-xs font-arabic hidden md:inline-block bg-blue-500/10 dark:bg-blue-400/20 text-blue-600 dark:text-blue-400">تطابق عبارة</span>
       </div>
       <div class="p-4 md:p-5">
-        <p class="ayah-text font-serif text-lg md:text-xl leading-loose text-foreground">${highlight(ayText, searchBox.value)}</p>
+        <p class="ayah-text font-serif text-lg md:text-xl leading-loose text-foreground dark:text-white">${highlight(ayText, searchBox.value)}</p>
       </div>
-      <div class="flex items-center gap-2 md:gap-3 px-4 md:px-5 py-2.5 md:py-3 bg-secondary/20 border-t border-border">
+      <div class="flex items-center gap-2 md:gap-3 px-4 md:px-5 py-2.5 md:py-3 bg-secondary/20 dark:bg-white/5 border-t border-border dark:border-white/10">
         <a class="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-arabic text-xs md:text-sm" href="ayah_detail.html?surah=${sNum}&ayah=${ayNum}">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 md:h-4 md:w-4"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
           <span>صفحة الآية والتفسير</span>
         </a>
-        <a class="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-lg bg-secondary text-foreground hover:bg-secondary/80 transition-colors font-arabic text-xs md:text-sm" href="ayahs.html?surah=${sNum}&name=${encodeURIComponent(sName)}#ayah-${ayNum}">
+        <a class="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-lg bg-secondary dark:bg-white/10 text-foreground dark:text-white hover:bg-secondary/80 dark:hover:bg-white/20 transition-colors font-arabic text-xs md:text-sm" href="ayahs.html?surah=${sNum}&name=${encodeURIComponent(sName)}#ayah-${ayNum}">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 md:h-4 md:w-4"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>
           <span>موضعها في السورة</span>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-2.5 w-2.5 md:h-3 md:w-3"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
@@ -411,14 +411,14 @@ async function performSearch() {
     const s = allData.data.surahs[surahMatchIdx];
     // Special result for Surah
     surahCardHtml = `
-      <div class="mb-6 p-4 md:p-6 bg-brand text-white rounded-2xl shadow-xl flex items-center justify-between group">
+      <div class="mb-6 p-4 md:p-6 bg-brand dark:bg-white/5 text-white rounded-2xl shadow-xl flex items-center justify-between group border border-transparent dark:border-white/10">
         <div class="flex items-center gap-4">
-            <div class="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-white/10 flex items-center justify-center font-serif text-xl md:text-2xl border border-white/20">
+            <div class="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-white/10 dark:bg-brand-gold/20 flex items-center justify-center font-serif text-xl md:text-2xl border border-white/20 dark:border-brand-gold/30">
                 ${toArabicDigits(s.number)}
             </div>
             <div>
-              <h2 class="text-xl md:text-2xl font-serif font-bold mb-1">${s.name}</h2>
-              <p class="text-brand-goldLight/80 text-xs md:text-sm">عدد آياتها: ${toArabicDigits(s.ayahs.length)} · نزولها: ${s.revelationType === 'Meccan' ? 'مكية' : 'مدنية'}</p>
+              <h2 class="text-xl md:text-2xl font-serif font-bold mb-1 text-white dark:text-brand-gold">${s.name}</h2>
+              <p class="text-brand-goldLight/80 dark:text-white/60 text-xs md:text-sm">عدد آياتها: ${toArabicDigits(s.ayahs.length)} · نزولها: ${s.revelationType === 'Meccan' ? 'مكية' : 'مدنية'}</p>
             </div>
         </div>
         <a href="ayahs.html?surah=${s.number}&name=${encodeURIComponent(s.name)}" 
