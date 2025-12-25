@@ -26,6 +26,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -34,6 +35,23 @@
               dark: '#0f291e',
               gold: '#D4AF37',
               goldLight: '#F3E5AB'
+            },
+            primary: {
+              DEFAULT: '#1B4332',
+              foreground: '#ffffff',
+            },
+            secondary: {
+              DEFAULT: '#F3E5AB',
+              foreground: '#1B4332',
+            },
+            card: {
+              DEFAULT: '#ffffff',
+              foreground: '#1B4332',
+            },
+            border: '#e5e7eb',
+            muted: {
+              DEFAULT: '#f3f4f6',
+              foreground: '#6b7280',
             }
           },
           container: { center: true, padding: { DEFAULT: '1rem' } },
@@ -49,10 +67,16 @@
     }
 
     body {
-      background-color: hsl(var(--background));
-      color: hsl(var(--foreground));
+      background-color: #FDFBF7;
+      color: #1B4332;
       font-family: "Noto Naskh Arabic", "Amiri", serif;
       min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .dark body {
+      background-color: #0f291e;
+      color: #ffffff;
     }
 
 
@@ -64,7 +88,7 @@
   </style>
 </head>
 
-<body class="text-brand dir-rtl">
+<body class="text-brand dark:text-white dir-rtl">
   <!-- Header -->
   <header class="bg-[#1B4332] text-white shadow-md sticky top-0 z-50">
     <div class="container mx-auto max-w-6xl px-3 md:px-6 py-3 flex justify-between items-center dir-rtl">
@@ -78,9 +102,7 @@
               d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
           </svg>
         </div>
-        <div class="hidden sm:block">
-          <h1 class="text-base md:text-lg font-bold font-serif leading-none">القرآن الكريم</h1>
-          <span class="text-[10px] text-gray-300 opacity-80 mt-1">القراءة والتدبر والتفسير</span>
+        <div>
         </div>
       </div>
 
@@ -88,7 +110,8 @@
       <div class="flex items-center gap-3 md:gap-6 text-sm">
         <a href="index.html"
           class="flex items-center gap-1.5 md:gap-2 text-gray-300 hover:text-white transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
@@ -126,23 +149,23 @@
   </header>
 
   <!-- Content wrapper with cream bg -->
-  <div class="bg-[#FDFBF7] flex-grow w-full">
+  <div class="bg-[#FDFBF7] dark:bg-[#0f291e] flex-grow w-full">
     <main class="container mx-auto max-w-6xl px-3 md:px-6 py-8 flex-grow">
       <div class="max-w-4xl mx-auto">
         <div class="text-center mb-6">
-          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/10 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brand" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor" stroke-width="2">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/10 dark:bg-white/10 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brand dark:text-brand-gold" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21-4.3-4.3"></path>
             </svg>
           </div>
-          <h1 class="font-serif text-3xl font-bold text-brand">البحث الذكي في القرآن الكريم</h1>
-          <p class="text-gray-500">ابحث في جميع آيات القرآن أو في سورة محددة</p>
+          <h1 class="font-serif text-3xl font-bold text-brand dark:text-brand-gold">البحث الذكي في القرآن الكريم</h1>
+          <p class="text-gray-500 dark:text-gray-400">ابحث في جميع آيات القرآن أو في سورة محددة</p>
         </div>
 
         <div class="grid gap-3  items-center mb-4">
-          <select id="surahSelect" class="h-12 rounded-xl border border-gray-200 bg-white px-3 focus:outline-none focus:ring-1 focus:ring-brand-gold
+          <select id="surahSelect" class="h-12 rounded-xl border border-gray-200 bg-white dark:bg-white/5 dark:border-white/10 px-3 focus:outline-none focus:ring-1 focus:ring-brand-gold
           
           flex items-center justify-between rounded-md border px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 w-full h-11 md:h-12 font-arabic text-sm md:text-base bg-card border-border
           ">
@@ -151,7 +174,7 @@
 
           <div class="relative">
             <input id="searchBox" type="text" dir="rtl" placeholder="اكتب كلمة أو جزء آية..."
-              class="w-full h-12 rounded-xl border border-gray-200 pl-12 pr-4 focus:outline-none focus:ring-1 focus:ring-brand-gold bg-white">
+              class="w-full h-12 rounded-xl border border-gray-200 pl-12 pr-4 focus:outline-none focus:ring-1 focus:ring-brand-gold bg-white dark:bg-white/5 dark:border-white/10 dark:text-white dark:placeholder-white/40">
             <svg xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
@@ -171,10 +194,10 @@
           <div class="max-w-3xl mx-auto">
             <div class="text-center py-12 md:py-16">
               <div
-                class="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-full bg-primary/10 mb-4 md:mb-6">
+                class="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-full bg-primary/10 dark:bg-white/10 mb-4 md:mb-6">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="lucide lucide-sparkles h-8 w-8 md:h-10 md:w-10 text-primary">
+                  class="lucide lucide-sparkles h-8 w-8 md:h-10 md:w-10 text-primary dark:text-brand-gold">
                   <path
                     d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z">
                   </path>
@@ -184,21 +207,27 @@
                   <path d="M5 18H3"></path>
                 </svg>
               </div>
-              <h3 class="font-amiri text-lg md:text-xl font-bold text-foreground mb-2">البحث الذكي في القرآن</h3>
+              <h3 class="font-amiri text-lg md:text-xl font-bold text-foreground dark:text-white mb-2">البحث الذكي في
+                القرآن</h3>
               <div class="text-muted-foreground font-arabic text-sm md:text-base max-w-md mx-auto space-y-3">
                 <p>اكتب كلمة أو جزء من آية للبحث</p>
-                <div class="text-right bg-card border border-border rounded-lg p-4 mt-4">
-                  <p class="font-semibold mb-2 text-foreground">مميزات البحث:
+                <div
+                  class="text-right bg-card dark:bg-white/5 border border-border dark:border-white/10 rounded-lg p-4 mt-4">
+                  <p class="font-semibold mb-2 text-foreground dark:text-brand-gold">مميزات البحث:
 
                   </p>
                   <ul class="space-y-1.5 text-sm">
-                    <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>يدعم
+                    <li class="flex items-center gap-2 text-muted-foreground dark:text-gray-300"><span
+                        class="w-1.5 h-1.5 rounded-full bg-primary dark:bg-brand-gold"></span>يدعم
                       البحث بدون تشكيل</li>
-                    <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>يتعرف
+                    <li class="flex items-center gap-2 text-muted-foreground dark:text-gray-300"><span
+                        class="w-1.5 h-1.5 rounded-full bg-primary dark:bg-brand-gold"></span>يتعرف
                       على حروف الألف المختلفة (أ، إ، آ، ا)</li>
-                    <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>يدعم
+                    <li class="flex items-center gap-2 text-muted-foreground dark:text-gray-300"><span
+                        class="w-1.5 h-1.5 rounded-full bg-primary dark:bg-brand-gold"></span>يدعم
                       البحث بـ "ال" أو بدونها</li>
-                    <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>يعرض
+                    <li class="flex items-center gap-2 text-muted-foreground dark:text-gray-300"><span
+                        class="w-1.5 h-1.5 rounded-full bg-primary dark:bg-brand-gold"></span>يعرض
                       اقتراحات تصحيحية</li>
                   </ul>
                 </div>
@@ -207,7 +236,9 @@
           </div>
         </div>
 
-        <div id="suggestions" class="hidden bg-white border border-gray-200 rounded-xl p-3 mb-4 text-sm"></div>
+        <div id="suggestions"
+          class="hidden bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-3 mb-4 text-sm">
+        </div>
 
         <div id="results" class="space-y-3"></div>
         <div id="loading" class="hidden text-center py-8 text-gray-500">جاري تحميل نصوص القرآن...</div>
@@ -219,7 +250,7 @@
 
   <!-- Footer -->
   <!-- Footer -->
-  <footer class="pt-16 pb-6 border-t border-border/10 bg-[#f1ede499] dark:bg-brand-dark">
+  <footer class="pt-16 pb-6 border-t border-border/10 bg-white/50 dark:bg-brand-dark">
     <div class="container mx-auto max-w-5xl px-6 text-center">
       <!-- Adhkar & Duas (Centered Section) -->
       <div class="mb-16">
@@ -304,18 +335,22 @@
         </div>
       </div>
     </div>
-    <div class="border-t border-border/10 py-5 bg-[#f1ede499] dark:bg-brand-dark">
+    <div class="border-t border-border/10 py-5 bg-white/50 dark:bg-brand-dark">
       <div class="container mx-auto max-w-6xl px-6">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
-          <p class="font-arabic flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" class="lucide lucide-book-open h-3.5 w-3.5">
+        <div
+          class="flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-muted-foreground dark:text-gray-400">
+          <p class="font-arabic flex items-center gap-2 text-brand dark:text-brand-gold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-book-open h-3.5 w-3.5">
               <path d="M12 7v14"></path>
               <path
                 d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z">
               </path>
-            </svg>القرآن الكريم - القراءة والتدبر والتفسير</p>
-          <p class="opacity-60">مصدر البيانات: AlQuran.cloud · Quran.com</p>
+            </svg>
+            <span class="text-muted-foreground dark:text-gray-400">القرآن الكريم - القراءة والتدبر والتفسير</span>
+          </p>
+          <p class="opacity-60 dark:opacity-80">مصدر البيانات: AlQuran.cloud · Quran.com</p>
         </div>
       </div>
     </div>
@@ -323,7 +358,7 @@
 
   <!-- Scroll to Top Button -->
   <button id="scrollToTopBtn"
-    class="fixed bottom-8 right-8 z-50 bg-[#1B4332] text-white p-3 rounded-2xl shadow-2xl opacity-0 translate-y-10 transition-all duration-500 hover:scale-110 active:scale-95 border border-white/20 group pointer-events-none"
+    class="fixed bottom-8 right-8 z-50 bg-[#1B4332] dark:bg-brand-gold text-white dark:text-[#1B4332] p-3 rounded-2xl shadow-2xl opacity-0 translate-y-10 transition-all duration-500 hover:scale-110 active:scale-95 border border-white/20 group pointer-events-none"
     onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:-translate-y-1 transition-transform" fill="none"
       viewBox="0 0 24 24" stroke="currentColor">
@@ -331,6 +366,7 @@
     </svg>
   </button>
 
+  <script src="settings.js"></script>
   <script src="search.js"></script>
   <script>
     // Scroll to Top Logic

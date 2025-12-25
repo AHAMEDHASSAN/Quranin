@@ -49,12 +49,8 @@
         }
     </script>
     <style>
-        html,
         body {
-            max-width: 100%;
             overflow-x: hidden;
-            width: 100%;
-            position: relative;
         }
 
         * {
@@ -70,6 +66,11 @@
             --accent: #D4AF37;
             --ayah-font-size: 2.22rem;
             --ayah-line-height: 2.1;
+        }
+
+        .dark {
+            --background: #0f291e;
+            --foreground: #ffffff;
         }
 
         body {
@@ -300,7 +301,7 @@
         /* Final Refined Ayah Selector Styles - Step 113 */
         .ayah-dropdown-modern {
             padding: 1rem;
-            background: #ffffff;
+            background: var(--background);
             border-radius: 16px;
             box-shadow: 0 12px 45px rgba(0, 0, 0, 0.12);
             width: 320px;
@@ -313,14 +314,24 @@
             left: auto;
         }
 
+        .dark .ayah-dropdown-modern {
+            background: #0f291e !important;
+            border-color: rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 12px 45px rgba(0, 0, 0, 0.5);
+        }
+
         .ayah-lookup-title {
             font-family: 'Cairo', sans-serif;
             color: #8d8b80;
             font-size: 0.95rem;
             margin-bottom: 1rem;
             text-align: center;
-            opacity: 0.8;
+            opacity: 0.9;
             width: 100%;
+        }
+
+        .dark .ayah-lookup-title {
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .manual-input-row {
@@ -373,11 +384,21 @@
             box-sizing: border-box;
         }
 
+        .dark .number-input-modern {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border-color: #D4AF37;
+        }
+
         .dropdown-divider {
             height: 1px;
             background: #F1EDE4;
             margin: 0.75rem -1rem 1.25rem -1rem;
             width: calc(100% + 2rem);
+        }
+
+        .dark .dropdown-divider {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .ayah-grid-modern {
@@ -420,6 +441,15 @@
             box-sizing: border-box;
         }
 
+        .dark .ayah-grid-item {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .dark .ayah-grid-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         .ayah-grid-item:hover {
             background: #F1EDE4;
         }
@@ -441,10 +471,18 @@
             border-radius: 10px;
         }
 
+        .dark .tafsir-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
         .tafsir-content::-webkit-scrollbar-thumb {
             background: #2D6A4F;
             border-radius: 10px;
             border: 2px solid #F8F7F2;
+        }
+
+        .dark .tafsir-content::-webkit-scrollbar-thumb {
+            border-color: #0f291e;
         }
 
         .tafsir-content::-webkit-scrollbar-thumb:hover {
@@ -524,6 +562,7 @@
                 transform: translateX(-50%) !important;
                 top: calc(100% + 0.5rem);
                 padding: 1rem;
+                background: var(--background) !important;
             }
 
             .number-input-modern {
@@ -628,9 +667,7 @@
                             d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                 </div>
-                <div class="hidden sm:block">
-                    <h1 class="text-base md:text-lg font-bold font-serif leading-none">القرآن الكريم</h1>
-                    <span class="text-[10px] text-gray-300 opacity-80">القراءة والتدبر</span>
+                <div>
                 </div>
             </div>
 
@@ -744,10 +781,10 @@
 
                     <!-- Surah Dropdown -->
                     <div id="surahDropdown"
-                        class="hidden absolute top-full right-0 mt-2 w-72 bg-white border border-gray-100 rounded-xl shadow-xl z-50 overflow-hidden">
-                        <div class="p-3 border-b border-gray-50 bg-[#f9fafb]">
+                        class="hidden absolute top-full right-0 mt-2 w-72 bg-white dark:bg-brand-dark border border-gray-100 dark:border-white/10 rounded-xl shadow-xl z-50 overflow-hidden">
+                        <div class="p-3 border-b border-gray-50 dark:border-white/5 bg-[#f9fafb] dark:bg-white/5">
                             <input type="text" id="surahSearch" placeholder="ابحث عن سورة..."
-                                class="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#1B4332] text-right dir-rtl" />
+                                class="w-full px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-sm focus:outline-none focus:border-[#1B4332] dark:focus:border-brand-gold text-right dir-rtl dark:text-white" />
                         </div>
                         <div id="surahList" class="max-h-[300px] overflow-y-auto"></div>
                     </div>
@@ -764,7 +801,7 @@
 
                         <!-- Ayah text (Middle) -->
                         <span
-                            class="text-[10px] text-[#1B4332] dark:text-white/60 opacity-60 font-sans whitespace-nowrap">الآية</span>
+                            class="text-[12px] md:text-[13px] text-[#1B4332] dark:text-white font-serif whitespace-nowrap opacity-100">الآية</span>
 
                         <!-- Ayah Number (Middle) -->
                         <span id="currentAyahNumber"
@@ -779,7 +816,8 @@
                     </button>
 
                     <!-- Ayah Dropdown -->
-                    <div id="ayahDropdown" class="hidden absolute top-full left-0 mt-2 ayah-dropdown-modern z-50">
+                    <div id="ayahDropdown"
+                        class="hidden absolute top-full left-0 mt-2 ayah-dropdown-modern z-50 border border-gray-100 dark:border-white/10">
                         <div class="ayah-lookup-title" id="ayahRangeTitle">انتقل إلى آية محددة (١ - ٢٨٦)</div>
 
                         <div class="manual-input-row" style="direction: ltr;">
@@ -893,10 +931,12 @@
                 <div class="audio-controls flex items-center gap-4 dir-ltr">
                     <button id="playBtn"
                         class="w-12 h-12 bg-white dark:bg-white/10 border border-[#1B4332]/20 dark:border-white/20 rounded-full flex items-center justify-center text-[#1B4332] dark:text-white hover:bg-[#1B4332] dark:hover:bg-brand-gold hover:text-white dark:hover:text-brand-dark transition-all shadow-sm">
-                        <svg id="playIcon" class="h-5 w-5 ml-0.5" viewBox="0 0 24 24" fill="currentColor">
+                        <svg id="playIcon" class="h-5 w-5 ml-0.5 pointer-events-none" viewBox="0 0 24 24"
+                            fill="currentColor">
                             <path d="M8 5v14l11-7z" />
                         </svg>
-                        <svg id="pauseIcon" class="h-5 w-5 hidden" viewBox="0 0 24 24" fill="currentColor">
+                        <svg id="pauseIcon" class="h-5 w-5 hidden pointer-events-none" viewBox="0 0 24 24"
+                            fill="currentColor">
                             <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
                         </svg>
                     </button>
@@ -918,13 +958,15 @@
                         <button id="muteBtn"
                             class="text-[#1B4332]/60 dark:text-white/40 hover:text-[#1B4332] dark:hover:text-white transition-colors"
                             title="كتم/تشغيل الصوت">
-                            <svg id="volumeUpIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
+                            <svg id="volumeUpIcon" xmlns="http://www.w3.org/2000/svg"
+                                class="h-5 w-5 pointer-events-none" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
                             </svg>
-                            <svg id="volumeMuteIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg id="volumeMuteIcon" xmlns="http://www.w3.org/2000/svg"
+                                class="h-5 w-5 hidden pointer-events-none" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -936,10 +978,10 @@
                     </div>
 
                     <button id="replayBtn"
-                        class="text-[#1B4332]/60 dark:text-white/40 hover:text-[#1B4332] dark:hover:text-white transition-colors"
+                        class="p-2 text-[#1B4332]/60 dark:text-white/40 hover:text-[#1B4332] dark:hover:text-white transition-all rounded-full hover:bg-[#1B4332]/5 dark:hover:bg-white/5"
                         title="تكرار الآية">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 pointer-events-none" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                         </svg>
@@ -1363,18 +1405,18 @@
         };
 
         // Toggle Loop (Replay)
-        replayBtn.onclick = () => {
+        replayBtn.addEventListener('click', () => {
             audio.loop = !audio.loop;
             if (audio.loop) {
                 replayBtn.classList.remove('text-[#1B4332]/60', 'dark:text-white/40');
-                replayBtn.classList.add('text-brand', 'scale-110');
+                replayBtn.classList.add('text-[#1B4332]', 'dark:text-brand-gold', 'scale-110', 'bg-[#1B4332]/10', 'dark:bg-brand-gold/10');
                 replayBtn.title = "إيقاف التكرار";
             } else {
                 replayBtn.classList.add('text-[#1B4332]/60', 'dark:text-white/40');
-                replayBtn.classList.remove('text-brand', 'scale-110');
+                replayBtn.classList.remove('text-[#1B4332]', 'dark:text-brand-gold', 'scale-110', 'bg-[#1B4332]/10', 'dark:bg-brand-gold/10');
                 replayBtn.title = "تكرار الآية";
             }
-        };
+        });
 
         // Toggle Mute
         muteBtn.onclick = () => {
@@ -1489,13 +1531,13 @@
                 if (!matches) return;
 
                 const item = document.createElement('div');
-                item.className = 'px-4 py-3 hover:bg-[#1B4332]/5 cursor-pointer transition-colors border-b border-gray-50 last:border-0 flex items-center gap-3';
+                item.className = 'px-4 py-3 hover:bg-[#1B4332]/5 dark:hover:bg-white/5 cursor-pointer transition-colors border-b border-gray-50 dark:border-white/5 last:border-0 flex items-center gap-3';
                 if (surahNum === surah) {
-                    item.classList.add('bg-[#1B4332]/10');
+                    item.classList.add('bg-[#1B4332]/10', 'dark:bg-white/10');
                 }
 
-                const nameColor = normalizedFilter ? 'text-[#1B4332]' : 'text-gray-700';
-                const numberClass = normalizedFilter ? 'bg-[#1B4332]/20 text-[#1B4332]' : 'bg-[#1B4332]/5 text-[#1B4332]/60';
+                const nameColor = normalizedFilter ? 'text-[#1B4332] dark:text-brand-gold' : 'text-gray-700 dark:text-white/80';
+                const numberClass = normalizedFilter ? 'bg-[#1B4332]/20 text-[#1B4332] dark:bg-brand-gold/20 dark:text-brand-gold' : 'bg-[#1B4332]/5 text-[#1B4332]/60 dark:bg-white/5 dark:text-white/40';
 
                 item.innerHTML = `
                     <span class="flex-shrink-0 w-8 h-8 ${numberClass} rounded-full flex items-center justify-center text-sm font-bold">

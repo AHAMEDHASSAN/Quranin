@@ -82,22 +82,81 @@ function stripAl(word) {
 }
 
 function highlight(text, q) {
+  if (!q.trim()) return text;
   const nQ = normalizeArabic(q);
-  const nText = normalizeArabic(text);
-  const idx = nText.indexOf(nQ);
-  if (idx === -1) return text;
-  // approximate highlight by slicing original text using lengths
-  let count = 0, start = -1, end = -1;
+  
+  // Create a mapping from normalized text position to original text index
+  // This handles diacritics, multiple spaces, etc.
+  const mapping = [];
+  let nStr = "";
+  
   for (let i = 0; i < text.length; i++) {
-    const c = normalizeArabic(text[i]);
-    if (c.length === 0) continue;
-    if (count === idx) start = i;
-    if (count === idx + nQ.length - 1) { end = i; break; }
-    count += c.length;
+    const char = text[i];
+    const nChar = normalizeArabic(char);
+    
+    // If this character normalizes to something (or a space), record its position
+    // We treat empty normalized characters (diacritics) as belonging to the previous character's mapping
+    if (nChar.length > 0) {
+      for (let k = 0; k < nChar.length; k++) {
+        mapping.push(i);
+        nStr += nChar[k];
+      }
+    }
   }
-  if (start === -1) return text;
-  if (end === -1) end = text.length - 1;
-  return text.slice(0, start) + '<mark class="bg-yellow-200 px-1 rounded">' + text.slice(start, end + 1) + "</mark>" + text.slice(end + 1);
+
+  const matchIndices = [];
+  let pos = nStr.indexOf(nQ);
+  while (pos !== -1) {
+    matchIndices.push(pos);
+    pos = nStr.indexOf(nQ, pos + 1);
+  }
+  
+  if (matchIndices.length === 0) return text;
+
+  // Track ranges in original text using the mapping
+  const ranges = [];
+  matchIndices.forEach(idx => {
+    const start = mapping[idx];
+    let endIdx = idx + nQ.length - 1;
+    let end = mapping[endIdx];
+    
+    // Include any trailing diacritics/non-spacing marks
+    let j = end + 1;
+    while (j < text.length && normalizeArabic(text[j]).length === 0) {
+      end = j;
+      j++;
+    }
+    
+    ranges.push({ start, end });
+  });
+
+  // Sort and filter overlapping ranges
+  ranges.sort((a, b) => a.start - b.start);
+  
+  const finalRanges = [];
+  if (ranges.length > 0) {
+    let current = ranges[0];
+    for (let i = 1; i < ranges.length; i++) {
+      if (ranges[i].start <= current.end) {
+        current.end = Math.max(current.end, ranges[i].end);
+      } else {
+        finalRanges.push(current);
+        current = ranges[i];
+      }
+    }
+    finalRanges.push(current);
+  }
+
+  let result = "";
+  let lastIdx = 0;
+  finalRanges.forEach(range => {
+    result += text.slice(lastIdx, range.start);
+    result += `<mark class="bg-yellow-200 dark:bg-yellow-500/30 dark:text-white px-1 rounded shadow-sm">${text.slice(range.start, range.end + 1)}</mark>`;
+    lastIdx = range.end + 1;
+  });
+  result += text.slice(lastIdx);
+  
+  return result;
 }
 
 function levenshtein(a, b) {
@@ -206,15 +265,13 @@ function updateSurahMeta() {
 
 function searchInAyahs(sNum, sName, query) {
   const normalizedQuery = query.trim();
+  const nq = normalizeArabic(normalizedQuery);
   const isNumber = /^\d+$/.test(normalizedQuery);
   const searchNumber = isNumber ? parseInt(normalizedQuery) : null;
   
-  const nq = normalizeArabic(normalizedQuery);
-  const words = nq.split(/\s+/).filter(w => w.length > 0);
-  
-  if (words.length === 0 && !isNumber) return [];
+  const queryWords = nq.split(/\s+/).filter(w => w.length > 0);
+  if (queryWords.length === 0 && !isNumber) return [];
 
-  // Fallback to allData if simpleQuran didn't load
   const sourceQuran = simpleQuran || allData;
   if (!sourceQuran || !sourceQuran.data) return [];
   
@@ -224,35 +281,41 @@ function searchInAyahs(sNum, sName, query) {
   const results = [];
   s.ayahs.forEach((a, idx) => {
     const ayNum = a.numberInSurah || (idx + 1);
-    const ayTextStripped = stripBasmala(a.text, sNum, ayNum);
     
     if (isNumber) {
         if (ayNum === searchNumber) {
             const uthmaniS = allData?.data?.surahs?.find(x => x.number === sNum);
-            results.push({ ayah: uthmaniS?.ayahs[idx] || a, surah: { number: sNum, name: sName } });
+            results.push({ ayah: uthmaniS?.ayahs[idx] || a, surah: { number: sNum, name: sName }, score: 100 });
         }
         return;
     }
 
-    // Use the dynamic stripped text for searching to avoid cache issues or partial matches
+    const ayTextStripped = stripBasmala(a.text, sNum, ayNum);
     const nt = normalizeArabic(ayTextStripped);
+    const ntWords = nt.split(/\s+/);
     
-    // Check if ALL words exist in the text in any order
-    const isMatch = words.every(word => {
-        if (nt.includes(word)) return true;
-        const noAl = stripAl(word);
-        return (noAl.length > 2 && nt.includes(noAl)) || (word.length > 2 && nt.includes(word));
-    });
+    // Exact phrase match (strongly prioritized)
+    const exactPhraseMatch = nt.includes(nq);
+    
+    // Check if ALL query words exist as WHOLE words in the text
+    const allWordsMatchExactly = queryWords.every(qw => ntWords.includes(qw));
 
-    if (isMatch) {
+    if (exactPhraseMatch || allWordsMatchExactly) {
+      // Calculate score for sorting
+      let score = 0;
+      if (exactPhraseMatch) score += 100;
+      if (allWordsMatchExactly) score += 50;
+
       const uthmaniS = allData?.data?.surahs?.find(x => x.number === sNum);
       const uthmaniA = uthmaniS?.ayahs[idx];
       results.push({ 
         ayah: uthmaniA || a, 
-        surah: { number: sNum, name: sName } 
+        surah: { number: sNum, name: sName },
+        score: score
       });
     }
   });
+
   return results;
 }
 
@@ -295,7 +358,7 @@ function renderResults(matches, prefixHtml = '') {
         <span class="px-2 py-0.5 rounded text-xs font-arabic hidden md:inline-block bg-blue-500/10 text-blue-600">تطابق عبارة</span>
       </div>
       <div class="p-4 md:p-5">
-        <p class="font-serif text-lg md:text-xl leading-loose text-foreground">${highlight(ayText, searchBox.value)}</p>
+        <p class="ayah-text font-serif text-lg md:text-xl leading-loose text-foreground">${highlight(ayText, searchBox.value)}</p>
       </div>
       <div class="flex items-center gap-2 md:gap-3 px-4 md:px-5 py-2.5 md:py-3 bg-secondary/20 border-t border-border">
         <a class="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-arabic text-xs md:text-sm" href="ayah_detail.html?surah=${sNum}&ayah=${ayNum}">
@@ -419,13 +482,16 @@ async function performSearch() {
     }
   });
 
+  // Sort results by score
+  uniqueMatches.sort((a, b) => (b.score || 0) - (a.score || 0));
+
   renderResults(uniqueMatches, surahCardHtml);
 
   // suggestions
   const sug = uniqueMatches.length === 0 ? suggest(q) : [];
   if (sug.length) {
-    suggestionsEl.innerHTML = '<div class="mb-2 text-gray-600">هل تقصد:</div>' +
-      sug.map(w => `<button class="m-1 px-2 py-1 rounded-full bg-gray-100 hover:bg-gray-200" data-sug="${w}">${w}</button>`).join('');
+    suggestionsEl.innerHTML = '<div class="mb-2 text-gray-600 dark:text-white/60">هل تقصد:</div>' +
+      sug.map(w => `<button class="m-1 px-3 py-1 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 text-sm transition-colors" data-sug="${w}">${w}</button>`).join('');
     suggestionsEl.classList.remove('hidden');
     suggestionsEl.querySelectorAll('button[data-sug]').forEach(btn => {
       btn.addEventListener('click', () => { searchBox.value = btn.dataset.sug; performSearch(); });

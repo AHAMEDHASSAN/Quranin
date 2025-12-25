@@ -52,6 +52,7 @@
     <style>
         body {
             font-family: "Noto Naskh Arabic", sans-serif;
+            overflow-x: hidden;
         }
 
         .font-amiri {
@@ -64,22 +65,21 @@
     </style>
 </head>
 
-<body class="bg-[#FDFBF7] text-[#1B4332] flex flex-col min-h-screen">
+<body class="bg-[#FDFBF7] dark:bg-brand-dark text-[#1B4332] dark:text-white flex flex-col min-h-screen">
 
     <!-- Header -->
     <header class="bg-[#1B4332] text-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto max-w-6xl px-6 py-3 flex justify-between items-center dir-rtl">
-            <div class="flex items-center gap-3">
+        <div class="container mx-auto max-w-6xl px-3 md:px-6 py-3 flex justify-between items-center dir-rtl">
+            <div class="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity cursor-pointer"
+                onclick="window.location.href='index.html'">
                 <div class="bg-[#2D5A46] p-2 rounded-xl border border-[#4A7C66]">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 text-white" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold font-serif leading-none">القرآن الكريم</h1>
-                    <span class="text-[10px] text-gray-300 opacity-80">الأذكار والأدعية</span>
                 </div>
             </div>
 
@@ -110,6 +110,16 @@
                     </svg>
                     <span class="hidden md:inline">المفضلة</span>
                 </a>
+                <div class="h-5 w-px bg-white/20 mx-1 hidden md:block"></div>
+                <button onclick="toggleSettings();" class="text-gray-300 hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </button>
             </div>
         </div>
     </header>
@@ -126,7 +136,7 @@
     <!-- Tabs Navigation -->
     <div class="container mx-auto max-w-4xl px-4 -mt-16 relative z-20 mb-10">
         <div
-            class="bg-white rounded-2xl p-2 shadow-md flex justify-around md:justify-center gap-2 md:gap-4 overflow-x-auto">
+            class="bg-white dark:bg-white/5 rounded-2xl p-2 shadow-md flex justify-around md:justify-center gap-2 md:gap-4 overflow-x-auto">
             <button onclick="setCategory('morning')"
                 class="tab-btn active flex items-center gap-2 px-6 py-3 rounded-xl transition-all whitespace-nowrap"
                 data-cat="morning">
@@ -159,7 +169,7 @@
 
     <!-- Footer -->
     <!-- Footer -->
-    <footer class="pt-16 pb-6 border-t border-border/10 bg-[#f1ede499] dark:bg-brand-dark">
+    <footer class="pt-16 pb-6 border-t border-border/10 bg-white/50 dark:bg-brand-dark">
         <div class="container mx-auto max-w-5xl px-6 text-center">
             <!-- Adhkar & Duas (Centered Section) -->
             <div class="mb-16">
@@ -347,7 +357,7 @@
     </script>
     <!-- Scroll to Top Button -->
     <button id="scrollToTopBtn"
-        class="fixed bottom-8 right-8 z-50 bg-[#1B4332] text-white p-3 rounded-2xl shadow-2xl opacity-0 translate-y-10 transition-all duration-500 hover:scale-110 active:scale-95 border border-white/20 group pointer-events-none"
+        class="fixed bottom-8 right-8 z-50 bg-[#1B4332] dark:bg-brand-gold text-white dark:text-[#1B4332] p-3 rounded-2xl shadow-2xl opacity-0 translate-y-10 transition-all duration-500 hover:scale-110 active:scale-95 border border-white/20 group pointer-events-none"
         onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:-translate-y-1 transition-transform"
             fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -355,6 +365,7 @@
         </svg>
     </button>
 
+    <script src="settings.js"></script>
     <script>
         // Scroll to Top Logic
         const scrollToTopBtn = document.getElementById('scrollToTopBtn');

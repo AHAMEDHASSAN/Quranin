@@ -64,6 +64,11 @@
       --ayah-line-height: 2.4;
     }
 
+    .dark {
+      --background: #0f291e;
+      --foreground: #ffffff;
+    }
+
     html,
     body {
       max-width: 100%;
@@ -519,11 +524,11 @@
 
         <!-- Dropdown Menu -->
         <div id="surahDropdown"
-          class="hidden absolute left-0 mt-2 w-72 bg-white dark:bg-brand-dark border border-gray-200 dark:border-white/10 rounded-lg shadow-xl max-h-[400px] overflow-hidden z-50">
+          class="hidden absolute left-0 mt-2 w-72 bg-[#fdfcfb] dark:bg-brand-dark border border-gray-200 dark:border-white/10 rounded-xl shadow-xl max-h-[400px] overflow-hidden z-50">
           <!-- Search Box -->
-          <div class="p-3 border-b border-gray-100 dark:border-white/10">
+          <div class="p-3 border-b border-gray-100 dark:border-white/10 bg-gray-50 dark:bg-white/5">
             <input type="text" id="surahSearch" placeholder="ابحث عن سورة..."
-              class="w-full px-4 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 text-white text-right" />
+              class="w-full px-4 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 text-right dark:text-white" />
           </div>
 
           <!-- Surah List -->
@@ -879,6 +884,22 @@
           document.getElementById('loading').classList.add('hidden');
           document.getElementById('content').classList.remove('hidden');
 
+          // Handle automatic scrolling to hashed Ayah (from search results)
+          const hash = window.location.hash;
+          if (hash && hash.startsWith('#ayah-')) {
+            const ayahNum = parseInt(hash.replace('#ayah-', ''));
+            if (!isNaN(ayahNum)) {
+              // Wait slightly for DOM to settle
+              setTimeout(() => {
+                const targetEl = document.getElementById(`ayah-${ayahNum}`);
+                if (targetEl) {
+                  targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  targetEl.classList.add('bg-[#D4AF37]/10', 'rounded-xl'); // Highlight effect
+                  setTimeout(() => targetEl.classList.remove('bg-[#D4AF37]/10'), 3000);
+                }
+              }, 100);
+            }
+          }
         }
       } catch (error) {
         console.error(error);
@@ -922,18 +943,18 @@
 
         if (matchedAyahs.length > 0) {
           const groupTitle = document.createElement('div');
-          groupTitle.className = 'px-4 py-2 text-xs font-bold text-gray-400 bg-gray-50';
+          groupTitle.className = 'px-4 py-2 text-xs font-bold text-gray-400 bg-gray-50 dark:bg-white/5 dark:text-white/40';
           groupTitle.textContent = 'آيات في هذه السورة';
           surahList.appendChild(groupTitle);
 
           matchedAyahs.forEach(m => {
             const item = document.createElement('div');
-            item.className = 'px-4 py-3 hover:bg-[#D4AF37]/10 cursor-pointer transition-colors border-b border-gray-50 flex items-center gap-3';
+            item.className = 'px-4 py-3 hover:bg-[#D4AF37]/10 cursor-pointer transition-colors border-b border-gray-50 dark:border-white/5 flex items-center gap-3';
             item.innerHTML = `
                     <span class="flex-shrink-0 w-8 h-8 bg-[#D4AF37]/20 text-[#D4AF37] rounded-full flex items-center justify-center text-sm font-bold">
                         ${m.number.toLocaleString('ar-EG')}
                     </span>
-                    <span class="flex-1 text-right text-gray-700 text-sm truncate font-serif">${m.text.substring(0, 40)}...</span>
+                    <span class="flex-1 text-right text-gray-700 dark:text-white text-sm truncate font-serif">${m.text.substring(0, 40)}...</span>
                  `;
             item.onclick = () => {
               // Close dropdown
@@ -955,7 +976,7 @@
       // 2. Surah List (Standard)
       if (filter && !isNumber) {
         const groupTitle = document.createElement('div');
-        groupTitle.className = 'px-4 py-2 text-xs font-bold text-gray-400 bg-gray-50';
+        groupTitle.className = 'px-4 py-2 text-xs font-bold text-gray-400 bg-gray-50 dark:bg-white/5 dark:text-white/40';
         groupTitle.textContent = 'السور';
         surahList.appendChild(groupTitle);
       }
@@ -978,14 +999,14 @@
         const surahNum = index + 1;
 
         const item = document.createElement('div');
-        item.className = 'px-4 py-3 hover:bg-[#1B4332]/5 cursor-pointer transition-colors border-b border-gray-50 last:border-0 flex items-center gap-3';
+        item.className = 'px-4 py-3 hover:bg-[#1B4332]/5 dark:hover:bg-white/5 cursor-pointer transition-colors border-b border-gray-50 dark:border-white/5 last:border-0 flex items-center gap-3';
         if (surahNum === surahNumber) {
-          item.classList.add('bg-[#1B4332]/10');
+          item.classList.add('bg-[#1B4332]/10', 'dark:bg-white/10');
         }
 
         const normalizedFilter = filter.trim();
-        const nameColor = normalizedFilter ? 'text-[#1B4332]' : 'text-gray-700';
-        const numberClass = normalizedFilter ? 'bg-[#1B4332]/20 text-[#1B4332]' : 'bg-[#1B4332]/5 text-[#1B4332]/60';
+        const nameColor = normalizedFilter ? 'text-[#1B4332] dark:text-brand-gold' : 'text-gray-700 dark:text-white/80';
+        const numberClass = normalizedFilter ? 'bg-[#1B4332]/20 text-[#1B4332] dark:bg-brand-gold/20 dark:text-brand-gold' : 'bg-[#1B4332]/5 text-[#1B4332]/60 dark:bg-white/5 dark:text-white/40';
 
         item.innerHTML = `
           <span class="flex-shrink-0 w-8 h-8 ${numberClass} rounded-full flex items-center justify-center text-sm font-bold">
