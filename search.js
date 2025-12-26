@@ -14,7 +14,12 @@ const surahs = [
 ];
 
 const $ = (id) => document.getElementById(id);
-const surahSelect = $("surahSelect");
+const surahSelectTrigger = $("surahSelectTrigger");
+const surahDropdownMenu = $("surahDropdownMenu");
+const internalSurahSearch = $("internalSurahSearch");
+const surahListItems = $("surahListItems");
+const selectedSurahText = $("selectedSurahText");
+
 const searchBox = $("searchBox");
 const resultsEl = $("results");
 const suggestionsEl = $("suggestions");
@@ -23,6 +28,8 @@ const introCardEl = $("introCard");
 const surahMetaEl = $("surahMeta");
 const metaSurahNameEl = $("metaSurahName");
 const metaAyahCountEl = $("metaAyahCount");
+
+let selectedSurahValue = "all";
 
 let allData = null; // cached Quran
 let tokenSet = null; // normalized vocabulary set
@@ -206,14 +213,106 @@ function suggest(query) {
 }
 
 function ensureSurahOptions() {
-  if (surahSelect.options.length > 1) return;
+  if (surahListItems.children.length > 1) return;
+  
   surahs.forEach((name, i) => {
-    const opt = document.createElement('option');
-    opt.value = String(i + 1);
-    opt.textContent = `سورة ${name}`;
-    surahSelect.appendChild(opt);
+    const num = i + 1;
+    const item = document.createElement('div');
+    item.className = 'surah-item';
+    item.dataset.value = String(num);
+    item.dataset.name = name;
+    item.innerHTML = `
+      <span class="surah-item-number">${toArabicDigits(num)}</span>
+      <span class="surah-item-name">سورة ${name}</span>
+    `;
+    item.addEventListener('click', () => {
+      selectSurahOption(String(num), `سورة ${name}`);
+    });
+    surahListItems.appendChild(item);
   });
 }
+
+function selectSurahOption(val, text) {
+  selectedSurahValue = val;
+  selectedSurahText.textContent = text;
+  
+  // Update selection UI
+  const items = surahListItems.querySelectorAll('.surah-item');
+  items.forEach(item => {
+    if (item.dataset.value === val) item.classList.add('selected');
+    else item.classList.remove('selected');
+  });
+  
+  surahDropdownMenu.classList.remove('show');
+  
+  // Trigger search if box has text
+  updateSurahMeta();
+  if (searchBox.value.trim()) performSearch();
+}
+
+function filterInternalSurahs(q) {
+  const nq = normalizeArabic(q);
+  const items = surahListItems.querySelectorAll('.surah-item');
+  let foundAny = false;
+  
+  items.forEach(item => {
+    const name = item.dataset.name || "";
+    const nName = normalizeArabic(name);
+    const num = item.dataset.value || "";
+    const arNum = toArabicDigits(num);
+    
+    // Always show "All Surahs" if query is empty
+    const isAllOption = num === 'all';
+    const isMatch = nName.includes(nq) || num === q || arNum.includes(q);
+    
+    if (isAllOption && !nq) {
+      item.style.display = 'flex';
+      foundAny = true;
+    } else if (!isAllOption && isMatch) {
+      item.style.display = 'flex';
+      foundAny = true;
+    } else {
+      item.style.display = 'none';
+    }
+  });
+
+  // Handle "No results found"
+  let noResultsMsg = surahListItems.querySelector('.no-surah-results');
+  if (!foundAny) {
+    if (!noResultsMsg) {
+      noResultsMsg = document.createElement('div');
+      noResultsMsg.className = 'no-surah-results p-8 text-center text-gray-400 text-sm italic';
+      noResultsMsg.textContent = 'لا توجد سورة بهذا الاسم';
+      surahListItems.appendChild(noResultsMsg);
+    }
+    noResultsMsg.style.display = 'block';
+  } else if (noResultsMsg) {
+    noResultsMsg.style.display = 'none';
+  }
+}
+
+// Event Listeners for Custom Dropdown
+surahSelectTrigger.addEventListener('click', (e) => {
+  e.stopPropagation();
+  surahDropdownMenu.classList.toggle('show');
+  if (surahDropdownMenu.classList.contains('show')) {
+    internalSurahSearch.value = '';
+    filterInternalSurahs('');
+    internalSurahSearch.focus();
+  }
+});
+
+internalSurahSearch.addEventListener('input', (e) => {
+  filterInternalSurahs(e.target.value);
+});
+
+internalSurahSearch.addEventListener('click', (e) => e.stopPropagation());
+
+document.addEventListener('click', (e) => {
+  if (!surahDropdownMenu.contains(e.target) && e.target !== surahSelectTrigger) {
+    surahDropdownMenu.classList.remove('show');
+  }
+});
 
 let simpleQuran = null; // cached simple text for better search
 
@@ -251,11 +350,11 @@ async function ensureQuranLoaded() {
 }
 
 function updateSurahMeta() {
-  if (!allData || surahSelect.value === 'all') {
+  if (!allData || selectedSurahValue === 'all') {
     surahMetaEl.classList.add('hidden');
     return;
   }
-  const sNum = Number(surahSelect.value);
+  const sNum = Number(selectedSurahValue);
   const s = allData.data.surahs.find(x => x.number === sNum);
   if (!s) { surahMetaEl.classList.add('hidden'); return; }
   metaSurahNameEl.textContent = s.name;
@@ -453,7 +552,7 @@ async function performSearch() {
   }
 
   // 3. Regular text search
-  if (surahSelect.value === 'all') {
+  if (selectedSurahValue === 'all') {
     // If it's a simple numeric query (searching Surah 1-114), prioritize the Surah card (shown above)
     // and don't show the 1st ayah of every single surah to avoid clutter.
     if (!isNumericQuery) {
@@ -464,7 +563,7 @@ async function performSearch() {
     }
   } else {
     // Specific Surah selected: Allow searching within it (including by number)
-    const sIdxSelected = Number(surahSelect.value);
+    const sIdxSelected = Number(selectedSurahValue);
     const sSelected = allData.data.surahs.find(x => x.number === sIdxSelected);
     if (sSelected) {
       matches = matches.concat(searchInAyahs(sSelected.number, sSelected.name, q));
@@ -505,6 +604,11 @@ async function performSearch() {
 ensureSurahOptions();
 searchBox.addEventListener('input', () => { performSearch(); });
 searchBox.addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(); });
-surahSelect.addEventListener('change', async () => { await ensureQuranLoaded(); updateSurahMeta(); if (searchBox.value.trim()) performSearch(); else resultsEl.innerHTML = ''; });
+
+// Add manual listener for the "all" option (first item)
+surahListItems.querySelector('.surah-item[data-value="all"]').addEventListener('click', () => {
+  selectSurahOption('all', 'البحث في جميع السور (١١٤ سورة)');
+});
+
 // initialize meta if a surah is preselected
 (async () => { await ensureQuranLoaded(); updateSurahMeta(); })();
