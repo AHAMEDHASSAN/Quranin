@@ -117,16 +117,20 @@
       top: calc(100% + 8px);
       left: 0;
       right: 0;
-      background: #0f1c16;
-      /* Darker green as per image */
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
       border-radius: 12px;
-      /* Slightly less rounded */
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
       z-index: 100;
       display: none;
       overflow: hidden;
       flex-direction: column;
+    }
+
+    .dark .surah-dropdown-menu {
+      background: #0f1c16;
+      border-color: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     }
 
     .surah-dropdown-menu.show {
@@ -135,29 +139,47 @@
 
     .surah-search-wrapper {
       padding: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid #e5e7eb;
       position: relative;
+    }
+
+    .dark .surah-search-wrapper {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
     }
 
     .surah-search-input {
       width: 100%;
       height: 44px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
       border-radius: 8px;
       padding: 0 40px 0 12px;
-      color: #ffffff;
+      color: #1B4332;
       font-size: 0.95rem;
       outline: none;
       transition: all 0.3s;
     }
 
+    .dark .surah-search-input {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
     .surah-search-input:focus {
+      border-color: #D4AF37;
+    }
+
+    .dark .surah-search-input:focus {
       border-color: rgba(255, 255, 255, 0.2);
       background: rgba(255, 255, 255, 0.05);
     }
 
     .surah-search-input::placeholder {
+      color: #9ca3af;
+    }
+
+    .dark .surah-search-input::placeholder {
       color: rgba(255, 255, 255, 0.25);
     }
 
@@ -166,6 +188,10 @@
       right: 24px;
       top: 50%;
       transform: translateY(-50%);
+      color: #9ca3af;
+    }
+
+    .dark .surah-search-icon {
       color: rgba(255, 255, 255, 0.3);
     }
 
@@ -186,34 +212,50 @@
     .surah-item {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      /* This will be swapped in HTML/JS order */
+      justify-content: flex-start;
+      gap: 12px;
       padding: 14px 16px;
       cursor: pointer;
       transition: background 0.2s;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .dark .surah-item {
+      border-bottom-color: rgba(255, 255, 255, 0.03);
     }
 
     .surah-item:hover {
+      background: #f9fafb;
+    }
+
+    .dark .surah-item:hover {
       background: rgba(255, 255, 255, 0.04);
     }
 
     .surah-item.selected {
+      background: #f3f4f6;
+    }
+
+    .dark .surah-item.selected {
       background: rgba(255, 255, 255, 0.06);
     }
 
     .surah-item-name {
-      color: rgba(255, 255, 255, 0.9);
+      color: #1B4332;
       font-weight: 500;
       font-size: 0.95rem;
+    }
+
+    .dark .surah-item-name {
+      color: rgba(255, 255, 255, 0.9);
     }
 
     .surah-item-number {
       width: 38px;
       height: 38px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
-      color: rgba(255, 255, 255, 0.6);
+      background: #f3f4f6;
+      color: #6b7280;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -222,12 +264,27 @@
       transition: all 0.2s;
     }
 
+    .dark .surah-item-number {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.6);
+    }
+
     .surah-item:hover .surah-item-number {
+      background: #e5e7eb;
+      color: #1B4332;
+    }
+
+    .dark .surah-item:hover .surah-item-number {
       background: rgba(255, 255, 255, 0.08);
       color: #ffffff;
     }
 
     .surah-item.selected .surah-item-number {
+      background: #1B4332;
+      color: #ffffff;
+    }
+
+    .dark .surah-item.selected .surah-item-number {
       background: rgba(255, 255, 255, 0.1);
       color: #ffffff;
       border-color: transparent;
